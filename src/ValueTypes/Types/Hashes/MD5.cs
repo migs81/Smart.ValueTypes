@@ -1,0 +1,167 @@
+﻿using Migs.ValueTypes.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Migs.ValueTypes.Types.Hashes
+{
+    /// <summary>
+    /// Value type for Message-Digest Algorithm 5 (MD5).
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidMD5Exception"></exception>
+    public readonly record struct MD5 : IValueType<string, MD5>
+    {
+        #region fields
+
+        private readonly string _value;
+        private readonly string _default = new('0', 32);
+
+        public enum Validation
+        {
+            OK = 0,
+            Null,
+            WrongLength,
+            IllegalCharacter,
+            UnknownError
+        }
+
+        #endregion
+
+        #region properties
+
+        public static MD5 Default => new();
+
+        #endregion
+
+        #region constructor
+
+        public MD5() => _value = _default;
+        public MD5(string value)
+        {
+            var result = Validate(ref value);
+            if (result != Validation.OK)
+            {
+                throw result switch
+                {
+                    Validation.Null => new ArgumentNullException(nameof(value)),
+                    Validation.WrongLength => new InvalidMD5Exception($"The value '{value}' is not {_default.Length} characters long!"),
+                    Validation.IllegalCharacter => new InvalidMD5Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidMD5Exception(),
+                };
+            }
+
+            _value = value;
+        }
+        private MD5(ref string value) => _value = value;
+
+        #endregion
+
+        #region operator
+
+        public static bool operator ==(MD5 left, string right) => left.Equals(right);
+        public static bool operator !=(MD5 left, string right) => !left.Equals(right);
+
+        public static implicit operator string(MD5 hash) => hash._value;
+        public static implicit operator MD5(string value) => new(value);
+
+        #endregion
+
+        #region public methods
+
+        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
+
+        public static MD5 From(string hash) => new(hash);
+        public static Validation TryFrom(string hash, out MD5 output)
+        {
+            try
+            {
+                var result = Validate(ref hash);
+                if (result == Validation.OK)
+                {
+                    output = new MD5(ref hash);
+                    return Validation.OK;
+                }
+
+                output = Default;
+                return result;
+            }
+            catch (Exception)
+            {
+                output = Default;
+                return Validation.UnknownError;
+            }
+        }
+
+        public static MD5 Create(string value) => new(CreateHash(ref value));
+        public static bool TryCreate(string value, out MD5? output)
+        {
+            try
+            {
+                if (value is not null)
+                {
+                    string md5 = CreateHash(ref value);
+                    if (Validate(ref md5) == Validation.OK)
+                    {
+                        output = new MD5(ref md5);
+                        return true;
+                    }
+                }
+
+                output = null;
+                return false;
+            }
+            catch (Exception)
+            {
+                output = null;
+                return false;
+            }
+        }
+
+        public static Validation Validate(string value) => Validate(ref value);
+
+        #endregion
+
+        #region private methods
+
+        private static string CreateHash(ref string input)
+        {
+            byte[] bytes = System.Security.Cryptography.MD5.HashData(Encoding.Default.GetBytes(input));
+            return BitConverter.ToString(bytes).Replace("-", "");
+        }
+
+        private static Validation Validate(ref string value)
+        {
+            // not null
+            if (value is null)
+                return Validation.Null;
+
+            // must be 32 characters long
+            if (value.Length != 32)
+                return Validation.WrongLength;
+
+            // must be hex
+            foreach (var c in value.AsSpan())
+            {
+                if ((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+                    return Validation.IllegalCharacter;
+            }
+
+            return Validation.OK;
+        }
+
+        #endregion
+    }
+
+    public class InvalidMD5Exception : Exception
+    {
+        public InvalidMD5Exception()
+        {
+        }
+
+        public InvalidMD5Exception(string message) : base(message)
+        {
+        }
+    }
+}

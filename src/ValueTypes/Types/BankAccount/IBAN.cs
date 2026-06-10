@@ -1,0 +1,236 @@
+﻿using Migs.ValueTypes.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+
+namespace Migs.ValueTypes.Types
+{
+    /// <summary>
+    /// Value type for IBANs.l
+    /// </summary>
+    /// <seealso cref="IValueType&lt;string, IBAN&gt;" />
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidIBANException"></exception>
+    public readonly record struct IBAN : IValueType<string, IBAN>
+    {
+        #region fields
+
+        private readonly string _value;
+        private const string _default = "XY000";
+
+        #endregion
+
+        #region properties
+
+        public static IBAN Default => new();
+        public readonly string CountryCode => _value[..2];
+        public readonly int Checksum => int.Parse(_value[2..4]);
+        public readonly string AccountIdentifier => _value[4..];
+
+        public enum Validation
+        {
+            OK = 0,
+            Null,
+            Empty,
+            TooShort,
+            TooLong,
+            InvalidCountryCode,
+            InvalidChecksum,
+            InvalidAccountIdentifier,
+            UnknownError
+        }
+
+        #endregion
+
+        #region constructor
+
+        public IBAN() => _value = _default;
+        public IBAN(string value)
+        {
+            var result = Validate(ref value);
+            if (result != Validation.OK)
+            {
+                throw result switch
+                {
+                    Validation.Null => new ArgumentNullException(nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
+                    Validation.TooShort => new InvalidIBANException($"The value '{value}' is too short for an IBAN!"),
+                    Validation.TooLong => new InvalidIBANException($"The value '{value}' is too long for an IBAN!"),
+                    Validation.InvalidCountryCode => new InvalidIBANException($"The IBAN '{value}' has no valid country code part!"),
+                    Validation.InvalidAccountIdentifier => new InvalidIBANException($"The IBAN '{value}' has no valid account number part!"),
+                    _ => new InvalidIBANException(),
+                };
+            }
+
+            _value = value.ToUpper();
+        }
+        private IBAN(ref string value) => _value = value.ToUpper();
+
+        #endregion
+
+        #region operator
+
+        public static bool operator ==(IBAN left, string right) => left.Equals(right);
+        public static bool operator !=(IBAN left, string right) => !left.Equals(right);
+
+        public static implicit operator string(IBAN iban) => iban._value;
+        public static implicit operator IBAN(string value) => new(value);
+
+        #endregion
+
+        #region public methods
+
+        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
+
+        public static IBAN From(string value) => new(value);
+        public static Validation TryFrom(string value, out IBAN output)
+        {
+            try
+            {
+                var result = Validate(ref value);
+                if (result == Validation.OK)
+                {
+                    output = new IBAN(ref value);
+                    return Validation.OK;
+                }
+
+                output = Default;
+                return result;
+            }
+            catch (Exception)
+            {
+                output = Default;
+                return Validation.UnknownError;
+            }
+        }
+
+        public static Validation Validate(string value) => Validate(ref value);
+
+        #endregion
+
+        #region private methods
+
+        private static Validation Validate(ref string value)
+        {
+            if (value is null)
+                return Validation.Null;
+
+            if (value.Length == 0)
+                return Validation.Empty;
+
+            if (value.Length < 5)
+                return Validation.TooShort;
+
+            if (value.Length > 34)
+                return Validation.TooLong   ;
+
+            ReadOnlySpan<char> span = value.AsSpan();
+
+            if (!ContainsValidCountryCode(ref span))
+                return Validation.InvalidCountryCode;
+
+            if (!ContainsValidChecksum(ref span))
+                return Validation.InvalidChecksum;
+
+            if (!ContainsValidAccountIdentifier(ref span))
+                return Validation.InvalidAccountIdentifier;
+
+            if (!ValidateChecksum(ref span))
+                return Validation.InvalidChecksum;
+
+            return Validation.OK;
+        }
+
+        private static bool ContainsValidCountryCode(ref ReadOnlySpan<char> span)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (!IsLetter(span[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool ContainsValidChecksum(ref ReadOnlySpan<char> span)
+        {
+            for (int i = 2; i < 4; i++)
+            {
+                if (!IsDigit(span[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool ContainsValidAccountIdentifier(ref ReadOnlySpan<char> span)
+        {
+            for (int i = 4; i < span.Length; i++)
+            {
+                if (!IsLetter(span[i]) && !IsDigit(span[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool ValidateChecksum(ref ReadOnlySpan<char> span)
+        {
+            // 1. move first 4 characters to the end of the string
+            string iban = (span[4..].ToString() + span[0..4].ToString()).ToUpper();
+
+            // 2. loop through chars and replace letters with alphabet order number + 10
+            string temp = "";
+            int length = 0;
+            for (int i = 0; i < iban.Length; i++)
+            {
+                if (IsUppercaseLetter(iban[i]))
+                {
+                    temp += iban.Substring(i - length, length);
+                    temp += (iban[i] - 55).ToString();
+                    length = 0;
+                }
+                else
+                {
+                    length++;
+                }
+            }
+            if (length > 0)
+            {
+                temp += iban.Substring(iban.Length - length, length);
+            }
+
+            // 3. cast to integer
+            if (!BigInteger.TryParse(temp, out BigInteger number))
+                return false;
+
+            // 4. modulo 97 must be 1!
+            if (number % 97 != 1)
+                return false;
+
+            return true;
+        }
+
+        private static bool IsUppercaseLetter(char c) => (c >= 'A' && c <= 'Z');
+
+        private static bool IsLowercaseLetter(char c) => (c >= 'a' && c <= 'z');
+
+        private static bool IsLetter(char c) => IsLowercaseLetter(c) || IsUppercaseLetter(c);
+
+        private static bool IsDigit(char c) => (c >= '0' && c <= '9');
+
+        #endregion
+    }
+
+    public class InvalidIBANException : Exception
+    {
+        public InvalidIBANException()
+        {
+        }
+
+        public InvalidIBANException(string message) : base(message)
+        {
+        }
+    }
+}

@@ -1,0 +1,107 @@
+﻿using Migs.ValueTypes.Interfaces;
+using System;
+using System.Collections.Generic;
+
+namespace Migs.ValueTypes
+{
+    public readonly record struct Text : IValueType<string, Text>
+    {
+        #region fields
+
+        private readonly string _value;
+
+        public enum Validation
+        {
+            OK = 0,
+            ValueIsNull,
+            UnknownError
+        }
+
+        #endregion
+
+        #region properties
+
+        public static Text Empty { get; } = new Text("");
+
+        #endregion
+
+        #region constructor
+
+        public Text() => _value = Empty;
+        public Text(string value)
+        {
+            var result = Validate(ref value);
+            if (result != Validation.OK)
+            {
+                throw result switch
+                {
+                    Validation.ValueIsNull => new ArgumentNullException(nameof(value)),
+                    _ => new InvalidTextException(),
+                };
+            }
+
+            _value = value;
+        }
+        private Text(ref string value) => _value = value;
+
+        #endregion
+
+        #region operators
+
+        public static bool operator ==(Text left, string right) => left.Equals(right);
+        public static bool operator !=(Text left, string right) => !left.Equals(right);
+
+        public static implicit operator string(Text text) => text._value;
+        public static implicit operator Text(string value) => new(value);
+
+        #endregion
+
+        #region public methods
+
+        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
+
+        public static Text From(string value) => new(value);
+
+        public static Validation TryFrom(string value, out Text text)
+        {
+            try
+            {
+                var result = Validate(ref value);
+                if ( result == Validation.OK)
+                {
+                    text = new Text(ref value);
+                    return Validation.OK;
+                }
+
+                text = Empty;
+                return result;
+            }
+            catch (Exception)
+            {
+                text = Empty;
+                return Validation.UnknownError;
+            }
+        }
+
+        #endregion
+
+        #region private methods
+
+        private static Validation Validate(ref string value) => value is null
+            ? Validation.ValueIsNull
+            : Validation.OK;
+
+        #endregion
+    }
+
+    public class InvalidTextException : Exception
+    {
+        public InvalidTextException()
+        {
+        }
+
+        public InvalidTextException(string message) : base(message)
+        {
+        }
+    }
+}

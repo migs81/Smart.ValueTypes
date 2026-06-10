@@ -1,0 +1,169 @@
+﻿using Migs.ValueTypes.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Migs.ValueTypes.Types.Hashes
+{
+    /// <summary>
+    /// Value type for Secure Hash Algorithm 512 (SHA512).
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidSHA512Exception"></exception>
+    public readonly record struct SHA512 : IValueType<string, SHA512>
+    {
+        #region fields
+
+        private readonly string _value;
+        private const int _hashLength = 128;
+        private readonly string _default = new('0', _hashLength);
+
+        public enum Validation
+        {
+            OK = 0,
+            Null,
+            WrongLength,
+            IllegalCharacter,
+            UnknownError
+        }
+
+        #endregion
+
+        #region properties
+
+        public static SHA512 Default => new();
+        public int Length => _value.Length;
+
+        #endregion
+
+        #region constructor
+
+        public SHA512() => _value = _default;
+        public SHA512(string value)
+        {
+            var result = Validate(ref value);
+            if (result != Validation.OK)
+            {
+                throw result switch
+                {
+                    Validation.Null => new ArgumentNullException(nameof(value)),
+                    Validation.WrongLength => new InvalidSHA512Exception($"The value '{value}' is not {_hashLength} characters long!"),
+                    Validation.IllegalCharacter => new InvalidSHA512Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidSHA512Exception(),
+                };
+            }
+
+            _value = value;
+        }
+        private SHA512(ref string value) => _value = value;
+
+        #endregion
+
+        #region operator
+
+        public static bool operator ==(SHA512 left, string right) => left.Equals(right);
+        public static bool operator !=(SHA512 left, string right) => !left.Equals(right);
+
+        public static implicit operator string(SHA512 hash) => hash._value;
+        public static implicit operator SHA512(string value) => new(value);
+
+        #endregion
+
+        #region public methods
+
+        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
+
+        public static SHA512 From(string hash) => new(hash);
+        public static Validation TryFrom(string value, out SHA512 output)
+        {
+            try
+            {
+                var result = Validate(ref value);
+                if (result == Validation.OK)
+                {
+                    output = new SHA512(ref value);
+                    return Validation.OK;
+                }
+
+                output = Default;
+                return result;
+            }
+            catch (Exception)
+            {
+                output = Default;
+                return Validation.UnknownError;
+            }
+        }
+
+        public static SHA512 Create(string value) => new(CreateHash(ref value));
+        public static bool TryCreate(string value, out SHA512? output)
+        {
+            try
+            {
+                if (value is not null)
+                {
+                    string SHA512 = CreateHash(ref value);
+                    if (Validate(ref SHA512) == Validation.OK)
+                    {
+                        output = new SHA512(ref SHA512);
+                        return true;
+                    }
+                }
+
+                output = null;
+                return false;
+            }
+            catch (Exception)
+            {
+                output = null;
+                return false;
+            }
+        }
+
+        public static Validation Validate(string value) => Validate(ref value);
+
+        #endregion
+
+        #region private methods
+
+        private static string CreateHash(ref string input)
+        {
+            byte[] bytes = System.Security.Cryptography.SHA512.HashData(Encoding.Default.GetBytes(input));
+            return BitConverter.ToString(bytes).Replace("-", "");
+        }
+
+        private static Validation Validate(ref string value)
+        {
+            // not null
+            if (value is null)
+                return Validation.Null;
+
+            // must be 128 characters long
+            if (value.Length != _hashLength)
+                return Validation.WrongLength;
+
+            // must be hex
+            foreach (var c in value.AsSpan())
+            {
+                if ((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+                    return Validation.IllegalCharacter;
+            }
+
+            return Validation.OK;
+        }
+
+        #endregion
+    }
+
+    public class InvalidSHA512Exception : Exception
+    {
+        public InvalidSHA512Exception()
+        {
+        }
+
+        public InvalidSHA512Exception(string message) : base(message)
+        {
+        }
+    }
+}

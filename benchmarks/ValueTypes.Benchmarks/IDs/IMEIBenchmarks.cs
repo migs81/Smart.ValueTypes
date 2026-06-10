@@ -1,0 +1,30 @@
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Order;
+using Migs.ValueTypes.Types.ID;
+
+namespace Migs.ValueTypes.Benchmarks.IDs
+{
+    [MemoryDiagnoser]
+    [RankColumn]
+    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
+    public class IMEIBenchmarks
+    {
+        [Benchmark]
+        public void IMEI_Constructor_Benchmark()
+        {
+            _ = new IMEI("352773074248705");
+        }
+
+        //[Benchmark]
+        //public void IMEI_From_Benchmark()
+        //{
+        //    _ = IMEI.From("352773074248705");
+        //}
+
+        //[Benchmark]
+        //public void IMEI_TryFrom_Benchmark()
+        //{
+        //    _ = IMEI.TryFrom("352773074248705", out _);
+        //}
+    }
+}
