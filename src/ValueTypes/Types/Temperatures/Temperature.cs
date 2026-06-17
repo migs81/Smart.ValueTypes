@@ -1,5 +1,12 @@
 ﻿namespace Migs.ValueTypes.Types.Temperatures
 {
+    /// <summary>
+    /// Represents a temperature value with support for multiple units (Celsius, Fahrenheit, Kelvin)
+    /// </summary>
+    /// <exception cref="InvalidCelsiusException"></exception>
+    /// <exception cref="InvalidKelvinException"></exception>
+    /// <exception cref="InvalidFahrenheitException"></exception>
+    /// <exception cref="InvalidReaumurException"></exception>
     public readonly record struct Temperature
     {
         #region properties

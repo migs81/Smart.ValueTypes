@@ -7,7 +7,6 @@ namespace Migs.ValueTypes.Types.Temperatures
     /// <summary>
     /// Value type for Kelvin temperatures.
     /// </summary>
-    /// <seealso cref="ITemperature&lt;double, Kelvin&gt;" />
     /// <exception cref="InvalidKelvinException"></exception>
     public readonly record struct Kelvin : IValueType<double, Kelvin>, ITemperature
     {

@@ -7,7 +7,6 @@ namespace Migs.ValueTypes.Types.Temperatures
     /// <summary>
     /// Value type for celsius temperatures.
     /// </summary>
-    /// <seealso cref="ITemperature&lt;double, Reaumur&gt;" />
     /// <exception cref="InvalidReaumurException"></exception>
     public readonly partial record struct Reaumur : IValueType<double, Reaumur>, ITemperature
     {

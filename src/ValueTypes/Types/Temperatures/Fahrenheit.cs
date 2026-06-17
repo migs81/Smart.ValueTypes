@@ -7,7 +7,6 @@ namespace Migs.ValueTypes.Types.Temperatures
     /// <summary>
     /// Value type for Fahrenheit temperatures.
     /// </summary>
-    /// <seealso cref="ITemperature&lt;double, Fahrenheit&gt;" />
     /// <exception cref="InvalidFahrenheitException"></exception>
     public readonly record struct Fahrenheit : IValueType<double, Fahrenheit>, ITemperature
     {
