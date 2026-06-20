@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             TooLow,
             UnknownError
         }
@@ -40,7 +40,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         public Reaumur(double value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -87,10 +87,10 @@ namespace Migs.ValueTypes.Types.Temperatures
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new Reaumur(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -122,7 +122,7 @@ namespace Migs.ValueTypes.Types.Temperatures
             if (value < MinValue)
                 return Validation.TooLow;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static double FromCelsius(double celsius) => celsius * 4 / 5;

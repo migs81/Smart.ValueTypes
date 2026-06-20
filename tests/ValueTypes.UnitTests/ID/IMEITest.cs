@@ -123,7 +123,7 @@ namespace Migs.ValueTypes.UnitTests.ID
             foreach (var value in _validValues)
             {
                 var result = IMEI.TryFrom(value, out _);
-                Assert.Equal(IMEI.Validation.OK, result);
+                Assert.Equal(IMEI.Validation.Ok, result);
             }
         }
 

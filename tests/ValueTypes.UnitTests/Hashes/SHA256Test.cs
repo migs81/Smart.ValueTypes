@@ -80,7 +80,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
             foreach (var value in _validValues)
             {
                 var result = SHA256.TryFrom(value, out _);
-                Assert.Equal(SHA256.Validation.OK, result);
+                Assert.Equal(SHA256.Validation.Ok, result);
             }
         }
 

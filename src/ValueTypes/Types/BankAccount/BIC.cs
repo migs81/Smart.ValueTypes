@@ -29,7 +29,7 @@ namespace Migs.ValueTypes.Types
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             WrongLength,
@@ -53,7 +53,7 @@ namespace Migs.ValueTypes.Types
         public BIC(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -94,10 +94,10 @@ namespace Migs.ValueTypes.Types
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new BIC(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -144,7 +144,7 @@ namespace Migs.ValueTypes.Types
             if (!ContainsValidBranchCode(ref span))
                 return Validation.InvalidBranchCode;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static bool ContainsValidBankCode(ref ReadOnlySpan<char> span)

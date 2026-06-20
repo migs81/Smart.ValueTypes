@@ -59,7 +59,7 @@ namespace Migs.ValueTypes.UnitTests.GeoCoordinate
             foreach (var value in _validValues)
             {
                 var result = Latitude.TryFrom(value, out _);
-                Assert.Equal(Latitude.Validation.OK, result);
+                Assert.Equal(Latitude.Validation.Ok, result);
             }
         }
 

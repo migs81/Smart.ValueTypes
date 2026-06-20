@@ -71,7 +71,7 @@ namespace Migs.ValueTypes.UnitTests.IPs
             foreach (var value in _validValues)
             {
                 var result = IPv6.TryFrom(value, out _);
-                Assert.Equal(IPv6.Validation.OK, result);
+                Assert.Equal(IPv6.Validation.Ok, result);
             }
         }
 

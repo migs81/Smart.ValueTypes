@@ -55,7 +55,7 @@ namespace Migs.ValueTypes.UnitTests.ID
         public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
             var result = IMSI.TryFrom(input, out _);
-            Assert.Equal(IMSI.Validation.OK, result);
+            Assert.Equal(IMSI.Validation.Ok, result);
         }
 
         [Theory]

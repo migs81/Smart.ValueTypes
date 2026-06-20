@@ -83,7 +83,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
             foreach (var value in _validValues)
             {
                 var result = SHA384.TryFrom(value, out _);
-                Assert.Equal(SHA384.Validation.OK, result);
+                Assert.Equal(SHA384.Validation.Ok, result);
             }
         }
 

@@ -11,7 +11,7 @@ namespace Migs.ValueTypes.Types
     /// <seealso cref="IValueType&lt;string, IBAN&gt;" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidIBANException"></exception>
+    /// <exception cref="InvalidIbanException"></exception>
     public readonly record struct IBAN : IValueType<string, IBAN>
     {
         #region fields
@@ -30,7 +30,7 @@ namespace Migs.ValueTypes.Types
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             TooShort,
@@ -49,17 +49,17 @@ namespace Migs.ValueTypes.Types
         public IBAN(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
-                    Validation.TooShort => new InvalidIBANException($"The value '{value}' is too short for an IBAN!"),
-                    Validation.TooLong => new InvalidIBANException($"The value '{value}' is too long for an IBAN!"),
-                    Validation.InvalidCountryCode => new InvalidIBANException($"The IBAN '{value}' has no valid country code part!"),
-                    Validation.InvalidAccountIdentifier => new InvalidIBANException($"The IBAN '{value}' has no valid account number part!"),
-                    _ => new InvalidIBANException(),
+                    Validation.TooShort => new InvalidIbanException($"The value '{value}' is too short for an IBAN!"),
+                    Validation.TooLong => new InvalidIbanException($"The value '{value}' is too long for an IBAN!"),
+                    Validation.InvalidCountryCode => new InvalidIbanException($"The IBAN '{value}' has no valid country code part!"),
+                    Validation.InvalidAccountIdentifier => new InvalidIbanException($"The IBAN '{value}' has no valid account number part!"),
+                    _ => new InvalidIbanException(),
                 };
             }
 
@@ -89,10 +89,10 @@ namespace Migs.ValueTypes.Types
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new IBAN(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -139,7 +139,7 @@ namespace Migs.ValueTypes.Types
             if (!ValidateChecksum(ref span))
                 return Validation.InvalidChecksum;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static bool ContainsValidCountryCode(ref ReadOnlySpan<char> span)
@@ -223,13 +223,13 @@ namespace Migs.ValueTypes.Types
         #endregion
     }
 
-    public class InvalidIBANException : Exception
+    public class InvalidIbanException : Exception
     {
-        public InvalidIBANException()
+        public InvalidIbanException()
         {
         }
 
-        public InvalidIBANException(string message) : base(message)
+        public InvalidIbanException(string message) : base(message)
         {
         }
     }

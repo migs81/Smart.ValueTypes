@@ -77,7 +77,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
             foreach (var value in _validValues)
             {
                 var result = SHA1.TryFrom(value, out _);
-                Assert.Equal(SHA1.Validation.OK, result);
+                Assert.Equal(SHA1.Validation.Ok, result);
             }
         }
 

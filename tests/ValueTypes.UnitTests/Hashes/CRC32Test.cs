@@ -90,7 +90,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
             foreach (var value in _validValues)
             {
                 var result = CRC32.TryFrom(value, out _);
-                Assert.Equal(CRC32.Validation.OK, result);
+                Assert.Equal(CRC32.Validation.Ok, result);
             }
         }
 

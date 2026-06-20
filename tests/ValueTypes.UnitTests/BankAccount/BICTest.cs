@@ -90,7 +90,7 @@ namespace Migs.ValueTypes.UnitTests.BankAccount
             foreach (var value in _validValues)
             {
                 var result = BIC.TryFrom(value, out _);
-                Assert.Equal(BIC.Validation.OK, result);
+                Assert.Equal(BIC.Validation.Ok, result);
             }
         }
 

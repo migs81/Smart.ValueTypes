@@ -18,7 +18,7 @@ namespace Migs.ValueTypes.Types.ID
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             TooShort,
@@ -46,7 +46,7 @@ namespace Migs.ValueTypes.Types.ID
         public IMEI(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -85,12 +85,12 @@ namespace Migs.ValueTypes.Types.ID
         public static IMEI From(string value) => new(value);
         public static Validation TryFrom(string value, out IMEI output)
         {
-            var result = Validation.OK;
+            var result = Validation.Ok;
 
             try
             {
                 result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                     output = new IMEI(ref value);
                 else
                     output = Default;
@@ -130,7 +130,7 @@ namespace Migs.ValueTypes.Types.ID
             if (!ValidateCheckDigit(ref value))
                 return Validation.IncorrectCheckDigit;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static bool ValidateCharacters(ref string value)

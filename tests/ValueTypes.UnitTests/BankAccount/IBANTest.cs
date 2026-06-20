@@ -74,7 +74,7 @@ namespace Migs.ValueTypes.UnitTests.BankAccount
             foreach (var value in _validValues)
             {
                 var result = IBAN.TryFrom(value, out _);
-                Assert.Equal(IBAN.Validation.OK, result);
+                Assert.Equal(IBAN.Validation.Ok, result);
             }
         }
 

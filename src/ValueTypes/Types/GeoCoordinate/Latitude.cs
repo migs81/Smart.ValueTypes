@@ -1,14 +1,13 @@
-﻿using Migs.ValueTypes.Interfaces;
-using Migs.ValueTypes.Types.Hashes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Migs.ValueTypes.Interfaces;
 
 namespace Migs.ValueTypes.Types.GeoCoordinate
 {
     /// <summary>
     /// Value type for a latitude.
     /// </summary>
-    /// <seealso cref="IValueType&lt;double, Latitude&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidLatitudeException"></exception>
     public readonly record struct Latitude : IValueType<double, Latitude>
     {
@@ -22,7 +21,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             TooLow,
             TooHigh,
             UnknownError
@@ -42,7 +41,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
         public Latitude(double value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -79,10 +78,10 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new Latitude(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -109,7 +108,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
             if (value > MaxValue)
                 return Validation.TooHigh;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion

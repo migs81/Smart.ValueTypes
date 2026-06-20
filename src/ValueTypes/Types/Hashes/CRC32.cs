@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             WrongLength,
             IllegalCharacter,
@@ -42,7 +42,7 @@ namespace Migs.ValueTypes.Types.Hashes
         public CRC32(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -83,10 +83,10 @@ namespace Migs.ValueTypes.Types.Hashes
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new CRC32(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -120,7 +120,7 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.IllegalCharacter;
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion

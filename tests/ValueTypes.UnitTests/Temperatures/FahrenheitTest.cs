@@ -113,7 +113,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
             foreach (var temp in _validTemperatures)
             {
                 var result = Fahrenheit.TryFrom(temp.Fahrenheit, out _);
-                Assert.Equal(Fahrenheit.Validation.OK, result);
+                Assert.Equal(Fahrenheit.Validation.Ok, result);
             }
         }
 
@@ -124,7 +124,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
             {
                 var celsius = new Celsius(temp.Celsius);
                 var result = Fahrenheit.TryFrom(celsius, out _);
-                Assert.Equal(Fahrenheit.Validation.OK, result);
+                Assert.Equal(Fahrenheit.Validation.Ok, result);
             }
         }
 
@@ -135,7 +135,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
             {
                 var kelvin = new Kelvin(temp.Kelvin);
                 var result = Fahrenheit.TryFrom(kelvin, out _);
-                Assert.Equal(Fahrenheit.Validation.OK, result);
+                Assert.Equal(Fahrenheit.Validation.Ok, result);
             }
         }
 
@@ -146,7 +146,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
             {
                 var reaumur = new Reaumur(temp.Reaumur);
                 var result = Fahrenheit.TryFrom(reaumur, out _);
-                Assert.Equal(Fahrenheit.Validation.OK, result);
+                Assert.Equal(Fahrenheit.Validation.Ok, result);
             }
         }
 

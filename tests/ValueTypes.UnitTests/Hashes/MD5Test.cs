@@ -69,7 +69,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
             foreach (var value in _validValues)
             {
                 var result = MD5.TryFrom(value, out _);
-                Assert.Equal(MD5.Validation.OK, result);
+                Assert.Equal(MD5.Validation.Ok, result);
             }
         }
 

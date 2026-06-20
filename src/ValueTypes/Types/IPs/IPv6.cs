@@ -21,7 +21,7 @@ namespace Migs.ValueTypes.Types.IPs
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             TooShort,
@@ -47,7 +47,7 @@ namespace Migs.ValueTypes.Types.IPs
         public IPv6(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -92,10 +92,10 @@ namespace Migs.ValueTypes.Types.IPs
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new IPv6(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -187,7 +187,7 @@ namespace Migs.ValueTypes.Types.IPs
                     return Validation.SegmentNotHex;
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion

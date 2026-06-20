@@ -73,7 +73,7 @@ namespace Migs.ValueTypes.UnitTests.IPs
             foreach (var value in _validValues)
             {
                 var result = IPv4.TryFrom(value, out _);
-                Assert.Equal(IPv4.Validation.OK, result);
+                Assert.Equal(IPv4.Validation.Ok, result);
             }
         }
 

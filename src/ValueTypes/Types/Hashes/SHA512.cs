@@ -21,7 +21,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             WrongLength,
             IllegalCharacter,
@@ -43,7 +43,7 @@ namespace Migs.ValueTypes.Types.Hashes
         public SHA512(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -80,10 +80,10 @@ namespace Migs.ValueTypes.Types.Hashes
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new SHA512(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -104,7 +104,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 if (value is not null)
                 {
                     string SHA512 = CreateHash(ref value);
-                    if (Validate(ref SHA512) == Validation.OK)
+                    if (Validate(ref SHA512) == Validation.Ok)
                     {
                         output = new SHA512(ref SHA512);
                         return true;
@@ -150,7 +150,7 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.IllegalCharacter;
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion

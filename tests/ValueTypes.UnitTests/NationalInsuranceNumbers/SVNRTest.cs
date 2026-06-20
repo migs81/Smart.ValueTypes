@@ -39,7 +39,7 @@ namespace Migs.ValueTypes.UnitTests.NationalInsuranceNumbers
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(_wrongValue, typeof(InvalidSVNRException))]
+        [InlineData(_wrongValue, typeof(InvalidSvnrException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SVNR(input));
@@ -63,15 +63,15 @@ namespace Migs.ValueTypes.UnitTests.NationalInsuranceNumbers
             foreach (var value in _validValues)
             {
                 var result = SVNR.TryFrom(value, out _);
-                Assert.Equal(SVNR.Validation.OK, result);
+                Assert.Equal(SVNR.Validation.Ok, result);
             }
         }
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData("1234", typeof(InvalidSVNRException))]
-        [InlineData(_wrongValue, typeof(InvalidSVNRException))]
+        [InlineData("1234", typeof(InvalidSvnrException))]
+        [InlineData(_wrongValue, typeof(InvalidSvnrException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SVNR(input));

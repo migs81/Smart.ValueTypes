@@ -10,7 +10,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
     /// <seealso cref="IValueType&lt;string, SVNR&gt;" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSVNRException"></exception>
+    /// <exception cref="InvalidSvnrException"></exception>
     public readonly record struct SVNR : IValueType<string, SVNR>
     {
         #region fields
@@ -21,7 +21,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             WrongLength,
@@ -48,19 +48,19 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
         public SVNR(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.WrongLength => new InvalidSVNRException($"The value '{value}' must be {_length} characters long!"),
-                    Validation.ContainsIllegalCharacter => new InvalidSVNRException($"The value '{value}' contains illegal characters!"),
-                    Validation.StartsWithZero => new InvalidSVNRException($"The first digit can not be zero!"),
-                    Validation.InvalidDayPart => new InvalidSVNRException($"The value '{value}' contains an invalid number for the day part!"),
-                    Validation.InvalidMonthPart => new InvalidSVNRException($"The value '{value}' contains an invalid number for the month part!"),
-                    Validation.WrongChecksum => new InvalidSVNRException($"The checksum of the value '{value}' is wrong!"),
-                    _ => new InvalidSVNRException(),
+                    Validation.WrongLength => new InvalidSvnrException($"The value '{value}' must be {_length} characters long!"),
+                    Validation.ContainsIllegalCharacter => new InvalidSvnrException($"The value '{value}' contains illegal characters!"),
+                    Validation.StartsWithZero => new InvalidSvnrException($"The first digit can not be zero!"),
+                    Validation.InvalidDayPart => new InvalidSvnrException($"The value '{value}' contains an invalid number for the day part!"),
+                    Validation.InvalidMonthPart => new InvalidSvnrException($"The value '{value}' contains an invalid number for the month part!"),
+                    Validation.WrongChecksum => new InvalidSvnrException($"The checksum of the value '{value}' is wrong!"),
+                    _ => new InvalidSvnrException(),
                 };
             }
 
@@ -90,10 +90,10 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new SVNR(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -141,7 +141,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             else if (span[4] == '3' && span[5] > '1')
                 return Validation.InvalidDayPart;
 
-            // month part (can not be zero, but greater then 12!)
+            // month part (can not be zero, but greater than 12!)
             if (span[6] == '0' && span[7] == '0')
                 return Validation.InvalidMonthPart;
 
@@ -159,19 +159,19 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             if (sum % 11 != span[3] - 48)
                 return Validation.WrongChecksum;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion
     }
 
-    public class InvalidSVNRException : Exception
+    public class InvalidSvnrException : Exception
     {
-        public InvalidSVNRException()
+        public InvalidSvnrException()
         {
         }
 
-        public InvalidSVNRException(string message) : base(message)
+        public InvalidSvnrException(string message) : base(message)
         {
         }
     }

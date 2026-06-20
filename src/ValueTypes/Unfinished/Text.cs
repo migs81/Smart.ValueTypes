@@ -12,7 +12,7 @@ namespace Migs.ValueTypes
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             ValueIsNull,
             UnknownError
         }
@@ -31,7 +31,7 @@ namespace Migs.ValueTypes
         public Text(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -67,10 +67,10 @@ namespace Migs.ValueTypes
             try
             {
                 var result = Validate(ref value);
-                if ( result == Validation.OK)
+                if ( result == Validation.Ok)
                 {
                     text = new Text(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 text = Empty;
@@ -89,7 +89,7 @@ namespace Migs.ValueTypes
 
         private static Validation Validate(ref string value) => value is null
             ? Validation.ValueIsNull
-            : Validation.OK;
+            : Validation.Ok;
 
         #endregion
     }

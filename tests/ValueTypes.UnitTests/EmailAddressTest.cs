@@ -107,7 +107,7 @@ namespace Migs.ValueTypes.UnitTests
             foreach (var value in _validValues)
             {
                 var result = EmailAddress.TryFrom(value, out _);
-                Assert.Equal(EmailAddress.Validation.OK, result);
+                Assert.Equal(EmailAddress.Validation.Ok, result);
             }
         }
 

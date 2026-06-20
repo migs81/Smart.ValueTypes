@@ -18,7 +18,7 @@ namespace Migs.ValueTypes.Types
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             TooShort,
             TooLong,
@@ -62,7 +62,7 @@ namespace Migs.ValueTypes.Types
         public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing)
         {
             var result = Validate(ref value, ref minLength, ref maxLength, ref requirements);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -114,10 +114,10 @@ namespace Migs.ValueTypes.Types
             try
             {
                 var result = Validate(ref value, ref minLength, ref maxLength, ref requirements);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     password = new Password(ref value, minLength, maxLength, requirements);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 password = Empty;
@@ -162,7 +162,7 @@ namespace Migs.ValueTypes.Types
             if (requirements.HasFlag(Requirement.Symbols) && !ContainsSymbols(ref span))
                 return Validation.SymbolsMissing;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static bool ContainsLowercaseLetters(ref ReadOnlySpan<char> span)

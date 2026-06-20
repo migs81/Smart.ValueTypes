@@ -23,7 +23,7 @@ namespace Migs.ValueTypes.Types
         
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             TooShort,
@@ -73,7 +73,7 @@ namespace Migs.ValueTypes.Types
         public EmailAddress(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -123,10 +123,10 @@ namespace Migs.ValueTypes.Types
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new EmailAddress(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -236,7 +236,7 @@ namespace Migs.ValueTypes.Types
                 }
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
         
         #endregion

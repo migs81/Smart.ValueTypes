@@ -9,7 +9,7 @@ namespace Migs.ValueTypes.Generic
     /// Generic structure for a specified value.
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <seealso cref="Interfaces.IValueType&lt;TValue&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     public readonly record struct ValueType<TValue> : IValueType<TValue, ValueType<TValue>>
         where TValue : notnull
     {

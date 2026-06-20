@@ -18,7 +18,7 @@ namespace Migs.ValueTypes.Types.ID
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             TooShort,
@@ -43,7 +43,7 @@ namespace Migs.ValueTypes.Types.ID
         public IMSI(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -81,12 +81,12 @@ namespace Migs.ValueTypes.Types.ID
         public static IMSI From(string value) => new(value);
         public static Validation TryFrom(string value, out IMSI output)
         {
-            var result = Validation.OK;
+            var result = Validation.Ok;
 
             try
             {
                 result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                     output = new IMSI(ref value);
                 else
                     output = Default;
@@ -123,7 +123,7 @@ namespace Migs.ValueTypes.Types.ID
             if (!ValidateCharacters(ref value))
                 return Validation.IllegalCharacter;
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         private static bool ValidateCharacters(ref string value)

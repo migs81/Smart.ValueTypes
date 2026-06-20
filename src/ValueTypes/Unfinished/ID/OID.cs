@@ -13,7 +13,7 @@ namespace Migs.ValueTypes.Unfinished.ID
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             Empty,
             IllegalCharacter,
@@ -63,10 +63,10 @@ namespace Migs.ValueTypes.Unfinished.ID
             try
             {
                 var result = Validate(ref value);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new OID(ref value);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -98,7 +98,7 @@ namespace Migs.ValueTypes.Unfinished.ID
                     return Validation.IllegalCharacter;
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion

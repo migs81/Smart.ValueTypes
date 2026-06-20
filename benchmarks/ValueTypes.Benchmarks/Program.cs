@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using Migs.ValueTypes.Types;
 
 namespace Migs.ValueTypes.Benchmarks
 {

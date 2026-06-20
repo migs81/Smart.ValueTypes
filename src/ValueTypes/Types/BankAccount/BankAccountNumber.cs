@@ -5,7 +5,7 @@
     /// </summary>
     public readonly record struct BankAccountNumber
     {
-        public readonly IBAN IBAN { get; }
-        public readonly BIC BIC { get; }
+        public IBAN IBAN { get; }
+        public BIC BIC { get; }
     }
 }

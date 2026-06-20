@@ -52,7 +52,7 @@ namespace Migs.ValueTypes.UnitTests
         public void TryFrom_ValidInput_ShouldBeTrue(string input, int minValue, int maxValue, Password.Requirement requirement)
         {
             var password = Password.TryFrom(input, minValue, maxValue, requirement, out _);
-            Assert.Equal(Password.Validation.OK, password);
+            Assert.Equal(Password.Validation.Ok, password);
         }
 
         [Theory]

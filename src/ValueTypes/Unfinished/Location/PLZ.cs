@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Migs.ValueTypes
 {
     /// <summary>
-    /// Value type for the austrian postcode (Postleitzahl).
+    /// Value type for the austrian zip code (Postleitzahl).
     /// </summary>
     /// <seealso cref="IValueType&lt;int, Plz&gt;" />
     /// <exception cref="InvalidPlzException"></exception>

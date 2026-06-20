@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         public enum Validation
         {
-            OK = 0,
+            Ok = 0,
             Null,
             WrongLength,
             IllegalCharacter,
@@ -41,7 +41,7 @@ namespace Migs.ValueTypes.Types.Hashes
         public MD5(string value)
         {
             var result = Validate(ref value);
-            if (result != Validation.OK)
+            if (result != Validation.Ok)
             {
                 throw result switch
                 {
@@ -78,10 +78,10 @@ namespace Migs.ValueTypes.Types.Hashes
             try
             {
                 var result = Validate(ref hash);
-                if (result == Validation.OK)
+                if (result == Validation.Ok)
                 {
                     output = new MD5(ref hash);
-                    return Validation.OK;
+                    return Validation.Ok;
                 }
 
                 output = Default;
@@ -102,7 +102,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 if (value is not null)
                 {
                     string md5 = CreateHash(ref value);
-                    if (Validate(ref md5) == Validation.OK)
+                    if (Validate(ref md5) == Validation.Ok)
                     {
                         output = new MD5(ref md5);
                         return true;
@@ -148,7 +148,7 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.IllegalCharacter;
             }
 
-            return Validation.OK;
+            return Validation.Ok;
         }
 
         #endregion
