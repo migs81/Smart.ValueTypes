@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes
+namespace Migs.ValueTypes.Unfinished.Currency
 {
     public readonly record struct Currency : IValueType<string, string, string, Currency>
     {

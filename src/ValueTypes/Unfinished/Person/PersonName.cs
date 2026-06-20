@@ -1,7 +1,7 @@
-﻿using Migs.ValueTypes.Interfaces;
-using System;
+﻿using System;
+using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes
+namespace Migs.ValueTypes.Unfinished.Person
 {
     /// <summary>
     /// Value type for email addresses.

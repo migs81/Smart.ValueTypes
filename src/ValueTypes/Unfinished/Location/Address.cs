@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes
+﻿namespace Migs.ValueTypes.Unfinished.Location
 {
     public class Address
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Migs.ValueTypes
+namespace Migs.ValueTypes.Unfinished
 {
     public readonly record struct PhoneNumber
     {

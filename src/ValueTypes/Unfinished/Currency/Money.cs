@@ -1,7 +1,7 @@
-﻿using Migs.ValueTypes.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes
+namespace Migs.ValueTypes.Unfinished.Currency
 {
     public readonly record struct Money : IValueType<decimal, Currency, Money>
     {

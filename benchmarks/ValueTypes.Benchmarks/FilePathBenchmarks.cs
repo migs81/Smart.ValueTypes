@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using Migs.ValueTypes.Types;
+using Migs.ValueTypes.Unfinished;
 
 namespace Migs.ValueTypes.Benchmarks
 {

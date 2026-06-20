@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Order;
 using Migs.ValueTypes.Types;
 using System.Globalization;
+using Migs.ValueTypes.Unfinished.Currency;
 
 namespace Migs.ValueTypes.Benchmarks
 {

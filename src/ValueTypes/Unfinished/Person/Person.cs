@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Migs.ValueTypes
+﻿namespace Migs.ValueTypes.Unfinished.Person
 {
     public readonly record struct Person
     {

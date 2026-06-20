@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes
+﻿namespace Migs.ValueTypes.Unfinished.ColorSpaces
 {
     public readonly record struct RGB
     {
