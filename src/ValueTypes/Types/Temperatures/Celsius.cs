@@ -8,7 +8,7 @@ namespace Migs.ValueTypes.Types.Temperatures
     /// Value type for celsius temperatures.
     /// </summary>
     /// <exception cref="InvalidCelsiusException"></exception>
-    public readonly partial record struct Celsius : IValueType<double, Celsius>, ITemperature
+    public readonly record struct Celsius : IValueType<double, Celsius>, ITemperature
     {
         #region fields
 
