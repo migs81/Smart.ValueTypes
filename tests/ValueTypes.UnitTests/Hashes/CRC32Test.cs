@@ -66,8 +66,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidCRC32Exception))]
-        [InlineData("wronginput", typeof(InvalidCRC32Exception))]
+        [InlineData("", typeof(InvalidCrc32Exception))]
+        [InlineData("wronginput", typeof(InvalidCrc32Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new CRC32(input));
@@ -96,8 +96,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidCRC32Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidCRC32Exception))]
+        [InlineData("", typeof(InvalidCrc32Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidCrc32Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new CRC32(input));

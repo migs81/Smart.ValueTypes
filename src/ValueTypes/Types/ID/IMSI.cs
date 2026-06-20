@@ -9,7 +9,7 @@ namespace Migs.ValueTypes.Types.ID
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidIMSIException"></exception>
+    /// <exception cref="InvalidImsiException"></exception>
     public readonly record struct IMSI : IValueType<string, IMSI>
     {
         #region fields
@@ -49,10 +49,10 @@ namespace Migs.ValueTypes.Types.ID
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.TooShort => new InvalidIMEIException($"The value '{value}' is too short!"),
-                    Validation.TooLong => new InvalidIMEIException($"The value '{value}' is too long!"),
-                    Validation.IllegalCharacter => new InvalidIMEIException($"The value '{value}' contains an illegal character!"),
-                    _ => new InvalidIMEIException(),
+                    Validation.TooShort => new InvalidImeiException($"The value '{value}' is too short!"),
+                    Validation.TooLong => new InvalidImeiException($"The value '{value}' is too long!"),
+                    Validation.IllegalCharacter => new InvalidImeiException($"The value '{value}' contains an illegal character!"),
+                    _ => new InvalidImeiException(),
                 };
             }
 
@@ -142,13 +142,13 @@ namespace Migs.ValueTypes.Types.ID
         #endregion
     }
 
-    public class InvalidIMSIException : Exception
+    public class InvalidImsiException : Exception
     {
-        public InvalidIMSIException()
+        public InvalidImsiException()
         {
         }
 
-        public InvalidIMSIException(string message) : base(message)
+        public InvalidImsiException(string message) : base(message)
         {
         }
     }

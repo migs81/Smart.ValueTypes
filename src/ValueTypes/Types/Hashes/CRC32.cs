@@ -9,7 +9,7 @@ namespace Migs.ValueTypes.Types.Hashes
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidCRC32Exception"></exception>
+    /// <exception cref="InvalidCrc32Exception"></exception>
     public readonly record struct CRC32 : IValueType<string, CRC32>
     {
         #region fields
@@ -47,9 +47,9 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidCRC32Exception($"The value '{value}' is not {_hashLength} characters long!"),
-                    Validation.IllegalCharacter => new InvalidCRC32Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidCRC32Exception(),
+                    Validation.WrongLength => new InvalidCrc32Exception($"The value '{value}' is not {_hashLength} characters long!"),
+                    Validation.IllegalCharacter => new InvalidCrc32Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidCrc32Exception(),
                 };
             }
 
@@ -126,13 +126,13 @@ namespace Migs.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidCRC32Exception : Exception
+    public class InvalidCrc32Exception : Exception
     {
-        public InvalidCRC32Exception()
+        public InvalidCrc32Exception()
         {
         }
 
-        public InvalidCRC32Exception(string message) : base(message)
+        public InvalidCrc32Exception(string message) : base(message)
         {
         }
     }

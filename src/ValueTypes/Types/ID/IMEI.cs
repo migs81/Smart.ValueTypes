@@ -9,7 +9,7 @@ namespace Migs.ValueTypes.Types.ID
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidIMEIException"></exception>
+    /// <exception cref="InvalidImeiException"></exception>
     public readonly record struct IMEI : IValueType<string, IMEI>
     {
         #region fields
@@ -52,11 +52,11 @@ namespace Migs.ValueTypes.Types.ID
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.TooShort => new InvalidIMEIException($"The value '{value}' is too short!"),
-                    Validation.TooLong => new InvalidIMEIException($"The value '{value}' is too long!"),
-                    Validation.IllegalCharacter => new InvalidIMEIException($"The value '{value}' contains an illegal character!"),
-                    Validation.IncorrectCheckDigit => new InvalidIMEIException($"The checksum of the IMEI '{value}' is incorrect!"),
-                    _ => new InvalidIMEIException(),
+                    Validation.TooShort => new InvalidImeiException($"The value '{value}' is too short!"),
+                    Validation.TooLong => new InvalidImeiException($"The value '{value}' is too long!"),
+                    Validation.IllegalCharacter => new InvalidImeiException($"The value '{value}' contains an illegal character!"),
+                    Validation.IncorrectCheckDigit => new InvalidImeiException($"The checksum of the IMEI '{value}' is incorrect!"),
+                    _ => new InvalidImeiException(),
                 };
             }
 
@@ -170,13 +170,13 @@ namespace Migs.ValueTypes.Types.ID
         #endregion
     }
 
-    public class InvalidIMEIException : Exception
+    public class InvalidImeiException : Exception
     {
-        public InvalidIMEIException()
+        public InvalidImeiException()
         {
         }
 
-        public InvalidIMEIException(string message) : base(message)
+        public InvalidImeiException(string message) : base(message)
         {
         }
     }

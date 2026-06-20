@@ -31,9 +31,9 @@ namespace Migs.ValueTypes.UnitTests.ID
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData("12345", typeof(InvalidIMEIException))]
-        [InlineData("1234567890123456", typeof(InvalidIMEIException))]
-        [InlineData("a23456", typeof(InvalidIMEIException))]
+        [InlineData("12345", typeof(InvalidImeiException))]
+        [InlineData("1234567890123456", typeof(InvalidImeiException))]
+        [InlineData("a23456", typeof(InvalidImeiException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new IMSI(input));
@@ -61,9 +61,9 @@ namespace Migs.ValueTypes.UnitTests.ID
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData("12345", typeof(InvalidIMEIException))]
-        [InlineData("1234567890123456", typeof(InvalidIMEIException))]
-        [InlineData("a23456", typeof(InvalidIMEIException))]
+        [InlineData("12345", typeof(InvalidImeiException))]
+        [InlineData("1234567890123456", typeof(InvalidImeiException))]
+        [InlineData("a23456", typeof(InvalidImeiException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new IMSI(input));

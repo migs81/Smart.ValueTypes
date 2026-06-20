@@ -144,7 +144,7 @@ namespace Migs.ValueTypes.Types.IPs
             }
         }
 
-        public IPAddress GetIPAddress() => IPAddress.Parse(_value);
+        public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
         public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
 
