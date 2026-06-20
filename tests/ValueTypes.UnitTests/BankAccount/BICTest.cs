@@ -1,5 +1,6 @@
 ﻿using Migs.ValueTypes.Types;
 using System;
+using Migs.ValueTypes.Types.BankAccount;
 using Xunit;
 
 namespace Migs.ValueTypes.UnitTests.BankAccount

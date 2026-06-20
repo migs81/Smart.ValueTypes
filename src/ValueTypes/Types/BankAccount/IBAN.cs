@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types
+namespace Migs.ValueTypes.Types.BankAccount
 {
     /// <summary>
     /// Value type for IBANs.l
