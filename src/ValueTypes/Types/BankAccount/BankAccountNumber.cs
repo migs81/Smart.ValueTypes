@@ -3,9 +3,5 @@
     /// <summary>
     /// Aggregate for IBAN and BIC
     /// </summary>
-    public readonly record struct BankAccountNumber
-    {
-        public IBAN IBAN { get; }
-        public BIC BIC { get; }
-    }
+    public readonly record struct BankAccountNumber(IBAN IBAN, BIC BIC);
 }
