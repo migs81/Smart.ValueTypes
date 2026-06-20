@@ -144,7 +144,7 @@ namespace Migs.ValueTypes.Types.Hashes
             // must be hex
             foreach (var c in value.AsSpan())
             {
-                if ((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+                if (c is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
                     return Validation.IllegalCharacter;
             }
 

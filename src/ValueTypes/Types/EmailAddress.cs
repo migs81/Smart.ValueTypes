@@ -207,12 +207,8 @@ namespace Migs.ValueTypes.Types
                 if (c > 127)
                     return Validation.LocalPartContainsIllegalCharacter;
 
-                if ((c < 'a' || c > 'z')
-                    && (c < 'A' || c > 'Z')
-                    && (c < '0' || c > '9')
-                    && c != '.'
-                    && c != '_'
-                    && c != '-')
+                if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
+                    && c != '.' && c != '_' && c != '-')
                 {
                     return Validation.LocalPartContainsIllegalCharacter;
                 }
@@ -226,9 +222,7 @@ namespace Migs.ValueTypes.Types
             // check domain part characters
             foreach (char c in span[(atPos + 1)..])
             {
-                if ((c < 'a' || c > 'z')
-                    && (c < 'A' || c > 'Z')
-                    && (c < '0' || c > '9')
+                if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
                     && c != '.'
                     && c != '-')
                 {

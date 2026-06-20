@@ -72,7 +72,7 @@ namespace Migs.ValueTypes
 
         #region private methods
 
-        private static bool Validate(ref int value) => value >= 1000 && value <= 9999;
+        private static bool Validate(ref int value) => value is >= 1000 and <= 9999;
 
         #endregion
     }

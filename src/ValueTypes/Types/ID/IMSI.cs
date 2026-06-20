@@ -137,7 +137,7 @@ namespace Migs.ValueTypes.Types.ID
             return true;
         }
 
-        private static bool IsDigit(char c) => c >= '0' && c <= '9';
+        private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }

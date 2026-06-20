@@ -17,10 +17,10 @@ namespace Migs.ValueTypes
         }
         public Date(byte day, byte month, int year)
         {
-            if (day <= 0 || day > 31)
+            if (day is <= 0 or > 31)
                 throw new ArgumentOutOfRangeException(nameof(day));
 
-            if (month <= 0 || month > 12)
+            if (month is <= 0 or > 12)
                 throw new ArgumentOutOfRangeException(nameof(month));
 
             Day = day;

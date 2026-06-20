@@ -116,7 +116,7 @@ namespace Migs.ValueTypes.Types.Hashes
             ReadOnlySpan<char> span = value.AsSpan();
             foreach (var c in span)
             {
-                if ((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+                if (c is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
                     return Validation.IllegalCharacter;
             }
 

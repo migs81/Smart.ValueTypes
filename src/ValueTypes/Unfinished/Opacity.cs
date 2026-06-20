@@ -75,7 +75,7 @@ namespace Migs.ValueTypes
 
         #region private methods
 
-        private static bool IsValid(ref double value) => value >= 0 && value <= 1;
+        private static bool IsValid(ref double value) => value is >= 0 and <= 1;
 
         #endregion
     }

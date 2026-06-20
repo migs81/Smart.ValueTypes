@@ -212,13 +212,13 @@ namespace Migs.ValueTypes.Types.BankAccount
             return true;
         }
 
-        private static bool IsUppercaseLetter(char c) => (c >= 'A' && c <= 'Z');
+        private static bool IsUppercaseLetter(char c) => c is >= 'A' and <= 'Z';
 
-        private static bool IsLowercaseLetter(char c) => (c >= 'a' && c <= 'z');
+        private static bool IsLowercaseLetter(char c) => c is >= 'a' and <= 'z';
 
         private static bool IsLetter(char c) => IsLowercaseLetter(c) || IsUppercaseLetter(c);
 
-        private static bool IsDigit(char c) => (c >= '0' && c <= '9');
+        private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }

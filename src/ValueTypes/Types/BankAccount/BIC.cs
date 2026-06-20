@@ -194,9 +194,9 @@ namespace Migs.ValueTypes.Types.BankAccount
             return true;
         }
 
-        private static bool IsLetter(char c) => (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+        private static bool IsLetter(char c) => c is >= 'A' and <= 'Z' or >= 'a' and <= 'z';
         
-        private static bool IsDigit(char c) => (c >= '0' && c <= '9');
+        private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }

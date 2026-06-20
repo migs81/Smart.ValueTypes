@@ -128,7 +128,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             // check for illegal characters
             foreach (char c in span)
             {
-                if (c < '0' || c > '9')
+                if (c is < '0' or > '9')
                     return Validation.ContainsIllegalCharacter;
             }
 
