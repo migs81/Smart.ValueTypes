@@ -1,9 +1,8 @@
-﻿using Migs.ValueTypes.Types;
-using System;
-using Migs.ValueTypes.Types.BankAccount;
+﻿using System;
+using Migs.ValueTypes.Types.Bank;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.BankAccount
+namespace Migs.ValueTypes.UnitTests.Bank
 {
     public class IBANTest
     {

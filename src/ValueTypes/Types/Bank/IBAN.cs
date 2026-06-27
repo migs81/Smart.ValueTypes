@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.BankAccount
+namespace Migs.ValueTypes.Types.Bank
 {
     /// <summary>
     /// Value type for IBANs.l

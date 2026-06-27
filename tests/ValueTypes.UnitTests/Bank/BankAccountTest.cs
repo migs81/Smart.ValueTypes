@@ -1,10 +1,10 @@
 using System;
-using Migs.ValueTypes.Types.BankAccount;
+using Migs.ValueTypes.Types.Bank;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.BankAccount;
+namespace Migs.ValueTypes.UnitTests.Bank;
 
-public class BankAccountNumberTest
+public class BankAccountTest
 {
     #region tests
 
@@ -16,7 +16,7 @@ public class BankAccountNumberTest
         var bic = BIC.Default;
         
         // act
-        var account = new BankAccountNumber(iban, bic);
+        var account = new BankAccount(iban, bic);
         
         // assert
         Assert.Equal(iban, account.IBAN);
@@ -31,8 +31,8 @@ public class BankAccountNumberTest
         var bic = BIC.Default;
         
         // assert
-        Assert.Throws<ArgumentNullException>(() =>  new BankAccountNumber(null, bic));
-        Assert.Throws<ArgumentNullException>(() =>  new BankAccountNumber(iban, null));
+        Assert.Throws<ArgumentNullException>(() =>  new BankAccount(null, bic));
+        Assert.Throws<ArgumentNullException>(() =>  new BankAccount(iban, null));
     }
     
     #endregion
