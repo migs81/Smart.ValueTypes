@@ -59,8 +59,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA384Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA384Exception))]
+        [InlineData("", typeof(InvalidSha384Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha384Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA384(input));
@@ -103,8 +103,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA384Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA384Exception))]
+        [InlineData("", typeof(InvalidSha384Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha384Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA384(input));

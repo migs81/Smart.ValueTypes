@@ -16,8 +16,9 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
         #region fields
 
         private readonly string _value;
-        private const int _length = 10;
-        private readonly string _default = new('0', _length);
+        private readonly string _default = new('0', Length);
+        
+        public const int Length = 10;
 
         public enum Validation
         {
@@ -38,7 +39,6 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
         #region properties
 
         public static SVNR Empty => new();
-        public int Length => _value.Length;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.WrongLength => new InvalidSvnrException($"The value '{value}' must be {_length} characters long!"),
+                    Validation.WrongLength => new InvalidSvnrException($"The value '{value}' must be {Length} characters long!"),
                     Validation.ContainsIllegalCharacter => new InvalidSvnrException($"The value '{value}' contains illegal characters!"),
                     Validation.StartsWithZero => new InvalidSvnrException($"The first digit can not be zero!"),
                     Validation.InvalidDayPart => new InvalidSvnrException($"The value '{value}' contains an invalid number for the day part!"),
@@ -120,7 +120,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             if (value.Length == 0)
                 return Validation.Empty;
 
-            if (value.Length != _length)
+            if (value.Length != Length)
                 return Validation.WrongLength;
 
             ReadOnlySpan<char> span = value.AsSpan();

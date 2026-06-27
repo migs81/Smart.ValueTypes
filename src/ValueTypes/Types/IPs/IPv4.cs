@@ -17,7 +17,7 @@ namespace Migs.ValueTypes.Types.IPs
         #region fields
 
         private readonly string _value;
-        private const string _defaultValue = "0.0.0.0";
+        private const string Default = "0.0.0.0";
 
         public enum Validation
         {
@@ -44,7 +44,7 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region constructor
 
-        public IPv4() => _value = _defaultValue;
+        public IPv4() => _value = Default;
         public IPv4(string value)
         {
             var result = ValidateFormat(ref value);

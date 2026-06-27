@@ -12,9 +12,6 @@ namespace Migs.ValueTypes.Types.Temperatures
     {
         #region fields
 
-        private readonly double _value;
-        private const double _defaultValue = 0.0d;
-
         public const double MinValue = 0d;
         public const double MaxValue = double.MaxValue;
         public const double FreezingPoint = 273.15d;
@@ -32,15 +29,15 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region properties
 
-        public double Value => _value;
+        public double Value { get; }
 
-        public static Kelvin Empty => new();
+        public static Kelvin Zero => new(0d);
 
         #endregion
 
         #region constructor
 
-        public Kelvin() => _value = _defaultValue;
+        public Kelvin() => Value = 0d;
         public Kelvin(double value)
         {
             var result = ValidateFormat(ref value);
@@ -53,13 +50,13 @@ namespace Migs.ValueTypes.Types.Temperatures
                 };
             }
 
-            _value = value;
+            Value = value;
         }
         public Kelvin(int value) : this((double)value) { }
-        public Kelvin(Celsius celsius) => _value = FromCelsius(celsius);
-        public Kelvin(Fahrenheit fahrenheit) => _value = FromFahrenheit(fahrenheit);
-        public Kelvin(Reaumur reaumur) => _value = FromReaumur(reaumur);
-        private Kelvin(ref double value) => _value = value;
+        public Kelvin(Celsius celsius) => Value = FromCelsius(celsius);
+        public Kelvin(Fahrenheit fahrenheit) => Value = FromFahrenheit(fahrenheit);
+        public Kelvin(Reaumur reaumur) => Value = FromReaumur(reaumur);
+        private Kelvin(ref double value) => Value = value;
 
         #endregion
 
@@ -68,7 +65,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         public static bool operator ==(Kelvin left, double right) => left.Equals(right);
         public static bool operator !=(Kelvin left, double right) => !left.Equals(right);
 
-        public static implicit operator double(Kelvin kelvin) => kelvin._value;
+        public static implicit operator double(Kelvin kelvin) => kelvin.Value;
         public static implicit operator Kelvin(double value) => new(value);
         public static implicit operator Celsius(Kelvin kelvin) => new(ToCelsius(kelvin));
         public static implicit operator Fahrenheit(Kelvin kelvin) => new(ToFahrenheit(kelvin));
@@ -78,7 +75,7 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region public methods
 
-        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(_value, other);
+        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(Value, other);
 
         public static Kelvin From(int value) => new(value);
         public static Kelvin From(double value) => new(value);
@@ -97,12 +94,12 @@ namespace Migs.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = Zero;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = Zero;
                 return Validation.UnknownError;
             }
         }

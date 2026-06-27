@@ -30,13 +30,13 @@ namespace Migs.ValueTypes.Types.Temperatures
         #region properties
 
         public double Value { get; }
-        public static Reaumur Empty => new();
+        public static Reaumur Zero => new(0d);
 
         #endregion
 
         #region constructor
 
-        public Reaumur() => Value = MinValue;
+        public Reaumur() => Value = 0d;
         public Reaumur(double value)
         {
             var result = ValidateFormat(ref value);
@@ -93,12 +93,12 @@ namespace Migs.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = Zero;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = Zero;
                 return Validation.UnknownError;
             }
         }

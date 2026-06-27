@@ -53,8 +53,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA1Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA1Exception))]
+        [InlineData("", typeof(InvalidSha1Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha1Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA1(input));
@@ -97,8 +97,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA1Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA1Exception))]
+        [InlineData("", typeof(InvalidSha1Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha1Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA1(input));

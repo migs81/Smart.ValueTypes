@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new Reaumur();
-            Assert.Equal(Reaumur.Empty, result);
+            Assert.Equal(Reaumur.Zero, result);
         }
 
         [Theory]

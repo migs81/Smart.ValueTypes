@@ -10,14 +10,14 @@ namespace Migs.ValueTypes.Types.Hashes
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSHA256Exception"></exception>
+    /// <exception cref="InvalidSha256Exception"></exception>
     public readonly record struct SHA256 : IValueType<string, SHA256>
     {
         #region fields
 
         private readonly string _value;
-        private const int _hashLength = 64;
-        private readonly string _default = new('0', _hashLength);
+        private const int HashLength = 64;
+        private readonly string _default = new('0', HashLength);
 
         public enum Validation
         {
@@ -48,9 +48,9 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSHA256Exception($"The value '{value}' is not {_hashLength} characters long!"),
-                    Validation.IllegalCharacter => new InvalidSHA256Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidSHA256Exception(),
+                    Validation.WrongLength => new InvalidSha256Exception($"The value '{value}' is not {HashLength} characters long!"),
+                    Validation.IllegalCharacter => new InvalidSha256Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidSha256Exception(),
                 };
             }
 
@@ -140,7 +140,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 return Validation.Null;
 
             // must be 64 characters long
-            if (value.Length != _hashLength)
+            if (value.Length != HashLength)
                 return Validation.WrongLength;
 
             // must be hex
@@ -156,13 +156,13 @@ namespace Migs.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidSHA256Exception : Exception
+    public class InvalidSha256Exception : Exception
     {
-        public InvalidSHA256Exception()
+        public InvalidSha256Exception()
         {
         }
 
-        public InvalidSHA256Exception(string message) : base(message)
+        public InvalidSha256Exception(string message) : base(message)
         {
         }
     }

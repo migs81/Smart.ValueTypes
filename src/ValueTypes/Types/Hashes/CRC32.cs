@@ -15,8 +15,8 @@ namespace Migs.ValueTypes.Types.Hashes
         #region fields
 
         private readonly string _value;
-        private const int _hashLength = 8;
-        private readonly string _default = new('0', _hashLength);
+        private const int HashLength = 8;
+        private readonly string _default = new('0', HashLength);
 
         public enum Validation
         {
@@ -47,7 +47,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidCrc32Exception($"The value '{value}' is not {_hashLength} characters long!"),
+                    Validation.WrongLength => new InvalidCrc32Exception($"The value '{value}' is not {HashLength} characters long!"),
                     Validation.IllegalCharacter => new InvalidCrc32Exception($"The value '{value}' contains illegal characters!"),
                     _ => new InvalidCrc32Exception(),
                 };
@@ -110,7 +110,7 @@ namespace Migs.ValueTypes.Types.Hashes
             if (value is null)
                 return Validation.Null;
 
-            if (value.Length != _hashLength)
+            if (value.Length != HashLength)
                 return Validation.WrongLength;
 
             ReadOnlySpan<char> span = value.AsSpan();

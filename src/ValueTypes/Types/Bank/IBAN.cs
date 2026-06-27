@@ -17,7 +17,7 @@ namespace Migs.ValueTypes.Types.Bank
         #region fields
 
         private readonly string _value;
-        private const string _default = "XY000";
+        private const string Default = "XY000";
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region constructor
 
-        public IBAN() => _value = _default;
+        public IBAN() => _value = Default;
         public IBAN(string value)
         {
             var result = ValidateFormat(ref value);

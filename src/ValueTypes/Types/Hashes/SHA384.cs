@@ -10,14 +10,14 @@ namespace Migs.ValueTypes.Types.Hashes
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSHA384Exception"></exception>
+    /// <exception cref="InvalidSha384Exception"></exception>
     public readonly record struct SHA384 : IValueType<string, SHA384>
     {
         #region fields
 
         private readonly string _value;
-        private const int _hashLength = 96;
-        private readonly string _default = new('0', _hashLength);
+        private const int HashLength = 96;
+        private readonly string _default = new('0', HashLength);
 
         public enum Validation
         {
@@ -48,9 +48,9 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSHA384Exception($"The value '{value}' is not {_hashLength} characters long!"),
-                    Validation.IllegalCharacter => new InvalidSHA384Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidSHA384Exception(),
+                    Validation.WrongLength => new InvalidSha384Exception($"The value '{value}' is not {HashLength} characters long!"),
+                    Validation.IllegalCharacter => new InvalidSha384Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidSha384Exception(),
                 };
             }
 
@@ -140,7 +140,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 return Validation.Null;
 
             // must be 96 characters long
-            if (value.Length != _hashLength)
+            if (value.Length != HashLength)
                 return Validation.WrongLength;
 
             // must be hex
@@ -156,13 +156,13 @@ namespace Migs.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidSHA384Exception : Exception
+    public class InvalidSha384Exception : Exception
     {
-        public InvalidSHA384Exception()
+        public InvalidSha384Exception()
         {
         }
 
-        public InvalidSHA384Exception(string message) : base(message)
+        public InvalidSha384Exception(string message) : base(message)
         {
         }
     }

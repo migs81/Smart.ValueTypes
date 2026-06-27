@@ -21,7 +21,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new Celsius();
-            Assert.Equal(Celsius.Empty, result);
+            Assert.Equal(Celsius.Zero, result);
         }
 
         [Theory]

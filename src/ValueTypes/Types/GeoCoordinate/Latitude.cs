@@ -14,8 +14,8 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
         #region fields
 
         private readonly double _value;
-        private readonly double _defaultValue = 0;
-
+        private const double Default = 0;
+        
         public const double MaxValue = 90;
         public const double MinValue = -90;
 
@@ -37,7 +37,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
 
         #region constructor
 
-        public Latitude() => _value = _defaultValue;
+        public Latitude() => _value = Default;
         public Latitude(double value)
         {
             var result = ValidateFormat(ref value);

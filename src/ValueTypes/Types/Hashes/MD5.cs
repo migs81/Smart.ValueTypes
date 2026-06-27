@@ -10,7 +10,7 @@ namespace Migs.ValueTypes.Types.Hashes
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidMD5Exception"></exception>
+    /// <exception cref="InvalidMd5Exception"></exception>
     public readonly record struct MD5 : IValueType<string, MD5>
     {
         #region fields
@@ -46,9 +46,9 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidMD5Exception($"The value '{value}' is not {_default.Length} characters long!"),
-                    Validation.IllegalCharacter => new InvalidMD5Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidMD5Exception(),
+                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {_default.Length} characters long!"),
+                    Validation.IllegalCharacter => new InvalidMd5Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidMd5Exception(),
                 };
             }
 
@@ -154,13 +154,13 @@ namespace Migs.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidMD5Exception : Exception
+    public class InvalidMd5Exception : Exception
     {
-        public InvalidMD5Exception()
+        public InvalidMd5Exception()
         {
         }
 
-        public InvalidMD5Exception(string message) : base(message)
+        public InvalidMd5Exception(string message) : base(message)
         {
         }
     }

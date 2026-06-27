@@ -56,8 +56,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA256Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA256Exception))]
+        [InlineData("", typeof(InvalidSha256Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha256Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA256(input));
@@ -100,8 +100,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA256Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA256Exception))]
+        [InlineData("", typeof(InvalidSha256Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha256Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA256(input));

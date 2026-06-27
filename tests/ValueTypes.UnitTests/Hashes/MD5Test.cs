@@ -45,8 +45,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidMD5Exception))]
-        [InlineData("0000000000000000000000000000000z", typeof(InvalidMD5Exception))]
+        [InlineData("", typeof(InvalidMd5Exception))]
+        [InlineData("0000000000000000000000000000000z", typeof(InvalidMd5Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new MD5(input));
@@ -75,8 +75,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidMD5Exception))]
-        [InlineData("0000000000000000000000000000000z", typeof(InvalidMD5Exception))]
+        [InlineData("", typeof(InvalidMd5Exception))]
+        [InlineData("0000000000000000000000000000000z", typeof(InvalidMd5Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new MD5(input));

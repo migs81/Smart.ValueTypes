@@ -62,8 +62,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA512Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA512Exception))]
+        [InlineData("", typeof(InvalidSha512Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha512Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA512(input));
@@ -106,8 +106,8 @@ namespace Migs.ValueTypes.UnitTests.Hashes
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSHA512Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSHA512Exception))]
+        [InlineData("", typeof(InvalidSha512Exception))]
+        [InlineData(_wrongCharacter, typeof(InvalidSha512Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new SHA512(input));

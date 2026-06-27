@@ -30,13 +30,13 @@ namespace Migs.ValueTypes.Types.Temperatures
         #region properties
 
         public double Value { get; }
-        public static Celsius Empty => new();
+        public static Celsius Zero => new(0d);
 
         #endregion
 
         #region constructor
 
-        public Celsius() => Value = MinValue;
+        public Celsius() => Value = 0d;
         public Celsius(double value)
         {
             var result = ValidateFormat(ref value);
@@ -93,12 +93,12 @@ namespace Migs.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = Zero;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = Zero;
                 return Validation.UnknownError;
             }
         }

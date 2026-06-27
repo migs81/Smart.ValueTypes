@@ -12,7 +12,7 @@ namespace Migs.ValueTypes.Types.Bank
         #region fields
 
         private readonly string _value;
-        private const string _default = "AAAABBCC";
+        private const string Default = "AAAABBCC";
 
         public enum Validation
         {
@@ -37,7 +37,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region construct
 
-        public BIC() => _value = _default;
+        public BIC() => _value = Default;
         public BIC(string value)
         {
             var result = ValidateFormat(ref value);
