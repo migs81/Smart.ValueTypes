@@ -134,12 +134,12 @@ namespace Migs.ValueTypes.Types.IPs
             if (value.EndsWith('.'))
                 return Validation.EndsWithDot;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
             // check for illegal characters and parse segment numbers
-            int last = 0;
-            int parts = 0;
-            for (int i = 0; i < span.Length; i++)
+            var last = 0;
+            var parts = 0;
+            for (var i = 0; i < span.Length; i++)
             {
                 if (span[i] < '0' || span[i] > '9')
                 {

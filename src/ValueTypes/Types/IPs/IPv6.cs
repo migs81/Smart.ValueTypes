@@ -137,11 +137,11 @@ namespace Migs.ValueTypes.Types.IPs
             if (value.Length > 39)
                 return Validation.TooLong;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
-            int last = 0;
+            var last = 0;
             byte colons = 0;
-            for (int i = 0; i < span.Length; i++)
+            for (var i = 0; i < span.Length; i++)
             {
                 if (span[i] == ':')
                 {

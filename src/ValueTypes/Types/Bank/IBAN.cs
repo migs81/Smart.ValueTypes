@@ -125,7 +125,7 @@ namespace Migs.ValueTypes.Types.Bank
             if (value.Length > 34)
                 return Validation.TooLong   ;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
             if (!ContainsValidCountryCode(ref span))
                 return Validation.InvalidCountryCode;
@@ -144,7 +144,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         private static bool ContainsValidCountryCode(ref ReadOnlySpan<char> span)
         {
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 if (!IsLetter(span[i]))
                     return false;
@@ -155,7 +155,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         private static bool ContainsValidChecksum(ref ReadOnlySpan<char> span)
         {
-            for (int i = 2; i < 4; i++)
+            for (var i = 2; i < 4; i++)
             {
                 if (!IsDigit(span[i]))
                     return false;
@@ -166,7 +166,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         private static bool ContainsValidAccountIdentifier(ref ReadOnlySpan<char> span)
         {
-            for (int i = 4; i < span.Length; i++)
+            for (var i = 4; i < span.Length; i++)
             {
                 if (!IsLetter(span[i]) && !IsDigit(span[i]))
                     return false;
@@ -178,12 +178,12 @@ namespace Migs.ValueTypes.Types.Bank
         private static bool ValidateChecksum(ref ReadOnlySpan<char> span)
         {
             // 1. move first 4 characters to the end of the string
-            string iban = (span[4..].ToString() + span[0..4].ToString()).ToUpper();
+            var iban = (span[4..].ToString() + span[0..4].ToString()).ToUpper();
 
             // 2. loop through chars and replace letters with alphabet order number + 10
-            string temp = "";
-            int length = 0;
-            for (int i = 0; i < iban.Length; i++)
+            var temp = "";
+            var length = 0;
+            for (var i = 0; i < iban.Length; i++)
             {
                 if (IsUppercaseLetter(iban[i]))
                 {
@@ -202,7 +202,7 @@ namespace Migs.ValueTypes.Types.Bank
             }
 
             // 3. cast to integer
-            if (!BigInteger.TryParse(temp, out BigInteger number))
+            if (!BigInteger.TryParse(temp, out var number))
                 return false;
 
             // 4. modulo 97 must be 1!

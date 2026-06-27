@@ -113,7 +113,7 @@ namespace Migs.ValueTypes.Types.Hashes
             if (value.Length != HashLength)
                 return Validation.WrongLength;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
             foreach (var c in span)
             {
                 if (c is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))

@@ -69,7 +69,7 @@ namespace Migs.ValueTypes.Unfinished.Person
             {
                 if (firstName is not null && lastName is not null)
                 {
-                    string empty = "";
+                    var empty = "";
                     output = new PersonName(ref firstName, ref empty, ref lastName);
                     return true;
                 }

@@ -56,7 +56,7 @@ namespace Migs.ValueTypes.Types
             {
                 if (_value.StartsWith('['))
                 {
-                    int pos = _value.IndexOf(']');
+                    var pos = _value.IndexOf(']');
                     if (pos >1)
                         return _value[2..(pos - 1)];
                 }
@@ -155,7 +155,7 @@ namespace Migs.ValueTypes.Types
             if (value is null)
                 return Validation.Null;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
             // ------------ Length ----------------
             if (span.Length == 0)
@@ -171,7 +171,7 @@ namespace Migs.ValueTypes.Types
 
             // ------------ @ sign  ---------------
             // check for @ sign
-            int atPos = span.IndexOf('@');
+            var atPos = span.IndexOf('@');
             if (atPos == -1)
                 return Validation.NoAtSign;
 
@@ -220,7 +220,7 @@ namespace Migs.ValueTypes.Types
                 return Validation.DomainPartTooShort;
 
             // check domain part characters
-            foreach (char c in span[(atPos + 1)..])
+            foreach (var c in span[(atPos + 1)..])
             {
                 if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
                     && c != '.'

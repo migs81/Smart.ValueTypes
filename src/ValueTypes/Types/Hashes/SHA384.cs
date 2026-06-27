@@ -103,7 +103,7 @@ namespace Migs.ValueTypes.Types.Hashes
             {
                 if (value is not null)
                 {
-                    string SHA384 = CreateHash(ref value);
+                    var SHA384 = CreateHash(ref value);
                     if (ValidateFormat(ref SHA384) == Validation.Ok)
                     {
                         output = new SHA384(ref SHA384);
@@ -129,7 +129,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         private static string CreateHash(ref string input)
         {
-            byte[] bytes = System.Security.Cryptography.SHA384.HashData(Encoding.Default.GetBytes(input));
+            var bytes = System.Security.Cryptography.SHA384.HashData(Encoding.Default.GetBytes(input));
             return BitConverter.ToString(bytes).Replace("-", "");
         }
 

@@ -114,7 +114,7 @@ namespace Migs.ValueTypes.Types.Bank
             if (value.Length != 8 && value.Length != 11)
                 return Validation.WrongLength;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
             // bank code
             if (!ContainsValidBankCode(ref span))
@@ -137,7 +137,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         private static bool ContainsValidBankCode(ref ReadOnlySpan<char> span)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 if (!IsLetter(span[i]) && !IsDigit(span[i]))
                     return false;
@@ -148,7 +148,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         private static bool ContainsValidCountryCode(ref ReadOnlySpan<char> span)
         {
-            for (int i = 4; i < 6; i++)
+            for (var i = 4; i < 6; i++)
             {
                 if (!IsLetter(span[i]))
                     return false;

@@ -123,10 +123,10 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             if (value.Length != Length)
                 return Validation.WrongLength;
 
-            ReadOnlySpan<char> span = value.AsSpan();
+            var span = value.AsSpan();
 
             // check for illegal characters
-            foreach (char c in span)
+            foreach (var c in span)
             {
                 if (c is < '0' or > '9')
                     return Validation.ContainsIllegalCharacter;
@@ -146,7 +146,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
                 return Validation.InvalidMonthPart;
 
             // checksum
-            int sum = (span[0] - 48) * 3;
+            var sum = (span[0] - 48) * 3;
             sum += (span[1] - 48) * 7;
             sum += (span[2] - 48) * 9;
             sum += (span[4] - 48) * 5;

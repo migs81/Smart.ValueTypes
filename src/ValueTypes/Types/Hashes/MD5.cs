@@ -101,7 +101,7 @@ namespace Migs.ValueTypes.Types.Hashes
             {
                 if (value is not null)
                 {
-                    string md5 = CreateHash(ref value);
+                    var md5 = CreateHash(ref value);
                     if (ValidateFormat(ref md5) == Validation.Ok)
                     {
                         output = new MD5(ref md5);
@@ -127,7 +127,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         private static string CreateHash(ref string input)
         {
-            byte[] bytes = System.Security.Cryptography.MD5.HashData(Encoding.Default.GetBytes(input));
+            var bytes = System.Security.Cryptography.MD5.HashData(Encoding.Default.GetBytes(input));
             return BitConverter.ToString(bytes).Replace("-", "");
         }
 

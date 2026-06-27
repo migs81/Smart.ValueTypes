@@ -135,7 +135,7 @@ namespace Migs.ValueTypes.Types.ID
 
         private static bool ValidateCharacters(ref string value)
         {
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 if (!IsDigit(value[i]))
                     return false;
@@ -146,10 +146,10 @@ namespace Migs.ValueTypes.Types.ID
 
         private static bool ValidateCheckDigit(ref string value)
         {
-            int sum = 0;
-            for (int i = 0; i <= 13; i += 1)
+            var sum = 0;
+            for (var i = 0; i <= 13; i += 1)
             {
-                int digit = value[i] - '0';
+                var digit = value[i] - '0';
                 
                 if ((i & 1) == 1)
                 {
