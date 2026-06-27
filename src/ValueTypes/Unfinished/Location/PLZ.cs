@@ -22,7 +22,7 @@ namespace Migs.ValueTypes.Unfinished.Location
         public PLZ() => _value = 0;
         public PLZ(int value)
         {
-            if (!Validate(ref value))
+            if (!ValidateFormat(ref value))
                 throw new InvalidPlzException(value);
 
             _value = value;
@@ -48,7 +48,7 @@ namespace Migs.ValueTypes.Unfinished.Location
         {
             try
             {
-                if (Validate(ref value))
+                if (ValidateFormat(ref value))
                 {
                     output = new PLZ(ref value);
                     return true;
@@ -66,13 +66,13 @@ namespace Migs.ValueTypes.Unfinished.Location
 
         public bool Equals(int other) => EqualityComparer<int>.Default.Equals(_value, other);
 
-        public static bool Validate(int value) => Validate(ref value);
+        public static bool Validate(int value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static bool Validate(ref int value) => value is >= 1000 and <= 9999;
+        private static bool ValidateFormat(ref int value) => value is >= 1000 and <= 9999;
 
         #endregion
     }

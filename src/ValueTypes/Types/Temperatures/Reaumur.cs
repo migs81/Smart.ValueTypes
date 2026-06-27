@@ -39,7 +39,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         public Reaumur() => Value = MinValue;
         public Reaumur(double value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -86,7 +86,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new Reaumur(ref value);
@@ -111,13 +111,13 @@ namespace Migs.ValueTypes.Types.Temperatures
         public double ToKelvin() => (Value * 9 / 8) + 273.15;
         public double ToFahrenheit() => (Value * 9 / 4) + 32;
 
-        public static Validation Validate(double value) => Validate(ref value);
+        public static Validation Validate(double value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref double value)
+        private static Validation ValidateFormat(ref double value)
         {
             if (value < MinValue)
                 return Validation.TooLow;

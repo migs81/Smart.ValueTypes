@@ -42,7 +42,7 @@ namespace Migs.ValueTypes.Types.Hashes
         public SHA256() => _value = _default;
         public SHA256(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -79,7 +79,7 @@ namespace Migs.ValueTypes.Types.Hashes
         {
             try
             {
-                var result = Validate(ref hash);
+                var result = ValidateFormat(ref hash);
                 if (result == Validation.Ok)
                 {
                     output = new SHA256(ref hash);
@@ -104,7 +104,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 if (value is not null)
                 {
                     string SHA256 = CreateHash(ref value);
-                    if (Validate(ref SHA256) == Validation.Ok)
+                    if (ValidateFormat(ref SHA256) == Validation.Ok)
                     {
                         output = new SHA256(ref SHA256);
                         return true;
@@ -121,7 +121,7 @@ namespace Migs.ValueTypes.Types.Hashes
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
@@ -133,7 +133,7 @@ namespace Migs.ValueTypes.Types.Hashes
             return BitConverter.ToString(bytes).Replace("-", "");
         }
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             // not null
             if (value is null)

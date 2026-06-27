@@ -30,7 +30,7 @@ namespace Migs.ValueTypes.Unfinished
         public Text() => _value = Empty;
         public Text(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -66,7 +66,7 @@ namespace Migs.ValueTypes.Unfinished
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if ( result == Validation.Ok)
                 {
                     text = new Text(ref value);
@@ -87,7 +87,7 @@ namespace Migs.ValueTypes.Unfinished
 
         #region private methods
 
-        private static Validation Validate(ref string value) => value is null
+        private static Validation ValidateFormat(ref string value) => value is null
             ? Validation.ValueIsNull
             : Validation.Ok;
 

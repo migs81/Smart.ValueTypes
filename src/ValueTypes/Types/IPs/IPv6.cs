@@ -46,7 +46,7 @@ namespace Migs.ValueTypes.Types.IPs
         public IPv6() => _value = _defaultValue;
         public IPv6(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -91,7 +91,7 @@ namespace Migs.ValueTypes.Types.IPs
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new IPv6(ref value);
@@ -108,7 +108,7 @@ namespace Migs.ValueTypes.Types.IPs
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace Migs.ValueTypes.Types.IPs
             return true;
         }
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             if (value is null)
                 return Validation.Null;

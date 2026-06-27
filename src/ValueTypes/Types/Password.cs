@@ -61,7 +61,7 @@ namespace Migs.ValueTypes.Types
         }
         public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing)
         {
-            var result = Validate(ref value, ref minLength, ref maxLength, ref requirements);
+            var result = ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -113,7 +113,7 @@ namespace Migs.ValueTypes.Types
         {
             try
             {
-                var result = Validate(ref value, ref minLength, ref maxLength, ref requirements);
+                var result = ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
                 if (result == Validation.Ok)
                 {
                     password = new Password(ref value, minLength, maxLength, requirements);
@@ -131,13 +131,13 @@ namespace Migs.ValueTypes.Types
         }
 
         public static Validation Validate(string value, int minLength, int maxLength, Requirement requirements) 
-            => Validate(ref value, ref minLength, ref maxLength, ref requirements);
+            => ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref string value, ref int minLength, ref int maxLength, ref Requirement requirements)
+        private static Validation ValidateFormat(ref string value, ref int minLength, ref int maxLength, ref Requirement requirements)
         {
             if (value is null)
                 return Validation.Null;

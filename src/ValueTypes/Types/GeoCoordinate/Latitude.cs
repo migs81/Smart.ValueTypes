@@ -40,7 +40,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
         public Latitude() => _value = _defaultValue;
         public Latitude(double value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -77,7 +77,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new Latitude(ref value);
@@ -94,13 +94,13 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
             }
         }
 
-        public static Validation Validate(double value) => Validate(ref value);
+        public static Validation ValidateFormat(double value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref double value)
+        private static Validation ValidateFormat(ref double value)
         {
             if (value < MinValue)
                 return Validation.TooLow;

@@ -43,12 +43,12 @@ namespace Migs.ValueTypes.Types.IPs
         }
         public IP(string value)
         {
-            if (IPv4.Validate(value) == IPv4.Validation.Ok)
+            if (IPv4.ValidateFormat(value) == IPv4.Validation.Ok)
             {
                 _value = value;
                 Type = IPType.IPv4;
             }
-            else if (IPv6.Validate(value) == IPv6.Validation.Ok)
+            else if (IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
             {
                 _value = value;
                 Type = IPType.IPv6;
@@ -60,8 +60,8 @@ namespace Migs.ValueTypes.Types.IPs
         }
         public IP(string value, IPType type)
         {
-            if (type == IPType.IPv4 && IPv4.Validate(value) != IPv4.Validation.Ok
-                || type == IPType.IPv6 && IPv6.Validate(value) == IPv6.Validation.Ok)
+            if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok
+                || type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
             {
                 throw new FormatException($"The value '{value}' is not a valid IP address!");
             }
@@ -100,12 +100,12 @@ namespace Migs.ValueTypes.Types.IPs
         {
             try
             {
-                if (IPv4.Validate(value) == IPv4.Validation.Ok)
+                if (IPv4.ValidateFormat(value) == IPv4.Validation.Ok)
                 {
                     output = new IP(ref value, IPType.IPv4);
                     return true;
                 }
-                else if (IPv6.Validate(value) == IPv6.Validation.Ok)
+                else if (IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
                 {
                     output = new IP(ref value, IPType.IPv6);
                     return true;
@@ -126,8 +126,8 @@ namespace Migs.ValueTypes.Types.IPs
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    if (type == IPType.IPv4 && IPv4.Validate(value) == IPv4.Validation.Ok
-                        || type == IPType.IPv6 && IPv6.Validate(value) == IPv6.Validation.Ok)
+                    if (type == IPType.IPv4 && IPv4.ValidateFormat(value) == IPv4.Validation.Ok
+                        || type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
                     {
                         output = new IP(ref value, type);
                         return true;

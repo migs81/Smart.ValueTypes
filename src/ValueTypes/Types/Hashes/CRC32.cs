@@ -41,7 +41,7 @@ namespace Migs.ValueTypes.Types.Hashes
         public CRC32() => _value = _default;
         public CRC32(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -82,7 +82,7 @@ namespace Migs.ValueTypes.Types.Hashes
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new CRC32(ref value);
@@ -99,13 +99,13 @@ namespace Migs.ValueTypes.Types.Hashes
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             if (value is null)
                 return Validation.Null;

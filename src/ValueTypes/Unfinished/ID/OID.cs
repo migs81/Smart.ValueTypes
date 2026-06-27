@@ -62,7 +62,7 @@ namespace Migs.ValueTypes.Unfinished.ID
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new OID(ref value);
@@ -79,13 +79,13 @@ namespace Migs.ValueTypes.Unfinished.ID
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             // not null
             if (value is null)

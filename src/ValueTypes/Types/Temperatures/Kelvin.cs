@@ -43,7 +43,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         public Kelvin() => _value = _defaultValue;
         public Kelvin(double value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -90,7 +90,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new Kelvin(ref value);
@@ -111,13 +111,13 @@ namespace Migs.ValueTypes.Types.Temperatures
         public static Validation TryFrom(Fahrenheit fahrenheit, out Kelvin output) => TryFrom(fahrenheit.ToKelvin(), out output);
         public static Validation TryFrom(Reaumur reaumur, out Kelvin output) => TryFrom(reaumur.ToKelvin(), out output);
 
-        public static Validation Validate(double value) => Validate(ref value);
+        public static Validation Validate(double value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref double value)
+        private static Validation ValidateFormat(ref double value)
         {
             if (value < MinValue)
                 return Validation.TooLow;

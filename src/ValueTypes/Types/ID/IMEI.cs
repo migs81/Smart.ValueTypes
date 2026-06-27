@@ -45,7 +45,7 @@ namespace Migs.ValueTypes.Types.ID
         public IMEI() => _value = "000000000000000";
         public IMEI(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -89,7 +89,7 @@ namespace Migs.ValueTypes.Types.ID
 
             try
             {
-                result = Validate(ref value);
+                result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                     output = new IMEI(ref value);
                 else
@@ -104,13 +104,13 @@ namespace Migs.ValueTypes.Types.ID
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             if (value is null)
                 return Validation.Null;

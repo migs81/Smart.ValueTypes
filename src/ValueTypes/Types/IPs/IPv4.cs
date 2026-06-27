@@ -47,7 +47,7 @@ namespace Migs.ValueTypes.Types.IPs
         public IPv4() => _value = _defaultValue;
         public IPv4(string value)
         {
-            var result = Validate(ref value);
+            var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
@@ -91,7 +91,7 @@ namespace Migs.ValueTypes.Types.IPs
         {
             try
             {
-                var result = Validate(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
                     output = new IPv4(ref value);
@@ -108,13 +108,13 @@ namespace Migs.ValueTypes.Types.IPs
             }
         }
 
-        public static Validation Validate(string value) => Validate(ref value);
+        public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
 
         #region private methods
 
-        private static Validation Validate(ref string value)
+        private static Validation ValidateFormat(ref string value)
         {
             if (value is null)
                 return Validation.Null;
