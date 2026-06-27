@@ -31,7 +31,7 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
 
         #region properties
 
-        public static Latitude Default => new();
+        public static Latitude Empty => new();
 
         #endregion
 
@@ -84,12 +84,12 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

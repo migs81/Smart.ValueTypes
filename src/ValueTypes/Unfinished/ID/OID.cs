@@ -24,7 +24,7 @@ namespace Migs.ValueTypes.Unfinished.ID
 
         #region properties
 
-        public static OID Default => new();
+        public static OID Empty => new();
 
         #endregion
 
@@ -69,12 +69,12 @@ namespace Migs.ValueTypes.Unfinished.ID
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

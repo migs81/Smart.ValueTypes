@@ -34,7 +34,7 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         public double Value => _value;
 
-        public static Kelvin Default => new();
+        public static Kelvin Empty => new();
 
         #endregion
 
@@ -97,12 +97,12 @@ namespace Migs.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

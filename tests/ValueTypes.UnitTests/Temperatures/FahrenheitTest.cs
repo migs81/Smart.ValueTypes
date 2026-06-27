@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new Fahrenheit();
-            Assert.Equal(Fahrenheit.Default, result);
+            Assert.Equal(Fahrenheit.Empty, result);
         }
 
         [Theory]

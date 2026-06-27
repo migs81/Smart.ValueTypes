@@ -30,7 +30,7 @@ namespace Migs.ValueTypes.Types.Temperatures
         #region properties
 
         public double Value { get; }
-        public static Celsius Default => new();
+        public static Celsius Empty => new();
 
         #endregion
 
@@ -93,12 +93,12 @@ namespace Migs.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

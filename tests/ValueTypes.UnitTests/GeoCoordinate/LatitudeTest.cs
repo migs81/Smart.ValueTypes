@@ -21,7 +21,7 @@ namespace Migs.ValueTypes.UnitTests.GeoCoordinate
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new Latitude();
-            Assert.Equal(Latitude.Default, result);
+            Assert.Equal(Latitude.Empty, result);
         }
 
         [Fact]

@@ -44,7 +44,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new SHA384();
-            Assert.Equal(SHA384.Default, result);
+            Assert.Equal(SHA384.Empty, result);
         }
 
         [Fact]

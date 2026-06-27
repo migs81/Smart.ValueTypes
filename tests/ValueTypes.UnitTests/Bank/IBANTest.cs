@@ -36,7 +36,7 @@ namespace Migs.ValueTypes.UnitTests.Bank
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new IBAN();
-            Assert.Equal(IBAN.Default, result);
+            Assert.Equal(IBAN.Empty, result);
         }
 
         [Fact]

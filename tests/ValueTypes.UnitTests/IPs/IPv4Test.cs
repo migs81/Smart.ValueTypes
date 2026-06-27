@@ -27,7 +27,7 @@ namespace Migs.ValueTypes.UnitTests.IPs
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new IPv4();
-            Assert.Equal(IPv4.Default, result);
+            Assert.Equal(IPv4.Empty, result);
         }
 
         [Fact]

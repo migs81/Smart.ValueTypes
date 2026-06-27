@@ -37,7 +37,7 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region properties
 
-        public static IPv6 Default => new();
+        public static IPv6 Empty => new();
 
         #endregion
 
@@ -98,12 +98,12 @@ namespace Migs.ValueTypes.Types.IPs
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

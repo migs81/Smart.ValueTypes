@@ -16,7 +16,7 @@ namespace Migs.ValueTypes.UnitTests.ID
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new IMSI();
-            Assert.Equal(IMSI.Default, result);
+            Assert.Equal(IMSI.Empty, result);
         }
 
         [Theory]

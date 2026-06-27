@@ -20,7 +20,7 @@ namespace Migs.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new Kelvin();
-            Assert.Equal(Kelvin.Default, result);
+            Assert.Equal(Kelvin.Empty, result);
         }
 
         [Theory]

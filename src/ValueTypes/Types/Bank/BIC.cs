@@ -9,19 +9,6 @@ namespace Migs.ValueTypes.Types.Bank
     /// </summary>
     public readonly record struct BIC : IValueType<string, BIC>
     {
-        // BBBB CC LL bbb
-        // 8 oder 11 Zeichen
-
-        // 4-stelliger Bankcode
-        // 2-stelliger Ländercode
-        // - erste Zeichen darf nicht 0 oder 1 sein.
-        // - zweites Zeichen eine Ziffer?
-        // - 0 = Test-BIC
-        // - 1 = passiver SWIFT-Teilnehmer
-        // - 2 = Empfänger zahlt Transaktionskosten
-        // optional
-        // 3-stellige Kennzeichnung (Filial-Code)
-
         #region fields
 
         private readonly string _value;
@@ -39,11 +26,12 @@ namespace Migs.ValueTypes.Types.Bank
             InvalidBranchCode,
             UnknownError
         }
+        
         #endregion
 
         #region properties
 
-        public static BIC Default { get; } = new();
+        public static BIC Empty => new();
 
         #endregion
 
@@ -100,12 +88,12 @@ namespace Migs.ValueTypes.Types.Bank
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

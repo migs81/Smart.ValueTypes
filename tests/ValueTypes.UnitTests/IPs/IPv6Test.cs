@@ -26,7 +26,7 @@ namespace Migs.ValueTypes.UnitTests.IPs
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new IPv6();
-            Assert.Equal(IPv6.Default, result);
+            Assert.Equal(IPv6.Empty, result);
         }
 
         [Fact]

@@ -43,7 +43,7 @@ namespace Migs.ValueTypes.Types
 
         #region properties
 
-        public static EmailAddress Default { get; } = new EmailAddress();
+        public static EmailAddress Empty => new EmailAddress();
         
         public string LocalPart => _value[.._value.IndexOf('@')];
         public string DomainPart => _value[(_value.IndexOf('@') + 1)..];
@@ -129,12 +129,12 @@ namespace Migs.ValueTypes.Types
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

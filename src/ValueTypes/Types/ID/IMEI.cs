@@ -32,7 +32,7 @@ namespace Migs.ValueTypes.Types.ID
 
         #region properties
 
-        public static IMEI Default => new();
+        public static IMEI Empty => new();
 
         public string TypeAllocationCode => _value[..8];
         public string SerialNumber => _value[9..14];
@@ -93,13 +93,13 @@ namespace Migs.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new IMEI(ref value);
                 else
-                    output = Default;
+                    output = Empty;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return result;
             }
         }

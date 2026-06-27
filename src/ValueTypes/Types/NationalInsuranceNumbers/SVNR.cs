@@ -37,7 +37,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
 
         #region properties
 
-        public static SVNR Default => new();
+        public static SVNR Empty => new();
         public int Length => _value.Length;
 
         #endregion
@@ -96,12 +96,12 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

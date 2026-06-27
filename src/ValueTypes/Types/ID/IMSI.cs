@@ -31,7 +31,7 @@ namespace Migs.ValueTypes.Types.ID
 
         #region properties
 
-        public static IMSI Default => new();
+        public static IMSI Empty => new();
 
         public string MobileCountryCode => _value[..3];
 
@@ -89,13 +89,13 @@ namespace Migs.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new IMSI(ref value);
                 else
-                    output = Default;
+                    output = Empty;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return result;
             }
         }

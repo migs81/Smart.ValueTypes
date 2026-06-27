@@ -23,7 +23,7 @@ namespace Migs.ValueTypes.UnitTests.NationalInsuranceNumbers
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new SVNR();
-            Assert.Equal(SVNR.Default, result);
+            Assert.Equal(SVNR.Empty, result);
         }
 
         [Fact]

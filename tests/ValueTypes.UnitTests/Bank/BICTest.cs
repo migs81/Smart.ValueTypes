@@ -40,7 +40,7 @@ namespace Migs.ValueTypes.UnitTests.Bank
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var bic = new BIC();
-            Assert.Equal(BIC.Default, bic);
+            Assert.Equal(BIC.Empty, bic);
         }
 
         [Fact]

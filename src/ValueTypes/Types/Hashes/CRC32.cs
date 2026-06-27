@@ -31,7 +31,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static CRC32 Default => new();
+        public static CRC32 Empty => new();
         public int Length => _value.Length;
 
         #endregion
@@ -89,12 +89,12 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

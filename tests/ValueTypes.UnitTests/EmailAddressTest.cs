@@ -59,7 +59,7 @@ namespace Migs.ValueTypes.UnitTests
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var email = new EmailAddress();
-            Assert.Equal(EmailAddress.Default, email);
+            Assert.Equal(EmailAddress.Empty, email);
         }
 
         [Fact]

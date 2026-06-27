@@ -85,7 +85,7 @@ namespace Migs.ValueTypes.UnitTests.ID
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new IMEI();
-            Assert.Equal(IMEI.Default, result);
+            Assert.Equal(IMEI.Empty, result);
         }
 
         [Fact]

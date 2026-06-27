@@ -23,7 +23,7 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region properties
 
-        public static IBAN Default => new();
+        public static IBAN Empty => new();
         public readonly string CountryCode => _value[..2];
         public readonly int Checksum => int.Parse(_value[2..4]);
         public readonly string AccountIdentifier => _value[4..];
@@ -95,12 +95,12 @@ namespace Migs.ValueTypes.Types.Bank
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

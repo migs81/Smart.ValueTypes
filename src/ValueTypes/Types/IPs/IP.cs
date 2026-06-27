@@ -30,7 +30,7 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region properties
 
-        public static IP Default => new();
+        public static IP Empty => new();
 
         #endregion
 
@@ -111,12 +111,12 @@ namespace Migs.ValueTypes.Types.IPs
                     return true;
                 }
 
-                output = Default;
+                output = Empty;
                 return false;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return false;
             }
         }
@@ -134,12 +134,12 @@ namespace Migs.ValueTypes.Types.IPs
                     }
                 }
 
-                output = Default;
+                output = Empty;
                 return false;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return false;
             }
         }

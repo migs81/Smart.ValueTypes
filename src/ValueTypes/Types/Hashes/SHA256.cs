@@ -32,7 +32,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static SHA256 Default => new();
+        public static SHA256 Empty => new();
         public int Length => _value.Length;
 
         #endregion
@@ -86,12 +86,12 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

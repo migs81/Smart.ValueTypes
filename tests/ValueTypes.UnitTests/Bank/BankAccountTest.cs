@@ -12,8 +12,8 @@ public class BankAccountTest
     public void Constructor_ValidInput_ShouldReturnObject()
     {
         // arrange
-        var iban = IBAN.Default;
-        var bic = BIC.Default;
+        var iban = IBAN.Empty;
+        var bic = BIC.Empty;
         
         // act
         var account = new BankAccount(iban, bic);
@@ -27,8 +27,8 @@ public class BankAccountTest
     public void Constructor_NullInput_ShouldThrowException()
     {
         // arrange
-        var iban = IBAN.Default;
-        var bic = BIC.Default;
+        var iban = IBAN.Empty;
+        var bic = BIC.Empty;
         
         // assert
         Assert.Throws<ArgumentNullException>(() =>  new BankAccount(null, bic));

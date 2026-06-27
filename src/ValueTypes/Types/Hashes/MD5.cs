@@ -31,7 +31,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static MD5 Default => new();
+        public static MD5 Empty => new();
 
         #endregion
 
@@ -84,12 +84,12 @@ namespace Migs.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Default;
+                output = Empty;
                 return result;
             }
             catch (Exception)
             {
-                output = Default;
+                output = Empty;
                 return Validation.UnknownError;
             }
         }

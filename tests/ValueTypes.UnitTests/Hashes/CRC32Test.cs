@@ -51,7 +51,7 @@ namespace Migs.ValueTypes.UnitTests.Hashes
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             var result = new CRC32();
-            Assert.Equal(CRC32.Default, result);
+            Assert.Equal(CRC32.Empty, result);
         }
 
         [Fact]
