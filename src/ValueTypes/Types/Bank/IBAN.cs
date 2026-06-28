@@ -24,9 +24,9 @@ namespace Migs.ValueTypes.Types.Bank
         #region properties
 
         public static IBAN Empty => new();
-        public readonly string CountryCode => _value[..2];
-        public readonly int Checksum => int.Parse(_value[2..4]);
-        public readonly string AccountIdentifier => _value[4..];
+        public string CountryCode => _value[..2];
+        public int Checksum => int.Parse(_value[2..4]);
+        public string AccountIdentifier => _value[4..];
 
         public enum Validation
         {
