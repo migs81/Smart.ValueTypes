@@ -131,7 +131,7 @@ namespace Migs.ValueTypes.Types.Hashes
         private static string CreateHash(ref string input)
         {
             var bytes = System.Security.Cryptography.SHA384.HashData(Encoding.Default.GetBytes(input));
-            return BitConverter.ToString(bytes).Replace("-", "");
+            return Convert.ToHexString(bytes);
         }
 
         private static Validation ValidateFormat(ref string value)
