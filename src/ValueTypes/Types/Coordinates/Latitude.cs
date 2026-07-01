@@ -1,23 +1,23 @@
-﻿using Migs.ValueTypes.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Migs.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.GeoCoordinate
+namespace Migs.ValueTypes.Types.Coordinates
 {
     /// <summary>
-    /// Value type for a longitude.
+    /// Value type for a latitude.
     /// </summary>
-    /// <seealso cref="IValueType&lt;double, Longitude&gt;" />
-    /// <exception cref="InvalidLongitudeException"></exception>
-    public readonly record struct Longitude : IValueType<double, Longitude>
+    /// <seealso cref="IValueType{TValue,TThis}" />
+    /// <exception cref="InvalidLatitudeException"></exception>
+    public readonly record struct Latitude : IValueType<double, Latitude>
     {
         #region fields
 
         private readonly double _value;
         private const double Default = 0;
-
-        public const double MaxValue = 180;
-        public const double MinValue = -180;
+        
+        public const double MaxValue = 90;
+        public const double MinValue = -90;
 
         public enum Validation
         {
@@ -31,39 +31,39 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
 
         #region properties
 
-        public static Longitude Empty => new();
+        public static Latitude Empty => new();
 
         #endregion
 
         #region constructor
 
-        public Longitude() => _value = Default;
-        public Longitude(double value)
+        public Latitude() => _value = Default;
+        public Latitude(double value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
             {
                 throw result switch
                 {
-                    Validation.TooLow => new InvalidLongitudeException($"The value '{value}' is too low for a {nameof(Longitude)}!"),
-                    Validation.TooHigh => new InvalidLongitudeException($"The value '{value}' is too high for a {nameof(Longitude)}!"),
-                    _ => new InvalidLongitudeException(),
+                    Validation.TooLow => new InvalidLatitudeException($"The value '{value}' is too low for a {nameof(Latitude)}!"),
+                    Validation.TooHigh => new InvalidLatitudeException($"The value '{value}' is too high for a {nameof(Latitude)}!"),
+                    _ => new InvalidLatitudeException(),
                 };
             }
 
             _value = value;
         }
-        private Longitude(ref double value) => _value = value;
+        private Latitude(ref double value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(Longitude left, double right) => left.Equals(right);
-        public static bool operator !=(Longitude left, double right) => !left.Equals(right);
+        public static bool operator ==(Latitude left, double right) => left.Equals(right);
+        public static bool operator !=(Latitude left, double right) => !left.Equals(right);
 
-        public static implicit operator double(Longitude longitude) => longitude._value;
-        public static implicit operator Longitude(double value) => new(value);
+        public static implicit operator double(Latitude latitude) => latitude._value;
+        public static implicit operator Latitude(double value) => new(value);
 
         #endregion
 
@@ -71,16 +71,16 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
 
         public bool Equals(double value) => EqualityComparer<double>.Default.Equals(_value, value);
 
-        public static Longitude From(double value) => new(value);
+        public static Latitude From(double value) => new(value);
 
-        public static Validation TryFrom(double value, out Longitude output)
+        public static Validation TryFrom(double value, out Latitude output)
         {
             try
             {
                 var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
-                    output = new Longitude(ref value);
+                    output = new Latitude(ref value);
                     return Validation.Ok;
                 }
 
@@ -114,18 +114,18 @@ namespace Migs.ValueTypes.Types.GeoCoordinate
         #endregion
     }
 
-    public class InvalidLongitudeException : Exception
+    public class InvalidLatitudeException : Exception
     {
-        public InvalidLongitudeException()
+        public InvalidLatitudeException()
         {
         }
 
-        public InvalidLongitudeException(string message) : base(message)
+        public InvalidLatitudeException(string message) : base(message)
         {
         }
 
-        public InvalidLongitudeException(double value)
-            : base($"The value '{value}' is not a valid {nameof(Longitude)}]!")
+        public InvalidLatitudeException(double value)
+            : base($"The value '{value} is not a valid {nameof(Longitude)}!")
         {
         }
     }
