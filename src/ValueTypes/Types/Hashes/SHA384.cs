@@ -16,8 +16,10 @@ namespace Migs.ValueTypes.Types.Hashes
         #region fields
 
         private readonly string _value;
-        private const int HashLength = 96;
-        private const string Default = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+        private const string Default = "000000000000000000000000000000000000000000000000" +
+                                       "000000000000000000000000000000000000000000000000";
+        
+        public const int Length = 96;
 
         public enum Validation
         {
@@ -33,7 +35,6 @@ namespace Migs.ValueTypes.Types.Hashes
         #region properties
 
         public static SHA384 Empty => new();
-        public int Length => _value.Length;
 
         #endregion
 
@@ -48,7 +49,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSha384Exception($"The value '{value}' is not {HashLength} characters long!"),
+                    Validation.WrongLength => new InvalidSha384Exception($"The value '{value}' is not {Length} characters long!"),
                     Validation.IllegalCharacter => new InvalidSha384Exception($"The value '{value}' contains illegal characters!"),
                     _ => new InvalidSha384Exception(),
                 };
@@ -140,7 +141,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 return Validation.Null;
 
             // must be 96 characters long
-            if (value.Length != HashLength)
+            if (value.Length != Length)
                 return Validation.WrongLength;
 
             // must be hex

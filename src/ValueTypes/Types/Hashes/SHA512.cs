@@ -16,9 +16,10 @@ namespace Migs.ValueTypes.Types.Hashes
         #region fields
 
         private readonly string _value;
-        private const int HashLength = 128;
         private const string Default = "0000000000000000000000000000000000000000000000000000000000000000" +
                                        "0000000000000000000000000000000000000000000000000000000000000000";
+        
+        public const int Length = 128;
         
         public enum Validation
         {
@@ -34,7 +35,6 @@ namespace Migs.ValueTypes.Types.Hashes
         #region properties
 
         public static SHA512 Empty => new();
-        public int Length => _value.Length;
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSha512Exception($"The value '{value}' is not {HashLength} characters long!"),
+                    Validation.WrongLength => new InvalidSha512Exception($"The value '{value}' is not {Length} characters long!"),
                     Validation.IllegalCharacter => new InvalidSha512Exception($"The value '{value}' contains illegal characters!"),
                     _ => new InvalidSha512Exception(),
                 };
@@ -141,7 +141,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 return Validation.Null;
 
             // must be 128 characters long
-            if (value.Length != HashLength)
+            if (value.Length != Length)
                 return Validation.WrongLength;
 
             // must be hex

@@ -17,6 +17,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         private readonly string _value;
         private const string Default = "00000000000000000000000000000000";
+
+        public const int Length = 32;
         
         public enum Validation
         {
@@ -46,7 +48,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {Default.Length} characters long!"),
+                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {Length} characters long!"),
                     Validation.IllegalCharacter => new InvalidMd5Exception($"The value '{value}' contains illegal characters!"),
                     _ => new InvalidMd5Exception(),
                 };
@@ -138,7 +140,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 return Validation.Null;
 
             // must be 32 characters long
-            if (value.Length != 32)
+            if (value.Length != Length)
                 return Validation.WrongLength;
 
             // must be hex
