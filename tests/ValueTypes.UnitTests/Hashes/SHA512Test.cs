@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Migs.ValueTypes.UnitTests.Hashes
 {
-    public class SVNRTest
+    public class SHA512Test
     {
         #region test data
 
