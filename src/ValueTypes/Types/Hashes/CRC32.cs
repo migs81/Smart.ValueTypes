@@ -16,8 +16,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         private readonly string _value;
         private const int HashLength = 8;
-        private readonly string _default = new('0', HashLength);
-
+        private const string Default = "00000000";
+        
         public enum Validation
         {
             Ok = 0,
@@ -38,7 +38,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
-        public CRC32() => _value = _default;
+        public CRC32() => _value = Default;
         public CRC32(string value)
         {
             var result = ValidateFormat(ref value);

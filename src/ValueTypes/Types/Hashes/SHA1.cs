@@ -17,8 +17,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         private readonly string _value;
         private const int HashLength = 40;
-        private readonly string _default = new('0', HashLength);
-
+        private const string Default = "0000000000000000000000000000000000000000";
+        
         public enum Validation
         {
             Ok = 0,
@@ -39,7 +39,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
-        public SHA1() => _value = _default;
+        public SHA1() => _value = Default;
         public SHA1(string value)
         {
             var result = ValidateFormat(ref value);

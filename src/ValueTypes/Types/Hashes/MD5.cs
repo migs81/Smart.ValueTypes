@@ -16,8 +16,8 @@ namespace Migs.ValueTypes.Types.Hashes
         #region fields
 
         private readonly string _value;
-        private readonly string _default = new('0', 32);
-
+        private const string Default = "00000000000000000000000000000000";
+        
         public enum Validation
         {
             Ok = 0,
@@ -37,7 +37,7 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
-        public MD5() => _value = _default;
+        public MD5() => _value = Default;
         public MD5(string value)
         {
             var result = ValidateFormat(ref value);
@@ -46,7 +46,7 @@ namespace Migs.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {_default.Length} characters long!"),
+                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {Default.Length} characters long!"),
                     Validation.IllegalCharacter => new InvalidMd5Exception($"The value '{value}' contains illegal characters!"),
                     _ => new InvalidMd5Exception(),
                 };
