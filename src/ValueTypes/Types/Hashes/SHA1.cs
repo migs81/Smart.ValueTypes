@@ -103,10 +103,10 @@ namespace Migs.ValueTypes.Types.Hashes
             {
                 if (value is not null)
                 {
-                    var SHA1 = CreateHash(ref value);
-                    if (ValidateFormat(ref SHA1) == Validation.Ok)
+                    var hash = CreateHash(ref value);
+                    if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new SHA1(ref SHA1);
+                        output = new SHA1(ref hash);
                         return true;
                     }
                 }

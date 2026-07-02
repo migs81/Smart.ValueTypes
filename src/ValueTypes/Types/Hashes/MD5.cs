@@ -103,10 +103,10 @@ namespace Migs.ValueTypes.Types.Hashes
             {
                 if (value is not null)
                 {
-                    var md5 = CreateHash(ref value);
-                    if (ValidateFormat(ref md5) == Validation.Ok)
+                    var hash = CreateHash(ref value);
+                    if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new MD5(ref md5);
+                        output = new MD5(ref hash);
                         return true;
                     }
                 }

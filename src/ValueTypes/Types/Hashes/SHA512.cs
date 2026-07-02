@@ -104,10 +104,10 @@ namespace Migs.ValueTypes.Types.Hashes
             {
                 if (value is not null)
                 {
-                    var SHA512 = CreateHash(ref value);
-                    if (ValidateFormat(ref SHA512) == Validation.Ok)
+                    var hash = CreateHash(ref value);
+                    if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new SHA512(ref SHA512);
+                        output = new SHA512(ref hash);
                         return true;
                     }
                 }
