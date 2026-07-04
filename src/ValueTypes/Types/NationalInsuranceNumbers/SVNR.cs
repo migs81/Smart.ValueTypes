@@ -16,7 +16,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
         #region fields
 
         private readonly string _value;
-        private readonly string _default = new('0', Length);
+        private const string Default = "0000000000";
         
         public const int Length = 10;
 
@@ -44,7 +44,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
 
         #region constructor
 
-        public SVNR() => _value = _default;
+        public SVNR() => _value = Default;
         public SVNR(string value)
         {
             var result = ValidateFormat(ref value);
