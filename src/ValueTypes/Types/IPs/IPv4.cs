@@ -161,10 +161,9 @@ namespace Migs.ValueTypes.Types.IPs
             }
 
             // check last segment
-            if (!byte.TryParse(span[last..(span.Length)], out _))
+            if (!byte.TryParse(span[last..], out _))
                 return Validation.InvalidSegmentNumber;
-            else
-                parts++;
+            parts++;
 
             // invalid segment count?
             if (parts != 4)
