@@ -98,7 +98,7 @@ namespace Migs.ValueTypes.Types
         public static bool operator !=(Password left, string right) => !left.Equals(right);
 
         public static implicit operator string(Password password) => password._value;
-        public static implicit operator Password(string value) => new(value, 0, int.MaxValue, Requirement.Nothing);
+        public static implicit operator Password(string value) => new(value);
 
         #endregion
 
