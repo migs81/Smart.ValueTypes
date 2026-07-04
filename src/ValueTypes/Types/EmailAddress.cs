@@ -54,12 +54,11 @@ namespace Migs.ValueTypes.Types
         { 
             get
             {
-                if (_value.StartsWith('['))
-                {
-                    var pos = _value.IndexOf(']');
-                    if (pos >1)
-                        return _value[2..(pos - 1)];
-                }
+                if (!_value.StartsWith('[')) return "";
+                
+                var pos = _value.IndexOf(']');
+                if (pos >1)
+                    return _value[2..(pos - 1)];
 
                 return "";
             } 
