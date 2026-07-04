@@ -176,7 +176,8 @@ namespace Migs.ValueTypes.Types.IPs
             {
                 return Validation.EndsWithColon;
             }
-            else if (last < span.Length)
+
+            if (last < span.Length)
             {
                 var segment = span[last..];
                 if (segment.Length > 4)
