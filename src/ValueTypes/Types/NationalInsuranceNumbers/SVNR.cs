@@ -138,7 +138,7 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
             // day part
             if (span[4] == '0' && span[5] == '0')
                 return Validation.InvalidDayPart;
-            else if (span[4] == '3' && span[5] > '1')
+            if (span[4] == '3' && span[5] > '1')
                 return Validation.InvalidDayPart;
 
             // month part (can not be zero, but greater than 12!)

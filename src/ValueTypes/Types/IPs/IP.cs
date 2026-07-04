@@ -106,7 +106,8 @@ namespace Migs.ValueTypes.Types.IPs
                     output = new IP(ref value, IPType.IPv4);
                     return true;
                 }
-                else if (IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
+
+                if (IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
                 {
                     output = new IP(ref value, IPType.IPv6);
                     return true;

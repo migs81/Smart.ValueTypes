@@ -6,23 +6,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using Migs.ValueTypes.Benchmarks.IDs;
 using Migs.ValueTypes.Types;
 
 namespace Migs.ValueTypes.Benchmarks
 {
-    /*
-     * Input (Allowed chars only)
-     * PIN?
-     * 
-     */
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            //var celsius = new Celsius();
-
+            // _ = BenchmarkRunner.Run<IMEIBenchmarks>();
+            _ = BenchmarkRunner.Run<IMSIBenchmarks>();
+            
             // temperatures
-            _ = BenchmarkRunner.Run<CelsiusBenchmarks>();
+            // _ = BenchmarkRunner.Run<CelsiusBenchmarks>();
             //_ = BenchmarkRunner.Run<KelvinBenchmarks>();
             //_ = BenchmarkRunner.Run<FahrenheitBenchmarks>();
 
@@ -31,7 +28,6 @@ namespace Migs.ValueTypes.Benchmarks
             //_ = BenchmarkRunner.Run<BICBenchmarks>();
             //_ = BenchmarkRunner.Run<CurrencyBenchmarks>();
             //_ = BenchmarkRunner.Run<EmailAddressBenchmarks>();
-            //_ = BenchmarkRunner.Run<IMEIBenchmarks>();
             //_ = BenchmarkRunner.Run<FilePathBenchmarks>();
             //_ = BenchmarkRunner.Run<IPBenchmarks>();
             //_ = BenchmarkRunner.Run<IPv4Benchmarks>();
@@ -52,9 +48,9 @@ namespace Migs.ValueTypes.Benchmarks
 
             //MeasureExecutionTimeOf(() => new EmailAddress("name@domain.com"), 100_000_000);
 
-            Console.WriteLine();
-            Console.WriteLine("Press any key...");
-            Console.ReadKey();
+            // Console.WriteLine();
+            // Console.WriteLine("Press any key...");
+            // Console.ReadKey();
         }
 
         #region tests
