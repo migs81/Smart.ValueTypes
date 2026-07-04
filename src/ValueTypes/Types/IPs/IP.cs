@@ -17,7 +17,8 @@ namespace Migs.ValueTypes.Types.IPs
         #region fields
 
         private readonly string _value;
-
+        private const string Default = "0.0.0.0";
+        
         public enum IPType
         {
             IPv4 = 0,
@@ -38,7 +39,7 @@ namespace Migs.ValueTypes.Types.IPs
 
         public IP()
         {
-            _value = "0.0.0.0";
+            _value = Default;
             Type = IPType.IPv4;
         }
         public IP(string value)
