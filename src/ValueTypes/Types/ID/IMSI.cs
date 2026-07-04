@@ -16,7 +16,7 @@ namespace Migs.ValueTypes.Types.ID
 
         private readonly string _value;
 
-        public const string Default = "000000";
+        private const string Default = "000000";
         
         public enum Validation
         {
