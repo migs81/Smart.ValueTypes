@@ -16,6 +16,8 @@ namespace Migs.ValueTypes.Types.ID
 
         private readonly string _value;
 
+        public const string Default = "000000000000000";
+        
         public enum Validation
         {
             Ok = 0,
@@ -42,7 +44,7 @@ namespace Migs.ValueTypes.Types.ID
 
         #region constructor
 
-        public IMEI() => _value = "000000000000000";
+        public IMEI() => _value = Default;
         public IMEI(string value)
         {
             var result = ValidateFormat(ref value);

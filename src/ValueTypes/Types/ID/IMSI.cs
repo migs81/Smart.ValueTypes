@@ -16,6 +16,8 @@ namespace Migs.ValueTypes.Types.ID
 
         private readonly string _value;
 
+        public const string Default = "000000";
+        
         public enum Validation
         {
             Ok = 0,
@@ -39,7 +41,7 @@ namespace Migs.ValueTypes.Types.ID
 
         #region constructor
 
-        public IMSI() => _value = "000000";
+        public IMSI() => _value = Default;
         public IMSI(string value)
         {
             var result = ValidateFormat(ref value);
