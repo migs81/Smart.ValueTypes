@@ -135,9 +135,9 @@ namespace Migs.ValueTypes.Types.ID
 
         private static bool ValidateCharacters(ref string value)
         {
-            for (var i = 0; i < value.Length; i++)
+            foreach (var c in value)
             {
-                if (!IsDigit(value[i]))
+                if (!IsDigit(c))
                     return false;
             }
 
