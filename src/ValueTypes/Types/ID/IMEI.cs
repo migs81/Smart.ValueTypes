@@ -85,11 +85,9 @@ namespace Migs.ValueTypes.Types.ID
         public static IMEI From(string value) => new(value);
         public static Validation TryFrom(string value, out IMEI output)
         {
-            var result = Validation.Ok;
-
             try
             {
-                result = ValidateFormat(ref value);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                     output = new IMEI(ref value);
                 else
@@ -100,7 +98,7 @@ namespace Migs.ValueTypes.Types.ID
             catch (Exception)
             {
                 output = Empty;
-                return result;
+                return Validation.UnknownError;
             }
         }
 
