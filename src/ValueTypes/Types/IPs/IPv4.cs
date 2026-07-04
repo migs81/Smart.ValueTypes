@@ -141,22 +141,20 @@ namespace Migs.ValueTypes.Types.IPs
             var parts = 0;
             for (var i = 0; i < span.Length; i++)
             {
-                if (span[i] < '0' || span[i] > '9')
+                if (span[i] >= '0' && span[i] <= '9') continue;
+                if (span[i] == '.')
                 {
-                    if (span[i] == '.')
-                    {
-                        // check segment number
-                        if (!byte.TryParse(span[last..i], out _))
-                            return Validation.InvalidSegmentNumber;
+                    // check segment number
+                    if (!byte.TryParse(span[last..i], out _))
+                        return Validation.InvalidSegmentNumber;
 
-                        last = i + 1;
-                        parts++;
-                    }
-                    else
-                    {
-                        // illegal character
-                        return Validation.ContainsIllegalCharacter;
-                    }
+                    last = i + 1;
+                    parts++;
+                }
+                else
+                {
+                    // illegal character
+                    return Validation.ContainsIllegalCharacter;
                 }
             }
 

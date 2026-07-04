@@ -143,34 +143,33 @@ namespace Migs.ValueTypes.Types.IPs
             byte colons = 0;
             for (var i = 0; i < span.Length; i++)
             {
-                if (span[i] == ':')
+                if (span[i] != ':') continue;
+                
+                // count colons to avoid ":::" => faster then Contains(":::")
+                if (colons == 0)
                 {
-                    // count colons to avoid ":::" => faster then Contains(":::")
-                    if (colons == 0)
-                    {
-                        colons++;
-                    }
-                    else if (last == i)
-                    {
-                        if (colons == 2)
-                            return Validation.MultipleColons;
-
-                        colons++;
-                    }
-                    else
-                    {
-                        colons = 0;
-                    }
-
-                    var segment = span[last..i];
-                    if (segment.Length > 4)
-                        return Validation.SegmentTooLong;
-
-                    if (segment.Length > 0 && !IsHex(ref segment))
-                        return Validation.SegmentNotHex;
-
-                    last = i + 1;
+                    colons++;
                 }
+                else if (last == i)
+                {
+                    if (colons == 2)
+                        return Validation.MultipleColons;
+
+                    colons++;
+                }
+                else
+                {
+                    colons = 0;
+                }
+
+                var segment = span[last..i];
+                if (segment.Length > 4)
+                    return Validation.SegmentTooLong;
+
+                if (segment.Length > 0 && !IsHex(ref segment))
+                    return Validation.SegmentNotHex;
+
+                last = i + 1;
             }
 
             if (last == span.Length)
