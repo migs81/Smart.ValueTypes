@@ -64,8 +64,6 @@ namespace Migs.ValueTypes.Unfinished.Location
             }
         }
 
-        public bool Equals(int other) => EqualityComparer<int>.Default.Equals(_value, other);
-
         public static bool ValidateFormat(int value) => ValidateFormat(ref value);
 
         #endregion

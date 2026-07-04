@@ -81,9 +81,8 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
-
         public static IBAN From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out IBAN output)
         {
             try

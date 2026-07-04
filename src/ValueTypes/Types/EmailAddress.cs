@@ -114,9 +114,8 @@ namespace Migs.ValueTypes.Types
 
         public MailAddress GetMailAddress() => new(_value);
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static EmailAddress From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out EmailAddress output)
         {
             try

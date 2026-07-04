@@ -73,9 +73,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static SHA384 From(string hash) => new(hash);
+        
         public static Validation TryFrom(string hash, out SHA384 output)
         {
             try
@@ -98,6 +97,7 @@ namespace Migs.ValueTypes.Types.Hashes
         }
 
         public static SHA384 Create(string value) => new(CreateHash(ref value));
+        
         public static bool TryCreate(string value, out SHA384? output)
         {
             try

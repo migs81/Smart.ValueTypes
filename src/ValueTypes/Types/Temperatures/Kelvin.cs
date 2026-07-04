@@ -75,8 +75,6 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region public methods
 
-        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(Value, other);
-
         public static Kelvin From(int value) => new(value);
         public static Kelvin From(double value) => new(value);
         public static Kelvin From(Celsius celsius) => new(celsius);

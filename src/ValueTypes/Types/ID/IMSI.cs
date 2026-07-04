@@ -76,11 +76,10 @@ namespace Migs.ValueTypes.Types.ID
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static IMSI New() => new();
 
         public static IMSI From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out IMSI output)
         {
             try

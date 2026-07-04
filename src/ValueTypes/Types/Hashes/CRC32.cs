@@ -71,13 +71,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
-
-        #endregion
-
-        #region public static methods
-
         public static CRC32 From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out CRC32 output)
         {
             try

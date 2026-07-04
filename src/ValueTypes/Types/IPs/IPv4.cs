@@ -84,9 +84,8 @@ namespace Migs.ValueTypes.Types.IPs
 
         public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
-
         public static IPv4 From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out IPv4 output)
         {
             try

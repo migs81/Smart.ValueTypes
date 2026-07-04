@@ -104,8 +104,6 @@ namespace Migs.ValueTypes.Types
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
-
         public static Password From(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing) 
             => new(value, minLength, maxLength, requirements);
 

@@ -73,9 +73,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static SHA512 From(string hash) => new(hash);
+        
         public static Validation TryFrom(string value, out SHA512 output)
         {
             try
@@ -98,6 +97,7 @@ namespace Migs.ValueTypes.Types.Hashes
         }
 
         public static SHA512 Create(string value) => new(CreateHash(ref value));
+        
         public static bool TryCreate(string value, out SHA512? output)
         {
             try

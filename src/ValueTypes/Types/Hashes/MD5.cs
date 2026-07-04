@@ -72,9 +72,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static MD5 From(string hash) => new(hash);
+        
         public static Validation TryFrom(string hash, out MD5 output)
         {
             try
@@ -97,6 +96,7 @@ namespace Migs.ValueTypes.Types.Hashes
         }
 
         public static MD5 Create(string value) => new(CreateHash(ref value));
+        
         public static bool TryCreate(string value, out MD5? output)
         {
             try

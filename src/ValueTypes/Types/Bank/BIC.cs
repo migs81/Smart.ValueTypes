@@ -74,9 +74,8 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
-
         public static BIC From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out BIC output)
         {
             try
@@ -97,6 +96,7 @@ namespace Migs.ValueTypes.Types.Bank
                 return Validation.UnknownError;
             }
         }
+        
         public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion

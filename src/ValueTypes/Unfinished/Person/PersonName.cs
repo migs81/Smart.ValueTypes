@@ -62,7 +62,9 @@ namespace Migs.ValueTypes.Unfinished.Person
         #region public methods
 
         public static PersonName From(string firstName, string lastName) => new(firstName, lastName);
+        
         public static PersonName From(string firstName, string middleName, string lastName) => new(firstName, middleName, lastName);
+        
         public static bool TryFrom(string firstName, string lastName, out PersonName? output)
         {
             try
@@ -83,6 +85,7 @@ namespace Migs.ValueTypes.Unfinished.Person
                 return false;
             }
         }
+        
         public static bool TryFrom(string firstName, string middleName, string lastName, out PersonName? output)
         {
             try
@@ -102,11 +105,6 @@ namespace Migs.ValueTypes.Unfinished.Person
                 return false;
             }
         }
-
-        public bool Equals(string firstName, string middleName, string lastName)
-            => FirstName.Equals(firstName)
-            && MiddleName.Equals(middleName)
-            && LastName.Equals(lastName);
 
         #endregion
     }

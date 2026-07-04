@@ -74,8 +74,6 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region public methods
 
-        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(Value, other);
-
         public static Fahrenheit From(int value) => new(value);
         public static Fahrenheit From(double value) => new(value);
         public static Fahrenheit From(Celsius celsius) => new(celsius);

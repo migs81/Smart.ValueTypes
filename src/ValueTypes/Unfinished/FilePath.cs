@@ -67,11 +67,11 @@ namespace Migs.ValueTypes.Unfinished
         #region public methods
 
         public FileInfo GetInfo() => new(_value);
+        
         public FilePath Combine(params string[] args) => Path.Combine(args.Prepend(_value).ToArray());
 
-        public bool Equals(string other) => EqualityComparer<string>.Default.Equals(_value, other);
-
         public static FilePath Parse(string value) => new(value);
+        
         public static bool TryParse(string value, out FilePath? output)
         {
             try

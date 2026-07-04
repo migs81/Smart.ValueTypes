@@ -62,11 +62,6 @@ namespace Migs.ValueTypes.Unfinished.Currency
 
         #region public methods
 
-        public bool Equals(string name, string code, string symbol)
-            => EqualityComparer<string>.Default.Equals(Name, name)
-            && EqualityComparer<string>.Default.Equals(Code, code)
-            && EqualityComparer<string>.Default.Equals(Symbol, symbol);
-
         public static Currency From(RegionInfo region) => new(region);
         public static Currency From(string regionName) => new(regionName);
         public static bool TryFrom(string regionName, out Currency? output)

@@ -58,8 +58,6 @@ namespace Migs.ValueTypes.Unfinished
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static Text From(string value) => new(value);
 
         public static Validation TryFrom(string value, out Text text)

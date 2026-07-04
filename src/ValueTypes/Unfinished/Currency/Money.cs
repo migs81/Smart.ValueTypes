@@ -56,12 +56,6 @@ namespace Migs.ValueTypes.Unfinished.Currency
         public static Money From(uint amount, Currency currency) => new((decimal)amount, currency);
         public static Money From(ulong amount, Currency currency) => new((decimal)amount, currency);
 
-        public bool Equals(decimal value, Currency currency)
-        {
-            return EqualityComparer<decimal>.Default.Equals(_amount, value)
-                && EqualityComparer<string>.Default.Equals(Currency, currency);
-        }
-
         //public string ToString(string format) => _amount.ToString(format);
         //public string ToString(string format, IFormatProvider provider) => _amount.ToString(format, provider);
         //public string ToString(IFormatProvider provider) => _amount.ToString(provider);

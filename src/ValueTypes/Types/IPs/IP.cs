@@ -97,6 +97,7 @@ namespace Migs.ValueTypes.Types.IPs
         #region public methods
 
         public static IP From(string value) => new(value);
+        
         public static bool TryFrom(string value, out IP output)
         {
             try
@@ -122,6 +123,7 @@ namespace Migs.ValueTypes.Types.IPs
                 return false;
             }
         }
+        
         public static bool TryFrom(string value, IPType type, out IP output)
         {
             try
@@ -147,8 +149,6 @@ namespace Migs.ValueTypes.Types.IPs
         }
 
         public IPAddress GetIpAddress() => IPAddress.Parse(_value);
-
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(_value, value);
 
         #endregion
     }

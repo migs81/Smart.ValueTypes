@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
 using Migs.ValueTypes.Types.ID;
 
@@ -7,6 +8,7 @@ namespace Migs.ValueTypes.Benchmarks.IDs
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
+    [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
     public class IMEIBenchmarks
     {
         [Benchmark]
@@ -15,16 +17,16 @@ namespace Migs.ValueTypes.Benchmarks.IDs
             _ = new IMEI("352773074248705");
         }
 
-        //[Benchmark]
-        //public void IMEI_From_Benchmark()
-        //{
-        //    _ = IMEI.From("352773074248705");
-        //}
-
-        //[Benchmark]
-        //public void IMEI_TryFrom_Benchmark()
-        //{
-        //    _ = IMEI.TryFrom("352773074248705", out _);
-        //}
+        [Benchmark]
+        public void IMEI_From_Benchmark()
+        {
+            _ = IMEI.From("352773074248705");
+        }
+        
+        [Benchmark]
+        public void IMEI_TryFrom_Benchmark()
+        {
+            _ = IMEI.TryFrom("352773074248705", out _);
+        }
     }
 }

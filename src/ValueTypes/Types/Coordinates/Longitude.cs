@@ -69,8 +69,6 @@ namespace Migs.ValueTypes.Types.Coordinates
 
         #region public methods
 
-        public bool Equals(double value) => EqualityComparer<double>.Default.Equals(_value, value);
-
         public static Longitude From(double value) => new(value);
 
         public static Validation TryFrom(double value, out Longitude output)

@@ -44,6 +44,7 @@ namespace Migs.ValueTypes.Unfinished.Location
         #region public methods
 
         public static PLZ Parse(int value) => new(value);
+        
         public static bool TryParse(int value, out PLZ? output)
         {
             try
@@ -63,8 +64,6 @@ namespace Migs.ValueTypes.Unfinished.Location
                 return false;
             }
         }
-
-        public bool Equals(int other) => EqualityComparer<int>.Default.Equals(_value, other);
 
         public static bool Validate(int value) => ValidateFormat(ref value);
 

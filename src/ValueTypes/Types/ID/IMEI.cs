@@ -80,11 +80,10 @@ namespace Migs.ValueTypes.Types.ID
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static IMEI New() => new();
 
         public static IMEI From(string value) => new(value);
+        
         public static Validation TryFrom(string value, out IMEI output)
         {
             try

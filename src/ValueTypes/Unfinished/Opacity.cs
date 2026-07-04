@@ -48,9 +48,8 @@ namespace Migs.ValueTypes.Unfinished
 
         #region public methods
 
-        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(_value, other);
-
         public static Opacity Parse(double value) => new(value);
+        
         public static bool TryParse(double value, out Opacity? output)
         {
             try

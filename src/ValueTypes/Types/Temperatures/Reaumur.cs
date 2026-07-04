@@ -74,8 +74,6 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region public methods
 
-        public bool Equals(double other) => EqualityComparer<double>.Default.Equals(Value, other);
-
         public static Reaumur From(int value) => new(value);
         public static Reaumur From(double value) => new(value);
         public static Reaumur From(Celsius celsius) => new(celsius);

@@ -53,8 +53,6 @@ namespace Migs.ValueTypes.Unfinished.ID
 
         #region public methods
 
-        public bool Equals(string value) => EqualityComparer<string>.Default.Equals(value, value);
-
         public static OID New() => new();
 
         public static OID From(string hash) => new(hash);
