@@ -68,7 +68,18 @@ namespace Migs.ValueTypes.Types
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailAddress"/> struct.
+        /// </summary>
         public EmailAddress() => _value = "user@host";
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailAddress"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidEmailAddressException"></exception>
         public EmailAddress(string value)
         {
             var result = ValidateFormat(ref value);
@@ -94,6 +105,8 @@ namespace Migs.ValueTypes.Types
 
             _value = value;
         }
+        
+        // required for internal initialization
         private EmailAddress(ref string value) => _value = value;
 
         #endregion

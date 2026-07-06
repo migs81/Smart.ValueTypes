@@ -37,11 +37,20 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IP"/> struct.
+        /// </summary>
         public IP()
         {
             _value = Default;
             Type = IPType.IPv4;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IP"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="FormatException"></exception>
         public IP(string value)
         {
             if (IPv4.ValidateFormat(value) == IPv4.Validation.Ok)
@@ -59,6 +68,13 @@ namespace Migs.ValueTypes.Types.IPs
                 throw new FormatException($"The value '{value}' is not a valid IP address!");
             }
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IP"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <exception cref="FormatException"></exception>
         public IP(string value, IPType type)
         {
             if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok
@@ -70,6 +86,8 @@ namespace Migs.ValueTypes.Types.IPs
             _value = value;
             Type = type;
         }
+        
+        // required for internal initialization
         private IP(ref string value, IPType type)
         {
             _value = value;

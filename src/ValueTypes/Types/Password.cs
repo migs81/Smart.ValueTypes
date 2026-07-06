@@ -52,6 +52,9 @@ namespace Migs.ValueTypes.Types
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Password"/> struct.
+        /// </summary>
         public Password()
         {
             _value = "";
@@ -59,6 +62,15 @@ namespace Migs.ValueTypes.Types
             MaxLength = int.MaxValue;
             Requirements = Requirement.Nothing;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Password"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="minLength"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="requirements"></param>
+        /// <exception cref="InvalidPasswordException"></exception>
         public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing)
         {
             var result = ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
@@ -82,6 +94,8 @@ namespace Migs.ValueTypes.Types
             MaxLength = maxLength;
             Requirements = requirements;
         }
+        
+        // required for internal initialization
         private Password(ref string value, int minLength, int maxLength, Requirement requirements)
         {
             _value = value;

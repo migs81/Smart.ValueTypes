@@ -39,7 +39,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MD5"/> struct.
+        /// </summary>
         public MD5() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MD5"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidMd5Exception"></exception>
         public MD5(string value)
         {
             var result = ValidateFormat(ref value);
@@ -56,6 +66,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private MD5(ref string value) => _value = value;
 
         #endregion

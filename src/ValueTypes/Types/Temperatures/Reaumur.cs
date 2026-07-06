@@ -36,7 +36,16 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
         public Reaumur() => Value = 0d;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidReaumurException"></exception>
         public Reaumur(double value)
         {
             var result = ValidateFormat(ref value);
@@ -51,10 +60,36 @@ namespace Migs.ValueTypes.Types.Temperatures
 
             Value = value;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidReaumurException"></exception>
         public Reaumur(int value) : this((double)value) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
+        /// <param name="celsius"></param>
+        /// <exception cref="InvalidReaumurException"></exception>
         public Reaumur(Celsius celsius) : this(FromCelsius(celsius)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
+        /// <param name="kelvin"></param>
+        /// <exception cref="InvalidReaumurException"></exception>
         public Reaumur(Kelvin kelvin) : this(FromKelvin(kelvin)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reaumur"/> struct.
+        /// </summary>
+        /// <param name="fahrenheit"></param>
+        /// <exception cref="InvalidReaumurException"></exception>
         public Reaumur(Fahrenheit fahrenheit) : this(FromFahrenheit(fahrenheit)) { }
+        
+        // required for internal initialization
         private Reaumur(ref double value) => Value = value;
 
         #endregion

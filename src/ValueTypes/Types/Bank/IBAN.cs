@@ -45,7 +45,18 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IBAN"/> struct.
+        /// </summary>
         public IBAN() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IBAN"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidIbanException"></exception>
         public IBAN(string value)
         {
             var result = ValidateFormat(ref value);
@@ -65,6 +76,8 @@ namespace Migs.ValueTypes.Types.Bank
 
             _value = value.ToUpper();
         }
+        
+        // required for internal initialization
         private IBAN(ref string value) => _value = value.ToUpper();
 
         #endregion

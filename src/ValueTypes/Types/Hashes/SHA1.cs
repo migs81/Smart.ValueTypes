@@ -39,7 +39,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA1"/> struct.
+        /// </summary>
         public SHA1() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA1"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidSha1Exception"></exception>
         public SHA1(string value)
         {
             var result = ValidateFormat(ref value);
@@ -56,6 +66,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private SHA1(ref string value) => _value = value;
 
         #endregion

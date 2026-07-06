@@ -41,7 +41,18 @@ namespace Migs.ValueTypes.Types.ID
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IMSI"/> struct.
+        /// </summary>
         public IMSI() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IMSI"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidImsiException"></exception>
         public IMSI(string value)
         {
             var result = ValidateFormat(ref value);
@@ -60,6 +71,8 @@ namespace Migs.ValueTypes.Types.ID
 
             _value = value;
         }
+        
+        // required for internal initialization
         private IMSI(ref string value) => _value = value;
 
         #endregion

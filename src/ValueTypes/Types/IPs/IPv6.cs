@@ -43,7 +43,18 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IPv6"/> struct.
+        /// </summary>
         public IPv6() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IPv6"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidIPv6Exception"></exception>
         public IPv6(string value)
         {
             var result = ValidateFormat(ref value);
@@ -65,6 +76,8 @@ namespace Migs.ValueTypes.Types.IPs
 
             _value = value.ToLower();
         }
+        
+        // required for internal initialization
         private IPv6(ref string value) => _value = value.ToLower();
 
         #endregion

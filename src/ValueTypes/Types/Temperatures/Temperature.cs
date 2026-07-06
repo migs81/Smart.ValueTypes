@@ -20,6 +20,10 @@
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Temperature"/> struct.
+        /// </summary>
+        /// <param name="celsius"></param>
         public Temperature(Celsius celsius)
         {
             Celsius = celsius;
@@ -29,6 +33,10 @@
             Reaumur = Celsius.ToReaumur();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Temperature"/> struct.
+        /// </summary>
+        /// <param name="kelvin"></param>
         public Temperature(Kelvin kelvin)
         {
             Kelvin = kelvin;
@@ -38,6 +46,10 @@
             Reaumur = Kelvin.ToReaumur();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Temperature"/> struct.
+        /// </summary>
+        /// <param name="fahrenheit"></param>
         public Temperature(Fahrenheit fahrenheit)
         {
             Fahrenheit = fahrenheit;
@@ -47,6 +59,10 @@
             Reaumur = Fahrenheit.ToReaumur();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Temperature"/> struct.
+        /// </summary>
+        /// <param name="reaumur"></param>
         public Temperature(Reaumur reaumur)
         {
             Reaumur = reaumur;

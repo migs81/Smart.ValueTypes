@@ -44,7 +44,18 @@ namespace Migs.ValueTypes.Types.IPs
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IPv4"/> struct.
+        /// </summary>
         public IPv4() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IPv4"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidIPv4Exception"></exception>
         public IPv4(string value)
         {
             var result = ValidateFormat(ref value);
@@ -65,6 +76,8 @@ namespace Migs.ValueTypes.Types.IPs
 
             _value = value;
         }
+        
+        // required for internal initialization
         private IPv4(ref string value) => _value = value;
 
         #endregion

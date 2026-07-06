@@ -42,7 +42,10 @@ namespace Migs.ValueTypes.Types.ColorModels
         #endregion
 
         #region constructor
-
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HSL"/> struct.
+        /// </summary>
         public HSL()
         {
             Hue = 0f;
@@ -50,6 +53,13 @@ namespace Migs.ValueTypes.Types.ColorModels
             Lightness = 0f;
         }
         
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HSL"/> struct.
+        /// </summary>
+        /// <param name="hue">0 – 360°</param>
+        /// <param name="saturation">0 – 1</param>
+        /// <param name="lightness">0 – 1</param>
+        /// <exception cref="InvalidHslException"></exception>
         public HSL(float hue, float saturation, float lightness)
         {
             var result = ValidateFormat(ref hue, ref saturation, ref lightness);
@@ -72,6 +82,7 @@ namespace Migs.ValueTypes.Types.ColorModels
             Lightness = lightness;
         }
 
+        // required for internal initialization
         private HSL(ref float hue, ref float saturation, ref float lightness)
         {
             Hue = hue;

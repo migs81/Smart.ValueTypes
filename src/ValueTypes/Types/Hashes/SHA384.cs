@@ -40,7 +40,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA384"/> struct.
+        /// </summary>
         public SHA384() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA384"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidSha384Exception"></exception>
         public SHA384(string value)
         {
             var result = ValidateFormat(ref value);
@@ -57,6 +67,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private SHA384(ref string value) => _value = value;
 
         #endregion

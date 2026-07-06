@@ -37,7 +37,16 @@ namespace Migs.ValueTypes.Types.Coordinates
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Longitude"/> struct.
+        /// </summary>
         public Longitude() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Longitude"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidLongitudeException"></exception>
         public Longitude(double value)
         {
             var result = ValidateFormat(ref value);
@@ -53,6 +62,8 @@ namespace Migs.ValueTypes.Types.Coordinates
 
             _value = value;
         }
+        
+        // required for internal initialization
         private Longitude(ref double value) => _value = value;
 
         #endregion

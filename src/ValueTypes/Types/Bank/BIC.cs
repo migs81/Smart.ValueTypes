@@ -37,7 +37,18 @@ namespace Migs.ValueTypes.Types.Bank
 
         #region construct
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BIC"/> struct.
+        /// </summary>
         public BIC() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BIC"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidBicException"></exception>
         public BIC(string value)
         {
             var result = ValidateFormat(ref value);
@@ -58,6 +69,8 @@ namespace Migs.ValueTypes.Types.Bank
 
             _value = value.ToUpper();
         }
+        
+        // required for internal initialization
         private BIC(ref string value) => _value = value.ToUpper();
 
         #endregion

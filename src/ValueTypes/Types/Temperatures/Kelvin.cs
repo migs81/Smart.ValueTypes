@@ -37,7 +37,16 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
         public Kelvin() => Value = 0d;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidKelvinException"></exception>
         public Kelvin(double value)
         {
             var result = ValidateFormat(ref value);
@@ -52,10 +61,36 @@ namespace Migs.ValueTypes.Types.Temperatures
 
             Value = value;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidKelvinException"></exception>
         public Kelvin(int value) : this((double)value) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
+        /// <param name="celsius"></param>
+        /// <exception cref="InvalidKelvinException"></exception>
         public Kelvin(Celsius celsius) => Value = FromCelsius(celsius);
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
+        /// <param name="fahrenheit"></param>
+        /// <exception cref="InvalidKelvinException"></exception>
         public Kelvin(Fahrenheit fahrenheit) => Value = FromFahrenheit(fahrenheit);
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
+        /// </summary>
+        /// <param name="reaumur"></param>
+        /// <exception cref="InvalidKelvinException"></exception>
         public Kelvin(Reaumur reaumur) => Value = FromReaumur(reaumur);
+        
+        // required for internal initialization
         private Kelvin(ref double value) => Value = value;
 
         #endregion

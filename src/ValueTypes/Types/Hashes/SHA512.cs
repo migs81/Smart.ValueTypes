@@ -40,7 +40,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA512"/> struct.
+        /// </summary>
         public SHA512() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA512"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidSha512Exception"></exception>
         public SHA512(string value)
         {
             var result = ValidateFormat(ref value);
@@ -57,6 +67,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private SHA512(ref string value) => _value = value;
 
         #endregion

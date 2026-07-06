@@ -44,7 +44,18 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SVNR"/> struct.
+        /// </summary>
         public SVNR() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SVNR"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidSvnrException"></exception>
         public SVNR(string value)
         {
             var result = ValidateFormat(ref value);
@@ -66,6 +77,8 @@ namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
 
             _value = value.ToLower();
         }
+        
+        // required for internal initialization
         private SVNR(ref string value) => _value = value.ToLower();
 
         #endregion

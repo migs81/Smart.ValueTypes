@@ -39,7 +39,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA256"/> struct.
+        /// </summary>
         public SHA256() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SHA256"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidSha256Exception"></exception>
         public SHA256(string value)
         {
             var result = ValidateFormat(ref value);
@@ -56,6 +66,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private SHA256(ref string value) => _value = value;
 
         #endregion

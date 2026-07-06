@@ -36,7 +36,16 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
         public Fahrenheit() => Value = 0d;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidFahrenheitException"></exception>
         public Fahrenheit(double value)
         {
             var result = ValidateFormat(ref value);
@@ -51,10 +60,36 @@ namespace Migs.ValueTypes.Types.Temperatures
 
             Value = value;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidFahrenheitException"></exception>
         public Fahrenheit(int value) : this((double)value) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
+        /// <param name="celsius"></param>
+        /// <exception cref="InvalidFahrenheitException"></exception>
         public Fahrenheit(Celsius celsius) : this(FromCelsius(celsius)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
+        /// <param name="kelvin"></param>
+        /// <exception cref="InvalidFahrenheitException"></exception>
         public Fahrenheit(Kelvin kelvin) : this(FromKelvin(kelvin)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
+        /// </summary>
+        /// <param name="reaumur"></param>
+        /// <exception cref="InvalidFahrenheitException"></exception>
         public Fahrenheit(Reaumur reaumur) : this(FromReaumur(reaumur)) { }
+        
+        // required for internal initialization
         private Fahrenheit(ref double value) => Value = value;
 
         #endregion

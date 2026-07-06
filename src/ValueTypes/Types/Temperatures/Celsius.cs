@@ -36,7 +36,16 @@ namespace Migs.ValueTypes.Types.Temperatures
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
         public Celsius() => Value = 0d;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidCelsiusException"></exception>
         public Celsius(double value)
         {
             var result = ValidateFormat(ref value);
@@ -48,13 +57,39 @@ namespace Migs.ValueTypes.Types.Temperatures
                     _ => new InvalidCelsiusException(),
                 };
             }
-
+            
             Value = value;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidCelsiusException"></exception>
         public Celsius(int value) : this((double)value) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
+        /// <param name="kelvin"></param>
+        /// <exception cref="InvalidCelsiusException"></exception>
         public Celsius(Kelvin kelvin) : this(FromKelvin(kelvin)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
+        /// <param name="fahrenheit"></param>
+        /// <exception cref="InvalidCelsiusException"></exception>
         public Celsius(Fahrenheit fahrenheit) : this(FromFahrenheit(fahrenheit)) { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Celsius"/> struct.
+        /// </summary>
+        /// <param name="reaumur"></param>
+        /// <exception cref="InvalidCelsiusException"></exception>
         public Celsius(Reaumur reaumur) : this(FromReaumur(reaumur)) { }
+        
+        // required for internal initialization
         private Celsius(ref double value) => Value = value;
 
         #endregion

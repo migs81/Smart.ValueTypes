@@ -38,7 +38,17 @@ namespace Migs.ValueTypes.Types.Hashes
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CRC32"/> struct.
+        /// </summary>
         public CRC32() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CRC32"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidCrc32Exception"></exception>
         public CRC32(string value)
         {
             var result = ValidateFormat(ref value);
@@ -55,6 +65,8 @@ namespace Migs.ValueTypes.Types.Hashes
 
             _value = value;
         }
+        
+        // required for internal initialization
         private CRC32(ref string value) => _value = value;
 
         #endregion

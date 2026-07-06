@@ -44,7 +44,18 @@ namespace Migs.ValueTypes.Types.ID
 
         #region constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IMEI"/> struct.
+        /// </summary>
         public IMEI() => _value = Default;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IMEI"/> struct.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidImeiException"></exception>
         public IMEI(string value)
         {
             var result = ValidateFormat(ref value);
@@ -64,6 +75,8 @@ namespace Migs.ValueTypes.Types.ID
 
             _value = value;
         }
+        
+        // required for internal initialization
         private IMEI(ref string value) => _value = value;
 
         #endregion
