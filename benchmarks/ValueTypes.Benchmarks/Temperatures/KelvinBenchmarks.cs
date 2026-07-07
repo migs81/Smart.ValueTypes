@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Migs.ValueTypes.Types.Temperatures;
+using Smart.ValueTypes.Types.Temperatures;
 
-namespace Migs.ValueTypes.Benchmarks.Temperatures
+namespace Smart.ValueTypes.Benchmarks.Temperatures
 {
     [MemoryDiagnoser]
     [RankColumn]

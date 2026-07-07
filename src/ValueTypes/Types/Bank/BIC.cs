@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.Bank
+namespace Smart.ValueTypes.Types.Bank
 {
     /// <summary>
     /// Bank Identifier Code (ISO 9362)

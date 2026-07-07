@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Types.NationalInsuranceNumbers
+namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
 {
     /// <summary>
     /// Value type for the austrian national insurance number (Sozialversicherungsnummer).

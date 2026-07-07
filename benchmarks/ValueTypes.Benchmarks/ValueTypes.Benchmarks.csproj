@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
 	<LangVersion>default</LangVersion>
-    <RootNamespace>Migs.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>Smart.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

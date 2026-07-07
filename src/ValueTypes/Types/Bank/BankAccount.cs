@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.Types.Bank
+﻿namespace Smart.ValueTypes.Types.Bank
 {
     /// <summary>
     /// Aggregate for IBAN and BIC

@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Migs.ValueTypes.Generic
+namespace Smart.ValueTypes.Generic
 {
     /// <summary>
     /// Generic structure for a specified value.

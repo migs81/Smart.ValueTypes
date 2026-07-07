@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Migs.ValueTypes.Types.Bank;
+using Smart.ValueTypes.Types.Bank;
 
-namespace Migs.ValueTypes.Benchmarks.Bank
+namespace Smart.ValueTypes.Benchmarks.Bank
 {
     [MemoryDiagnoser]
     [RankColumn]

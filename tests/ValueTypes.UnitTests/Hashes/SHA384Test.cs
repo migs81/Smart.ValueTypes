@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Types.Hashes;
+﻿using Smart.ValueTypes.Types.Hashes;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.Hashes
+namespace Smart.ValueTypes.UnitTests.Hashes
 {
     public class SHA384Test
     {

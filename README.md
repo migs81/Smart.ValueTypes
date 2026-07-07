@@ -1,4 +1,4 @@
-# 📚 Migs.ValueTypes
+# 📚 Smart.ValueTypes
 
 
 ## 📝 Description
@@ -16,11 +16,11 @@
 
 1. Clone the repository:
   ```bash
-   git clone https://github.com/migs81/Migs.ValueTypes.git
+   git clone https://github.com/migs81/Smart.ValueTypes.git
   ```
 2. Navigate to the project directory:
   ```bash
-   cd Migs.ValueTypes
+   cd Smart.ValueTypes
   ```
 3. Restore dependencies:
   ```bash
@@ -52,7 +52,7 @@ You can find it in the `/benchmarks/` folder.
 
 1. Navigate to the benchmark project:
   ```bash
-   cd benchmarks/Migs.ValueTypes.Benchmarks
+   cd benchmarks/Smart.ValueTypes.Benchmarks
   ```
 2. Run the benchmarks using [BenchmarkDotNet](https://benchmarkdotnet.org/):
   ```bash
@@ -62,13 +62,13 @@ You can find it in the `/benchmarks/` folder.
 ## 📂 Project Structure
 
 ```
-Migs.ValueTypes/
+Smart.ValueTypes/
 ├── src/
-│   ├── Migs.ValueTypes/              # Core library
+│   ├── Smart.ValueTypes/              # Core library
 ├── benchmarks/                       
-│   └── Migs.ValueTypes.Benchmarks    # Benchmarks
+│   └── Smart.ValueTypes.Benchmarks    # Benchmarks
 ├── tests/                       
-│   └── Migs.ValueTypes.UnitTests         # Unit tests
+│   └── Smart.ValueTypes.UnitTests         # Unit tests
 └── README.md                    # This file
 ```
 

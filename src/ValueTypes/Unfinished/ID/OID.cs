@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Unfinished.ID
+namespace Smart.ValueTypes.Unfinished.ID
 {
     public readonly record struct OID : IValueType<string, OID>
     {

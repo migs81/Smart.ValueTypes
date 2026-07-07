@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Unfinished
+namespace Smart.ValueTypes.Unfinished
 {
     public readonly record struct Text : IValueType<string, Text>
     {

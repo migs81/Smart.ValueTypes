@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.Unfinished.Person
+﻿namespace Smart.ValueTypes.Unfinished.Person
 {
     public readonly record struct Person
     {

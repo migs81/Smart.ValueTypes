@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Types
+namespace Smart.ValueTypes.Types
 {
     /// <summary>
     /// Value type for passwords.

@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace Migs.ValueTypes.Types
+namespace Smart.ValueTypes.Types
 {
     /// <summary>
     /// Value type for email addresses (RFC 5322/5321)

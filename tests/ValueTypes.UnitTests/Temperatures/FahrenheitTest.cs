@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Types.Temperatures;
-using Migs.ValueTypes.UnitTests.TestData;
+﻿using Smart.ValueTypes.Types.Temperatures;
+using Smart.ValueTypes.UnitTests.TestData;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.Temperatures
+namespace Smart.ValueTypes.UnitTests.Temperatures
 {
     public class FahrenheitTest
     {

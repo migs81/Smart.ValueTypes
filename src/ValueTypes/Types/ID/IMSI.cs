@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Types.ID
+namespace Smart.ValueTypes.Types.ID
 {
     /// <summary>
     /// Value type for International Mobile Subscriber Identity (IMSI).

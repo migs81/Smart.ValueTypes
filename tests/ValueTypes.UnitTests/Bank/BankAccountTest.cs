@@ -1,8 +1,8 @@
 using System;
-using Migs.ValueTypes.Types.Bank;
+using Smart.ValueTypes.Types.Bank;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.Bank;
+namespace Smart.ValueTypes.UnitTests.Bank;
 
 public class BankAccountTest
 {

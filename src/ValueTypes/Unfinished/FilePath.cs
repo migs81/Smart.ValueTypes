@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Unfinished
+namespace Smart.ValueTypes.Unfinished
 {
     /// <summary>
     /// Value type for file paths.

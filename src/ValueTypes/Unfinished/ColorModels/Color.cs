@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.Unfinished.ColorModels
+﻿namespace Smart.ValueTypes.Unfinished.ColorModels
 {
     /*
      * Color models

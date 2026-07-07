@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Unfinished.Currency
+namespace Smart.ValueTypes.Unfinished.Currency
 {
     public readonly record struct Money : IValueType<decimal, Currency, Money>
     {

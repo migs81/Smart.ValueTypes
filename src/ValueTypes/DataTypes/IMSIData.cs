@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Migs.ValueTypes.DataTypes
+namespace Smart.ValueTypes.DataTypes
 {
     public readonly record struct IMSIData
     {

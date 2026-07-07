@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Migs.ValueTypes.DataTypes
+namespace Smart.ValueTypes.DataTypes
 {
     /// <summary>
     /// ISO-3166-1 alpha-2 and alpha-3

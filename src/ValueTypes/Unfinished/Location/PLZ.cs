@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Unfinished.Location
+namespace Smart.ValueTypes.Unfinished.Location
 {
     /// <summary>
     /// Value type for the austrian zip code (Postleitzahl).

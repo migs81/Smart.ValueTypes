@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Types.IPs;
-using Migs.ValueTypes.UnitTests.TestData;
+﻿using Smart.ValueTypes.Types.IPs;
+using Smart.ValueTypes.UnitTests.TestData;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.IPs
+namespace Smart.ValueTypes.UnitTests.IPs
 {
     public class IPv4Test
     {

@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Hashes
 {
     /// <summary>
     /// Value type for Cyclic Redundancy Check 32 (CRC32).

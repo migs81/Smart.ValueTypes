@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.Interfaces
+﻿namespace Smart.ValueTypes.Interfaces
 {
     public interface IUnit
     {

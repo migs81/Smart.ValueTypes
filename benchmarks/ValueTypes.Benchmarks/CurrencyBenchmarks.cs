@@ -1,10 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Migs.ValueTypes.Types;
+using Smart.ValueTypes.Types;
 using System.Globalization;
-using Migs.ValueTypes.Unfinished.Currency;
+using Smart.ValueTypes.Unfinished.Currency;
 
-namespace Migs.ValueTypes.Benchmarks
+namespace Smart.ValueTypes.Benchmarks
 {
     [MemoryDiagnoser]
     [RankColumn]

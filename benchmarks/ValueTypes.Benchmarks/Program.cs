@@ -1,15 +1,15 @@
 ﻿using BenchmarkDotNet.Running;
-using Migs.ValueTypes.Benchmarks.Temperatures;
-using Migs.ValueTypes.Types.Temperatures;
+using Smart.ValueTypes.Benchmarks.Temperatures;
+using Smart.ValueTypes.Types.Temperatures;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using Migs.ValueTypes.Benchmarks.IDs;
-using Migs.ValueTypes.Types;
+using Smart.ValueTypes.Benchmarks.IDs;
+using Smart.ValueTypes.Types;
 
-namespace Migs.ValueTypes.Benchmarks
+namespace Smart.ValueTypes.Benchmarks
 {
     internal class Program
     {

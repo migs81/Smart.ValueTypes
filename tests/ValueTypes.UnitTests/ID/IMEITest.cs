@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Types.ID;
+﻿using Smart.ValueTypes.Types.ID;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.ID
+namespace Smart.ValueTypes.UnitTests.ID
 {
     public class IMEITest
     {

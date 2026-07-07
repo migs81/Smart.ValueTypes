@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Migs.ValueTypes.UnitTests.TestData
+namespace Smart.ValueTypes.UnitTests.TestData
 {
     internal class NumberGenerator
     {

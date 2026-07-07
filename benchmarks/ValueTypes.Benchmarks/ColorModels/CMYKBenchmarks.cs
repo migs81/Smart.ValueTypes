@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Migs.ValueTypes.Types.ColorModels;
+using Smart.ValueTypes.Types.ColorModels;
 
-namespace Migs.ValueTypes.Benchmarks.ColorModels
+namespace Smart.ValueTypes.Benchmarks.ColorModels
 {
     [MemoryDiagnoser]
     [RankColumn]

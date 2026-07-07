@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace Migs.ValueTypes.Types.IPs
+namespace Smart.ValueTypes.Types.IPs
 {
     /// <summary>
     /// Value type for IPv4 addresses.

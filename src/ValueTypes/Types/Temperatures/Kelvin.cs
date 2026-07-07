@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Migs.ValueTypes.Types.Temperatures
+namespace Smart.ValueTypes.Types.Temperatures
 {
     /// <summary>
     /// Value type for Kelvin temperatures.

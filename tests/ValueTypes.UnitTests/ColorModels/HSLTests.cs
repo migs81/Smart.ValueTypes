@@ -1,7 +1,7 @@
-﻿using Migs.ValueTypes.Types.ColorModels;
+﻿using Smart.ValueTypes.Types.ColorModels;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.ColorModels
+namespace Smart.ValueTypes.UnitTests.ColorModels
 {
     public class HSLTest
     {

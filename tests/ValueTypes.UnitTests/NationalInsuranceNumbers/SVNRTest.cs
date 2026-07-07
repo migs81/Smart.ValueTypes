@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Types.NationalInsuranceNumbers;
-using Migs.ValueTypes.UnitTests.TestData;
+﻿using Smart.ValueTypes.Types.NationalInsuranceNumbers;
+using Smart.ValueTypes.UnitTests.TestData;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.NationalInsuranceNumbers
+namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
 {
     public class SVNRTest
     {

@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.Types.Coordinates
+﻿namespace Smart.ValueTypes.Types.Coordinates
 {
     /// <summary>
     /// Aggregate for Longitude and Latitude.

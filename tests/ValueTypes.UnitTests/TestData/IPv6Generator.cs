@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Migs.ValueTypes.UnitTests.TestData
+namespace Smart.ValueTypes.UnitTests.TestData
 {
     internal class IPv6Generator
     {

@@ -1,6 +1,6 @@
-﻿using Migs.ValueTypes.Types.Temperatures;
+﻿using Smart.ValueTypes.Types.Temperatures;
 
-namespace Migs.ValueTypes.UnitTests.TestData
+namespace Smart.ValueTypes.UnitTests.TestData
 {
     internal class TemperatureGenerator
     {

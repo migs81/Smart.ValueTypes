@@ -1,9 +1,9 @@
 ﻿using System;
-using Migs.ValueTypes.Types.Coordinates;
-using Migs.ValueTypes.UnitTests.TestData;
+using Smart.ValueTypes.Types.Coordinates;
+using Smart.ValueTypes.UnitTests.TestData;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests.Coordinates
+namespace Smart.ValueTypes.UnitTests.Coordinates
 {
     public class LongitudeTest
     {

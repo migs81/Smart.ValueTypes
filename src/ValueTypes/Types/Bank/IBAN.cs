@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.Bank
+namespace Smart.ValueTypes.Types.Bank
 {
     /// <summary>
     /// Value type for IBANs.l

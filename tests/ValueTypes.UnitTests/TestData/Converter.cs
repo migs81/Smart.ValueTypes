@@ -1,4 +1,4 @@
-﻿namespace Migs.ValueTypes.UnitTests.TestData
+﻿namespace Smart.ValueTypes.UnitTests.TestData
 {
     internal static class Converter
     {

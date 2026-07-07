@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.Coordinates
+namespace Smart.ValueTypes.Types.Coordinates
 {
     /// <summary>
     /// Value type for a latitude.

@@ -1,9 +1,9 @@
-﻿using Migs.ValueTypes.Interfaces;
+﻿using Smart.ValueTypes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Migs.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Hashes
 {
     /// <summary>
     /// Value type for Secure Hash Algorithm 1 (SHA1).

@@ -1,8 +1,8 @@
-﻿using Migs.ValueTypes.Types;
+﻿using Smart.ValueTypes.Types;
 using System;
 using Xunit;
 
-namespace Migs.ValueTypes.UnitTests
+namespace Smart.ValueTypes.UnitTests
 {
     public class EmailAddressTest
     {

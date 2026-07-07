@@ -1,7 +1,7 @@
 ﻿using System;
-using Migs.ValueTypes.Interfaces;
+using Smart.ValueTypes.Interfaces;
 
-namespace Migs.ValueTypes.Types.ColorModels
+namespace Smart.ValueTypes.Types.ColorModels
 {
     /// <summary>
     /// Value type for the HSL color model.
