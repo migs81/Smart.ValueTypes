@@ -134,7 +134,7 @@ namespace Smart.ValueTypes.Types.Coordinates
         }
 
         public InvalidLatitudeException(double value)
-            : base($"The value '{value} is not a valid {nameof(Longitude)}!")
+            : base($"The value '{value} is not a valid {nameof(Latitude)}!")
         {
         }
     }
