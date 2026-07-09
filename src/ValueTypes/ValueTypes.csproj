@@ -4,6 +4,6 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Smart.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 	<LangVersion>default</LangVersion>
-	<TargetFrameworks>net10.0;net6.0;net8.0</TargetFrameworks>
+	<TargetFrameworks>net10.0;net8.0</TargetFrameworks>
   </PropertyGroup>
 </Project>
