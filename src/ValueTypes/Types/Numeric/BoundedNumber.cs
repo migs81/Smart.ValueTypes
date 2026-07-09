@@ -63,6 +63,7 @@ namespace Smart.ValueTypes.Types.Numeric
             {
                 throw result switch
                 {
+                    Validation.InvalidBounds => new InvalidBoundedNumberException($"The values 'Min: {MinValue}' and 'Max: {MaxValue}' are no valid boundaries for a {nameof(BoundedNumber<T>)}!"),
                     Validation.ValueTooLow => new InvalidBoundedNumberException($"The value '{value}' is too low for a {nameof(BoundedNumber<T>)}!"),
                     Validation.ValueTooHigh => new InvalidBoundedNumberException($"The value '{value}' is too high for a {nameof(BoundedNumber<T>)}!"),
                     _ => new InvalidBoundedNumberException(),
