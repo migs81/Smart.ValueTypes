@@ -24,8 +24,8 @@ namespace Smart.ValueTypes.UnitTests.Numeric
             
             // assert
             Assert.Equal(value, result);
-            Assert.Equal(minValue, result.MinValue);
-            Assert.Equal(maxValue, result.MaxValue);
+            Assert.Equal(minValue, result.Min);
+            Assert.Equal(maxValue, result.Max);
         }
 
         [Theory]
@@ -52,8 +52,8 @@ namespace Smart.ValueTypes.UnitTests.Numeric
             
             // assert
             Assert.Equal(value, result);
-            Assert.Equal(minValue, result.MinValue);
-            Assert.Equal(maxValue, result.MaxValue);
+            Assert.Equal(minValue, result.Min);
+            Assert.Equal(maxValue, result.Max);
         }
         
         [Theory]

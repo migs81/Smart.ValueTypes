@@ -31,9 +31,9 @@ namespace Smart.ValueTypes.Types.Numeric
 
         public static BoundedNumber<T> Empty => new();
 
-        public T MinValue { get; }
+        public T Min { get; }
         
-        public T MaxValue { get; }
+        public T Max { get; }
         
         #endregion
 
@@ -44,8 +44,8 @@ namespace Smart.ValueTypes.Types.Numeric
         /// </summary>
         public BoundedNumber()
         {
-            MinValue = T.Zero;
-            MaxValue = T.Zero;
+            Min = T.Zero;
+            Max = T.Zero;
             _value = T.Zero;
         }
 
@@ -63,7 +63,7 @@ namespace Smart.ValueTypes.Types.Numeric
             {
                 throw result switch
                 {
-                    Validation.InvalidBounds => new InvalidBoundedNumberException($"The values 'Min: {MinValue}' and 'Max: {MaxValue}' are no valid boundaries for a {nameof(BoundedNumber<T>)}!"),
+                    Validation.InvalidBounds => new InvalidBoundedNumberException($"The values 'Min: {Min}' and 'Max: {Max}' are no valid boundaries for a {nameof(BoundedNumber<T>)}!"),
                     Validation.ValueTooLow => new InvalidBoundedNumberException($"The value '{value}' is too low for a {nameof(BoundedNumber<T>)}!"),
                     Validation.ValueTooHigh => new InvalidBoundedNumberException($"The value '{value}' is too high for a {nameof(BoundedNumber<T>)}!"),
                     _ => new InvalidBoundedNumberException(),
@@ -71,16 +71,16 @@ namespace Smart.ValueTypes.Types.Numeric
             }
 
             _value = value;
-            MinValue = minValue;
-            MaxValue = maxValue;
+            Min = minValue;
+            Max = maxValue;
         }
         
         // required for internal initialization
         private BoundedNumber(ref T value, ref T minValue, ref T maxValue)
         {
             _value = value;
-            MinValue = minValue;
-            MaxValue = maxValue;
+            Min = minValue;
+            Max = maxValue;
         }
 
         #endregion
