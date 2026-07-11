@@ -1,13 +1,8 @@
-﻿using BenchmarkDotNet.Running;
-using Smart.ValueTypes.Benchmarks.Temperatures;
-using Smart.ValueTypes.Types.Temperatures;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Mail;
-using Smart.ValueTypes.Benchmarks.IDs;
-using Smart.ValueTypes.Types;
+using BenchmarkDotNet.Running;
+using Smart.ValueTypes.Benchmarks.NationalInsuranceNumbers;
 
 namespace Smart.ValueTypes.Benchmarks
 {
@@ -15,8 +10,10 @@ namespace Smart.ValueTypes.Benchmarks
     {
         private static void Main(string[] args)
         {
+            _ = BenchmarkRunner.Run<SVNRBenchmarks>();
+            
             // _ = BenchmarkRunner.Run<IMEIBenchmarks>();
-            _ = BenchmarkRunner.Run<IMSIBenchmarks>();
+            // _ = BenchmarkRunner.Run<IMSIBenchmarks>();
             
             // temperatures
             // _ = BenchmarkRunner.Run<CelsiusBenchmarks>();

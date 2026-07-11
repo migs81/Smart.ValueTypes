@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Types;
 using Smart.ValueTypes.Unfinished;
 
 namespace Smart.ValueTypes.Benchmarks
