@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Smart.ValueTypes.Types.IPs;
+using Smart.ValueTypes.Types.Network;
 
-namespace Smart.ValueTypes.Benchmarks.IPs
+namespace Smart.ValueTypes.Benchmarks.Network
 {
     internal class IPBenchmarks
     {

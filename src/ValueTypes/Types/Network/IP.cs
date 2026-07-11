@@ -1,9 +1,8 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.IPs
+namespace Smart.ValueTypes.Types.Network
 {
     /// <summary>
     /// Value type for IP addresses.

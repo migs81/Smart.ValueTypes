@@ -1,9 +1,9 @@
-﻿using Smart.ValueTypes.Types.IPs;
+﻿using System;
+using Smart.ValueTypes.Types.Network;
 using Smart.ValueTypes.UnitTests.TestData;
-using System;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.IPs
+namespace Smart.ValueTypes.UnitTests.Network
 {
     public class IPv6Test
     {

@@ -1,8 +1,8 @@
-﻿using Smart.ValueTypes.Types.IPs;
+﻿using Smart.ValueTypes.Types.Network;
 using Smart.ValueTypes.UnitTests.TestData;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.IPs
+namespace Smart.ValueTypes.UnitTests.Network
 {
     public class IPTest
     {
