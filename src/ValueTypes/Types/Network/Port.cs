@@ -4,7 +4,7 @@ using Smart.ValueTypes.Interfaces;
 namespace Smart.ValueTypes.Types.Network
 {
     /// <summary>
-    /// Value type for a latitude.
+    /// Value type for a port number.
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidPortException"></exception>
