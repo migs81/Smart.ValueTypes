@@ -11,7 +11,7 @@ namespace Smart.ValueTypes.Types.IPs
     /// <seealso cref="IValueType&lt;string, IP&gt;" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="FormatException"></exception>
+    /// <exception cref="InvalidIPException"></exception>
     public readonly record struct IP : IValueType<string, IP>
     {
         #region fields
@@ -50,7 +50,7 @@ namespace Smart.ValueTypes.Types.IPs
         /// Initializes a new instance of the <see cref="IP"/> struct.
         /// </summary>
         /// <param name="value"></param>
-        /// <exception cref="FormatException"></exception>
+        /// <exception cref="InvalidIPException"></exception>
         public IP(string value)
         {
             if (IPv4.ValidateFormat(value) == IPv4.Validation.Ok)
@@ -65,7 +65,7 @@ namespace Smart.ValueTypes.Types.IPs
             }
             else
             {
-                throw new FormatException($"The value '{value}' is not a valid IP address!");
+                throw new InvalidIPException($"The value '{value}' is not a valid IP address!");
             }
         }
         
@@ -74,13 +74,13 @@ namespace Smart.ValueTypes.Types.IPs
         /// </summary>
         /// <param name="value"></param>
         /// <param name="type"></param>
-        /// <exception cref="FormatException"></exception>
+        /// <exception cref="InvalidIPException"></exception>
         public IP(string value, IPType type)
         {
             if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok
                 || type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
             {
-                throw new FormatException($"The value '{value}' is not a valid IP address!");
+                throw new InvalidIPException($"The value '{value}' is not a valid IP address!");
             }
 
             _value = value;
@@ -169,5 +169,16 @@ namespace Smart.ValueTypes.Types.IPs
         public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
         #endregion
+    }
+    
+    public class InvalidIPException : Exception
+    {
+        public InvalidIPException()
+        {
+        }
+
+        public InvalidIPException(string message) : base(message)
+        {
+        }
     }
 }
