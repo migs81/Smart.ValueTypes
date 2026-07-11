@@ -6,7 +6,7 @@ namespace Smart.ValueTypes.UnitTests.Bank;
 
 public class BankAccountTest
 {
-    #region tests
+    #region constructor
 
     [Fact]
     public void Constructor_ValidInput_ShouldReturnObject()

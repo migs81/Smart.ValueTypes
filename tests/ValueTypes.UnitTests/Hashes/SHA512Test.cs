@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "1f40fc92da241694750979ee6cf582f2d5d7d28e18335de05abc54d0560e0f5302860c652bf08d560252aa5e74210546f369fbbbce8c12cfc7957b2652fe9a75",
             "5267768822ee624d48fce15ec5ca79cbd602cb7f4c2157a516556991f22ef8c7b5ef7b18d1ff41c59370efb0858651d44a936c11b7b144c48fe04df3c6a3e8da",
@@ -21,41 +21,37 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             "507b553b106b1b9963b7affb34e5ed14bc1160bbdea24c094405b306bdcb2520823a0c7db7da4b51cf45cbdbad519eeca9affd7103b131d1e65a4974ba56b18d",
             "fcd8780493d9d11d29031b928a9da358a6f48627fff0cb7e80fb8107de86e0c365dc9cf8fe2fc05a6ce6d75803b78ac894d82a396042312a995ef63b5dd4dd11",
         ];
-        private static readonly ValueTuple<string, string> _validValue = new("test",
-            "ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff");
+        private static readonly ValueTuple<string, string> ValidValue = new("test", "ee26b0dd4af7e749aa1a8ee3c10ae992" +
+                                                                                    "3f618980772e473f8819a5d4940e0db2" +
+                                                                                    "7ac185f8a0e1d5f84f88bc887fd67b14" +
+                                                                                    "3732c304cc5fa9ad8e6f57f50028a8ff");
 
-        private const string _wrongCharacter = 
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggg";
+        private const string WrongCharacter = "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" +
+                                              "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new SHA512();
+            
+            // assert
             Assert.Equal(SHA512.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new SHA512(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -63,65 +59,102 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(InvalidSha512Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha512Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha512Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SHA512(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
+        
+        #region From
+            
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SHA512.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
+        
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(InvalidSha512Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha512Exception))]
+        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => new SHA512(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+
+        #endregion
+        
+        #region TryFrom
 
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SHA512.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(SHA512.Validation.Ok, result);
             }
-        }
-
-        [Fact]
-        public void Create_ValidInput_ShouldReturnObject()
-        {
-            var result = SHA512.Create(_validValue.Item1);
-            Assert.Equal(_validValue.Item2.ToUpper(), result);
-        }
-
-        [Fact]
-        public void TryCreate_ValidInput_ShouldReturnTrue()
-        {
-            var result = SHA512.TryCreate(_validValue.Item1, out _);
-            Assert.True(result);
-        }
-
-        [Theory]
-        [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSha512Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha512Exception))]
-        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
-        {
-            var result = Record.Exception(() => new SHA512(input));
-            Assert.Equal(expectedException, result.GetType());
         }
 
         [Theory]
         [InlineData(null, SHA512.Validation.Null)]
         [InlineData("", SHA512.Validation.WrongLength)]
-        [InlineData(_wrongCharacter, SHA512.Validation.IllegalCharacter)]
+        [InlineData(WrongCharacter, SHA512.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, SHA512.Validation expected)
         {
+            // act
             var result = SHA512.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
+        }
+        
+        #endregion
+        
+        #region Create
+
+        [Fact]
+        public void Create_ValidInput_ShouldReturnObject()
+        {
+            // act
+            var result = SHA512.Create(ValidValue.Item1);
+            
+            // assert
+            Assert.Equal(ValidValue.Item2.ToUpper(), result);
+        }
+
+        #endregion
+        
+        #region TryCreate
+
+        [Fact]
+        public void TryCreate_ValidInput_ShouldReturnTrue()
+        {
+            // act
+            var result = SHA512.TryCreate(ValidValue.Item1, out _);
+            
+            // assert
+            Assert.True(result);
         }
 
         #endregion

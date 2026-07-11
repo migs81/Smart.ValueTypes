@@ -6,16 +6,15 @@ namespace Smart.ValueTypes.UnitTests.ID
 {
     public class IMSITest
     {
-        #region test data
-
-        #endregion
-
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new IMSI();
+            
+            // assert
             Assert.Equal(IMSI.Empty, result);
         }
 
@@ -24,7 +23,10 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("123456789012345")]
         public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
+            // act
             var result = new IMSI(input);
+            
+            // assert
             Assert.Equal(input, result);
         }
 
@@ -36,26 +38,27 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("a23456", typeof(InvalidImsiException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IMSI(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Theory]
         [InlineData("123456")]
         [InlineData("123456789012345")]
         public void From_ValidInput_ShouldReturnObject(string input)
         {
+            // act
             var result = IMSI.From(input);
+            
+            // assert
             Assert.Equal(input, result);
-        }
-
-        [Theory]
-        [InlineData("123456")]
-        [InlineData("123456789012345")]
-        public void TryFrom_ValidInput_ShouldReturnOK(string input)
-        {
-            var result = IMSI.TryFrom(input, out _);
-            Assert.Equal(IMSI.Validation.Ok, result);
         }
 
         [Theory]
@@ -66,8 +69,27 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("a23456", typeof(InvalidImsiException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IMSI(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+
+        #endregion
+        
+        #region TryFrom
+
+        [Theory]
+        [InlineData("123456")]
+        [InlineData("123456789012345")]
+        public void TryFrom_ValidInput_ShouldReturnOK(string input)
+        {
+            // act
+            var result = IMSI.TryFrom(input, out _);
+            
+            // assert
+            Assert.Equal(IMSI.Validation.Ok, result);
         }
 
         [Theory]
@@ -78,7 +100,10 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("a23456", IMSI.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, IMSI.Validation expected)
         {
+            // act
             var result = IMSI.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

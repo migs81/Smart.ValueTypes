@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "d41d8cd98f00b204e9800998ecf8427e", "098f6bcd4621d373cade4e832627b4f6", "5eb63bbbe01eeed093cb22bb8f5acdc3",
             "e4d909c290d0fb1ca068ffaddf22cbd0", "a87ff679a2f3e71d9181a67b7542122c", "9e107d9d372bb6826bd81d3542a419d6",
@@ -24,21 +24,27 @@ namespace Smart.ValueTypes.UnitTests.Hashes
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new MD5();
+            
+            // assert
             Assert.Equal(MD5.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new MD5(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -49,27 +55,27 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [InlineData("0000000000000000000000000000000z", typeof(InvalidMd5Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new MD5(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = MD5.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
-        {
-            foreach (var value in _validValues)
-            {
-                var result = MD5.TryFrom(value, out _);
-                Assert.Equal(MD5.Validation.Ok, result);
             }
         }
 
@@ -79,8 +85,28 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [InlineData("0000000000000000000000000000000z", typeof(InvalidMd5Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new MD5(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // act
+            Assert.Equal(expectedException, result?.GetType());
+        }
+        
+        #endregion
+        
+        #region TryFrom
+
+        [Fact]
+        public void TryFrom_ValidInput_ShouldReturnOK()
+        {
+            foreach (var value in ValidValues)
+            {
+                // act
+                var result = MD5.TryFrom(value, out _);
+                
+                // assert
+                Assert.Equal(MD5.Validation.Ok, result);
+            }
         }
 
         [Theory]
@@ -89,7 +115,10 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [InlineData("0000000000000000000000000000000z", MD5.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, MD5.Validation expected)
         {
+            // act
             var result = MD5.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

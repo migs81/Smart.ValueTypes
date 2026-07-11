@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "54a59b9f22b0b80880d8427e548b7c23abd873486e1f035dce9cd697e85175033caa88e6d57bc35efae0b5afd3145f31",
             "98a906182cdcfb1eb4eb47117600f68958e2ddd140248b47984f4bde6587b89c8215c3da895a336e94ad1aca39015c40",
@@ -21,38 +21,35 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             "2051ff7a91bcc6245fe7c3c4bdfcb0538553f73c54100c686a6fc0279354d12ecb4b7589a60a516c4fabadbeb622f397",
             "417316736caf4fc0f2a09f5d6e4c90d78b768fe08add82c5db9f0a22809bd6a719e3ad367f149d92b5455e952b79613b",
         ];
-        private static readonly ValueTuple<string, string> _validValue = new("test",
+        private static readonly ValueTuple<string, string> ValidValue = new("test",
             "768412320f7b0aa5812fce428dc4706b3cae50e02a64caa16a782249bfe8efc4b7ef1ccb126255d196047dfedf17a0a9");
 
-        private const string _wrongCharacter = 
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggg";
+        private const string WrongCharacter = 
+            "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new SHA384();
+            
+            // assert
             Assert.Equal(SHA384.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new SHA384(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -60,65 +57,102 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(InvalidSha384Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha384Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha384Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SHA384(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SHA384.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
+        
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(InvalidSha384Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha384Exception))]
+        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => new SHA384(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+        
+        #endregion
+        
+        #region TryFrom
 
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SHA384.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(SHA384.Validation.Ok, result);
             }
-        }
-
-        [Fact]
-        public void Create_ValidInput_ShouldReturnObject()
-        {
-            var result = SHA384.Create(_validValue.Item1);
-            Assert.Equal(_validValue.Item2.ToUpper(), result);
-        }
-
-        [Fact]
-        public void TryCreate_ValidInput_ShouldReturnTrue()
-        {
-            var result = SHA384.TryCreate(_validValue.Item1, out _);
-            Assert.True(result);
-        }
-
-        [Theory]
-        [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidSha384Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha384Exception))]
-        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
-        {
-            var result = Record.Exception(() => new SHA384(input));
-            Assert.Equal(expectedException, result.GetType());
         }
 
         [Theory]
         [InlineData(null, SHA384.Validation.Null)]
         [InlineData("", SHA384.Validation.WrongLength)]
-        [InlineData(_wrongCharacter, SHA384.Validation.IllegalCharacter)]
+        [InlineData(WrongCharacter, SHA384.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, SHA384.Validation expected)
         {
+            // act
             var result = SHA384.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
+        }
+        
+        #endregion
+        
+        #region Create
+
+        [Fact]
+        public void Create_ValidInput_ShouldReturnObject()
+        {
+            // act
+            var result = SHA384.Create(ValidValue.Item1);
+            
+            // assert
+            Assert.Equal(ValidValue.Item2.ToUpper(), result);
+        }
+
+        #endregion
+        
+        #region TryCreate
+
+        [Fact]
+        public void TryCreate_ValidInput_ShouldReturnTrue()
+        {
+            // act
+            var result = SHA384.TryCreate(ValidValue.Item1, out _);
+            
+            // assert
+            Assert.True(result);
         }
 
         #endregion

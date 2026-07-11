@@ -9,75 +9,104 @@ namespace Smart.ValueTypes.UnitTests.Coordinates
     {
         #region test data
 
-        private static readonly double[] _validValues = NumberGenerator.NextDouble(1000, Latitude.MinValue, Latitude.MaxValue);
-        private const double _tooLowValue = Latitude.MinValue - 1;
-        private const double _tooHighValue = Latitude.MaxValue + 1;
+        private static readonly double[] ValidValues = NumberGenerator.NextDouble(1000, Latitude.MinValue, Latitude.MaxValue);
+        private const double TooLowValue = Latitude.MinValue - 1;
+        private const double TooHighValue = Latitude.MaxValue + 1;
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new Latitude();
+            
+            // assert
             Assert.Equal(Latitude.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new Latitude(value);
+                
+                // assert
                 Assert.Equal(value, result, 0);
             }
         }
 
         [Theory]
-        [InlineData(_tooLowValue, typeof(InvalidLatitudeException))]
-        [InlineData(_tooHighValue, typeof(InvalidLatitudeException))]
+        [InlineData(TooLowValue, typeof(InvalidLatitudeException))]
+        [InlineData(TooHighValue, typeof(InvalidLatitudeException))]
         public void Constructor_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new Latitude(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = Latitude.From(value);
+                
+                // assert
                 Assert.Equal(value, result, 0);
             }
         }
+        
+        [Theory]
+        [InlineData(TooLowValue, typeof(InvalidLatitudeException))]
+        [InlineData(TooHighValue, typeof(InvalidLatitudeException))]
+        public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => new Latitude(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = Latitude.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(Latitude.Validation.Ok, result);
             }
         }
-
+        
         [Theory]
-        [InlineData(_tooLowValue, typeof(InvalidLatitudeException))]
-        [InlineData(_tooHighValue, typeof(InvalidLatitudeException))]
-        public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
-        {
-            var result = Record.Exception(() => new Latitude(input));
-            Assert.Equal(expectedException, result.GetType());
-        }
-
-        [Theory]
-        [InlineData(_tooLowValue, Latitude.Validation.TooLow)]
-        [InlineData(_tooHighValue, Latitude.Validation.TooHigh)]
+        [InlineData(TooLowValue, Latitude.Validation.TooLow)]
+        [InlineData(TooHighValue, Latitude.Validation.TooHigh)]
         public void TryFrom_WrongInput_ShouldReturnError(double input, Latitude.Validation expected)
         {
+            // act
             var result = Latitude.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

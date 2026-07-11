@@ -9,17 +9,20 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
     {
         #region test data
 
-        private static readonly Temp[] _validTemperatures = TemperatureGenerator.CreateTemperatures(1000);
-        private const double _tooLowValue = Kelvin.MinValue - 1;
+        private static readonly Temp[] ValidTemperatures = TemperatureGenerator.CreateTemperatures(1000);
+        private const double TooLowValue = Kelvin.MinValue - 1;
 
         #endregion
 
-        #region constructor tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new Kelvin();
+            
+            // assert
             Assert.Equal(Kelvin.Zero, result);
         }
 
@@ -29,16 +32,22 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [InlineData(99)]
         public void Constructor_InputInteger_ShouldReturnObject(int value)
         {
+            // act
             var result = new Kelvin(value);
+            
+            // assert
             Assert.Equal(value, result, 0);
         }
 
         [Fact]
         public void Constructor_InputDouble_ShouldReturnObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
+                // act
                 var result = new Kelvin(temp.Kelvin);
+                
+                // assert
                 Assert.Equal(temp.Kelvin, result, 0);
             }
         }
@@ -46,7 +55,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void Constructor_InputCelsius_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Celsius celsius = new(temp.Celsius);
@@ -62,7 +71,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void Constructor_InputFahrenheitValues_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Fahrenheit fahrenheit = new(temp.Fahrenheit);
@@ -76,16 +85,19 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         }
 
         [Theory]
-        [InlineData(_tooLowValue, typeof(InvalidKelvinException))]
+        [InlineData(TooLowValue, typeof(InvalidKelvinException))]
         public void Constructor_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new Kelvin(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
         #endregion
 
-        #region other tests
+        #region From
 
         [Theory]
         [InlineData(0)]
@@ -93,115 +105,41 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [InlineData(99)]
         public void From_ValidInteger_ShouldReturnObject(int value)
         {
+            // act
             var result = Kelvin.From(value);
+            
+            // assert
             Assert.Equal(value, result, 0);
         }
 
         [Fact]
         public void From_ValidDouble_ShouldReturnObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
+                // act
                 var result = Kelvin.From(temp.Kelvin);
+                
+                // assert
                 Assert.Equal(temp.Kelvin, result, 0);
             }
         }
 
-        [Fact]
-        public void TryFrom_ValidDouble_ShouldReturnOK()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                var result = Kelvin.TryFrom(temp.Kelvin, out _);
-                Assert.Equal(Kelvin.Validation.Ok, result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidCelsius_ShouldReturnOK()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                var celsius = new Celsius(temp.Celsius);
-                var result = Kelvin.TryFrom(celsius, out _);
-                Assert.Equal(Kelvin.Validation.Ok, result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidFahrenheit_ShouldReturnOK()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                var fahrenheit = new Fahrenheit(temp.Fahrenheit);
-                var result = Kelvin.TryFrom(fahrenheit, out _);
-                Assert.Equal(Kelvin.Validation.Ok, result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidReamur_ShouldReturnOK()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                var reaumur = new Reaumur(temp.Reaumur);
-                var result = Kelvin.TryFrom(reaumur, out _);
-                Assert.Equal(Kelvin.Validation.Ok, result);
-            }
-        }
-
         [Theory]
-        [InlineData(_tooLowValue, typeof(InvalidKelvinException))]
+        [InlineData(TooLowValue, typeof(InvalidKelvinException))]
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new Kelvin(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
-
-        [Theory]
-        [InlineData(_tooLowValue, Kelvin.Validation.TooLow)]
-        public void TryFrom_WrongInput_ShouldReturnError(double input, Kelvin.Validation expected)
-        {
-            var result = Kelvin.TryFrom(input, out _);
-            Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public void ImplicitOperator_ToCelsius_ShouldReturnConvertedObject()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                // arrange
-                Kelvin kelvin = new(temp.Kelvin);
-
-                // act
-                Celsius celsius = kelvin;
-
-                // assert
-                Assert.Equal(temp.Celsius, celsius, 0);
-            }
-        }
-
-        [Fact]
-        public void ImplicitOperator_ToFahrenheit_ShouldReturnConvertedObject()
-        {
-            foreach (var temp in _validTemperatures)
-            {
-                // arrange
-                Kelvin kelvin = new(temp.Kelvin);
-
-                // act
-                Fahrenheit fahrenheit = kelvin;
-
-                // assert
-                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
-            }
-        }
-
+        
         [Fact]
         public void From_Celsius_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Celsius celsius = new(temp.Celsius);
@@ -217,7 +155,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void From_Fahrenheit_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Fahrenheit fahrenheit = new(temp.Fahrenheit);
@@ -229,11 +167,127 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Assert.Equal(temp.Kelvin, kelvin, 0);
             }
         }
+        
+        #endregion
+        
+        #region TryFrom
+
+        [Fact]
+        public void TryFrom_ValidDouble_ShouldReturnOK()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // act
+                var result = Kelvin.TryFrom(temp.Kelvin, out _);
+                
+                // assert
+                Assert.Equal(Kelvin.Validation.Ok, result);
+            }
+        }
+
+        [Fact]
+        public void TryFrom_ValidCelsius_ShouldReturnOK()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // arrange
+                var celsius = new Celsius(temp.Celsius);
+                
+                // act
+                var result = Kelvin.TryFrom(celsius, out _);
+                
+                // assert
+                Assert.Equal(Kelvin.Validation.Ok, result);
+            }
+        }
+
+        [Fact]
+        public void TryFrom_ValidFahrenheit_ShouldReturnOK()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // arrange
+                var fahrenheit = new Fahrenheit(temp.Fahrenheit);
+                
+                // act
+                var result = Kelvin.TryFrom(fahrenheit, out _);
+                
+                // assert
+                Assert.Equal(Kelvin.Validation.Ok, result);
+            }
+        }
+
+        [Fact]
+        public void TryFrom_ValidReamur_ShouldReturnOK()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // arrange
+                var reaumur = new Reaumur(temp.Reaumur);
+                
+                // act
+                var result = Kelvin.TryFrom(reaumur, out _);
+                
+                // assert
+                Assert.Equal(Kelvin.Validation.Ok, result);
+            }
+        }
+
+        [Theory]
+        [InlineData(TooLowValue, Kelvin.Validation.TooLow)]
+        public void TryFrom_WrongInput_ShouldReturnError(double input, Kelvin.Validation expected)
+        {
+            // act
+            var result = Kelvin.TryFrom(input, out _);
+            
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        #endregion
+        
+        #region Operator
+
+        [Fact]
+        public void ImplicitOperator_ToCelsius_ShouldReturnConvertedObject()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // arrange
+                Kelvin kelvin = new(temp.Kelvin);
+
+                // act
+                Celsius celsius = kelvin;
+
+                // assert
+                Assert.Equal(temp.Celsius, celsius, 0);
+            }
+        }
+
+        [Fact]
+        public void ImplicitOperator_ToFahrenheit_ShouldReturnConvertedObject()
+        {
+            foreach (var temp in ValidTemperatures)
+            {
+                // arrange
+                Kelvin kelvin = new(temp.Kelvin);
+
+                // act
+                Fahrenheit fahrenheit = kelvin;
+
+                // assert
+                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
+            }
+        }
+
+        #endregion
+        
+        #region To
 
         [Fact]
         public void ToCelsius_ValidInput_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Kelvin kelvin = new(temp.Kelvin);
@@ -249,7 +303,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void ToFahrenheit_ValidInput_ShouldReturnConvertedObject()
         {
-            foreach (var temp in _validTemperatures)
+            foreach (var temp in ValidTemperatures)
             {
                 // arrange
                 Kelvin kelvin = new(temp.Kelvin);

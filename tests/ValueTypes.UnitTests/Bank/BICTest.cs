@@ -8,20 +8,20 @@ namespace Smart.ValueTypes.UnitTests.Bank
     {
         #region test data
 
-        private const string LENGTH_7 = "ABCDEFG"; // wrong length (must be 8 or 11!)
-        private const string LENGTH_9 = "ABCDEFGHI"; // wrong length (must be 8 or 11!)
-        private const string LENGTH_10 = "ABCDEFGHIJ"; // wrong length (must be 8 or 11!)
-        private const string LENGTH_12 = "ABCDEFGHIJKL"; // wrong length (must be 8 or 11!)
-        private const string WRONG_BANK_CODE = "ABc%efgh"; // wrong bank code (must be alphanumeric
-        private const string WRONG_COUNTRY_CODE_1 = "abcdA1gh"; // wrong country code (only letters)
-        private const string WRONG_COUNTRY_CODE_2 = "abcd%Bgh"; // wrong country code (only letters)
-        private const string WRONG_CITY_CODE_1 = "abcdef0h"; // wrong city code (first letter can not be 0)
-        private const string WRONG_CITY_CODE_2 = "abcdef1h"; // wrong city code (first letter can not be 0)
-        private const string WRONG_CITY_CODE_3 = "abcdefgo"; // wrong city code (first letter can not be 0)
-        private const string WRONG_BRANCH_CODE_1 = "abcdefghx23"; // wrong branch code (can not start with x unless it is XXX)
-        private const string WRONG_BRANCH_CODE_2 = "abcdefghxx3"; // wrong branch code (can not start with x unless it is XXX)
+        private const string Length7 = "ABCDEFG"; // wrong length (must be 8 or 11!)
+        private const string Length9 = "ABCDEFGHI"; // wrong length (must be 8 or 11!)
+        private const string Length10 = "ABCDEFGHIJ"; // wrong length (must be 8 or 11!)
+        private const string Length12 = "ABCDEFGHIJKL"; // wrong length (must be 8 or 11!)
+        private const string WrongBankCode = "ABc%efgh"; // wrong bank code (must be alphanumeric
+        private const string WrongCountryCode1 = "abcdA1gh"; // wrong country code (only letters)
+        private const string WrongCountryCode2 = "abcd%Bgh"; // wrong country code (only letters)
+        private const string WrongCityCode1 = "abcdef0h"; // wrong city code (first letter can not be 0)
+        private const string WrongCityCode2 = "abcdef1h"; // wrong city code (first letter can not be 0)
+        private const string WrongCityCode3 = "abcdefgo"; // wrong city code (first letter can not be 0)
+        private const string WrongBranchCode1 = "abcdefghx23"; // wrong branch code (can not start with x unless it is XXX)
+        private const string WrongBranchCode2 = "abcdefghxx3"; // wrong branch code (can not start with x unless it is XXX)
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         {
             "BYLADEM1001", "INGDDEFF", "BELADEBE", "CMCIDEDD", "HASPDEHH", "PBNKDEFF", "DAAEDEDD", "SOLADEST600",
             "HYVEDEMM", "COKSDE33", "BEVODEBB", "SSKMDEMM", "OPSKATWW", "EASYATW1", "RLNWATWW", "BKAUATWW", "GIBAATWW",
@@ -34,21 +34,27 @@ namespace Smart.ValueTypes.UnitTests.Bank
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var bic = new BIC();
+            
+            // assert
             Assert.Equal(BIC.Empty, bic);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var bic = new BIC(value);
+                
+                // assert
                 Assert.Equal(value.ToUpper(), bic);
             }
         }
@@ -56,83 +62,106 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(LENGTH_7, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_9, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_10, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_12, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(WRONG_BANK_CODE, typeof(InvalidBicException))] // wrong bank code (must be alphanumeric
-        [InlineData(WRONG_COUNTRY_CODE_1, typeof(InvalidBicException))] // wrong country code (only letters)
-        [InlineData(WRONG_COUNTRY_CODE_2, typeof(InvalidBicException))] // wrong country code (only letters)
-        [InlineData(WRONG_CITY_CODE_1, typeof(InvalidBicException))] // wrong city code (first letter can not be 0)
-        [InlineData(WRONG_CITY_CODE_2, typeof(InvalidBicException))] // wrong city code (first letter can not be 1)
-        [InlineData(WRONG_CITY_CODE_3, typeof(InvalidBicException))] // wrong city code (second letter can not be the letter o)
-        [InlineData(WRONG_BRANCH_CODE_1, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
-        [InlineData(WRONG_BRANCH_CODE_2, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
+        [InlineData(Length7, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length9, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length10, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length12, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(WrongBankCode, typeof(InvalidBicException))] // wrong bank code (must be alphanumeric
+        [InlineData(WrongCountryCode1, typeof(InvalidBicException))] // wrong country code (only letters)
+        [InlineData(WrongCountryCode2, typeof(InvalidBicException))] // wrong country code (only letters)
+        [InlineData(WrongCityCode1, typeof(InvalidBicException))] // wrong city code (first letter can not be 0)
+        [InlineData(WrongCityCode2, typeof(InvalidBicException))] // wrong city code (first letter can not be 1)
+        [InlineData(WrongCityCode3, typeof(InvalidBicException))] // wrong city code (second letter can not be the letter o)
+        [InlineData(WrongBranchCode1, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
+        [InlineData(WrongBranchCode2, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new BIC(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
+        
+        #region From
+        
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var bic = BIC.From(value);
+                
+                // assert
                 Assert.Equal(value.ToUpper(), bic);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
-        {
-            foreach (var value in _validValues)
-            {
-                var result = BIC.TryFrom(value, out _);
-                Assert.Equal(BIC.Validation.Ok, result);
             }
         }
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(LENGTH_7, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_9, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_10, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(LENGTH_12, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
-        [InlineData(WRONG_BANK_CODE, typeof(InvalidBicException))] // wrong bank code (must be alphanumeric
-        [InlineData(WRONG_COUNTRY_CODE_1, typeof(InvalidBicException))] // wrong country code (only letters)
-        [InlineData(WRONG_COUNTRY_CODE_2, typeof(InvalidBicException))] // wrong country code (only letters)
-        [InlineData(WRONG_CITY_CODE_1, typeof(InvalidBicException))] // wrong city code (first letter can not be 0)
-        [InlineData(WRONG_CITY_CODE_2, typeof(InvalidBicException))] // wrong city code (first letter can not be 1)
-        [InlineData(WRONG_CITY_CODE_3, typeof(InvalidBicException))] // wrong city code (second letter can not be the letter o)
-        [InlineData(WRONG_BRANCH_CODE_1, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
-        [InlineData(WRONG_BRANCH_CODE_2, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
+        [InlineData(Length7, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length9, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length10, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(Length12, typeof(InvalidBicException))] // wrong length (must be 8 or 11!)
+        [InlineData(WrongBankCode, typeof(InvalidBicException))] // wrong bank code (must be alphanumeric
+        [InlineData(WrongCountryCode1, typeof(InvalidBicException))] // wrong country code (only letters)
+        [InlineData(WrongCountryCode2, typeof(InvalidBicException))] // wrong country code (only letters)
+        [InlineData(WrongCityCode1, typeof(InvalidBicException))] // wrong city code (first letter can not be 0)
+        [InlineData(WrongCityCode2, typeof(InvalidBicException))] // wrong city code (first letter can not be 1)
+        [InlineData(WrongCityCode3, typeof(InvalidBicException))] // wrong city code (second letter can not be the letter o)
+        [InlineData(WrongBranchCode1, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
+        [InlineData(WrongBranchCode2, typeof(InvalidBicException))] // wrong branch code (can not start with x unless it is XXX)
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new BIC(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
+        
+        #region TryFrom
+        
+        [Fact]
+        public void TryFrom_ValidInput_ShouldReturnOK()
+        {
+            foreach (var value in ValidValues)
+            {
+                // act
+                var result = BIC.TryFrom(value, out _);
+                
+                // assert
+                Assert.Equal(BIC.Validation.Ok, result);
+            }
+        }
+        
         [Theory]
         [InlineData(null, BIC.Validation.Null)]
         [InlineData("", BIC.Validation.Empty)]
-        [InlineData(LENGTH_7, BIC.Validation.WrongLength)]
-        [InlineData(LENGTH_9, BIC.Validation.WrongLength)]
-        [InlineData(LENGTH_10, BIC.Validation.WrongLength)]
-        [InlineData(LENGTH_12, BIC.Validation.WrongLength)]
-        [InlineData(WRONG_BANK_CODE, BIC.Validation.InvalidBankCode)]
-        [InlineData(WRONG_COUNTRY_CODE_1, BIC.Validation.InvalidCountryCode)]
-        [InlineData(WRONG_COUNTRY_CODE_2, BIC.Validation.InvalidCountryCode)]
-        [InlineData(WRONG_CITY_CODE_1, BIC.Validation.InvalidCityCode)]
-        [InlineData(WRONG_CITY_CODE_2, BIC.Validation.InvalidCityCode)]
-        [InlineData(WRONG_CITY_CODE_3, BIC.Validation.InvalidCityCode)]
-        [InlineData(WRONG_BRANCH_CODE_1, BIC.Validation.InvalidBranchCode)]
-        [InlineData(WRONG_BRANCH_CODE_2, BIC.Validation.InvalidBranchCode)]
+        [InlineData(Length7, BIC.Validation.WrongLength)]
+        [InlineData(Length9, BIC.Validation.WrongLength)]
+        [InlineData(Length10, BIC.Validation.WrongLength)]
+        [InlineData(Length12, BIC.Validation.WrongLength)]
+        [InlineData(WrongBankCode, BIC.Validation.InvalidBankCode)]
+        [InlineData(WrongCountryCode1, BIC.Validation.InvalidCountryCode)]
+        [InlineData(WrongCountryCode2, BIC.Validation.InvalidCountryCode)]
+        [InlineData(WrongCityCode1, BIC.Validation.InvalidCityCode)]
+        [InlineData(WrongCityCode2, BIC.Validation.InvalidCityCode)]
+        [InlineData(WrongCityCode3, BIC.Validation.InvalidCityCode)]
+        [InlineData(WrongBranchCode1, BIC.Validation.InvalidBranchCode)]
+        [InlineData(WrongBranchCode2, BIC.Validation.InvalidBranchCode)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, BIC.Validation expected)
         {
+            // act
             var result = BIC.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

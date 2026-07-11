@@ -8,9 +8,9 @@ namespace Smart.ValueTypes.UnitTests.ID
     {
         #region test data
 
-        private static readonly string[] _validValues = 
-		{ 
-			"352773074248705", "148270036030247", "148020069317791", "146990066384444", "146790022621701", "146710039197230", 
+        private static readonly string[] ValidValues =
+        [
+	        "352773074248705", "148270036030247", "148020069317791", "146990066384444", "146790022621701", "146710039197230", 
 			"146580097529420", "146500098871977", "146360030115839", "146200083282138", "146080093536941", "146020075434889", 
 			"145560043219244", "145510007926003", "145040074168107", "144970052669018", "148580055710762", "144700079213304", 
 			"148890037064786", "152930092471329", "352871101362653", "140530056164970", "140670027671057", "140680035169200", 
@@ -74,26 +74,32 @@ namespace Smart.ValueTypes.UnitTests.ID
 			"353296078435069", "350264842756346", "355687071554641", "350263906272380", "353298075081771", "350282711205088", 
 			"356609085048955", "356609108060805", "356609234967006", "355686076812996", "355685271610544", "355685072176216",
 			"353297077760598", "350302399647052", "355693078200436", "355691075299856", "356153094534820", "121560098459974", 
-			"121610065098352", "356152095560362", "121620077228103", "356151097476551", "122230092595020", "123290047063572",
-		};
+			"121610065098352", "356152095560362", "121620077228103", "356151097476551", "122230092595020", "123290047063572"
+        ];
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+	        // act
             var result = new IMEI();
+            
+            // assert
             Assert.Equal(IMEI.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+	            // act
                 var result = new IMEI(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -103,27 +109,27 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("", typeof(ArgumentException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+	        // act
             var result = Record.Exception(() => new IMEI(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+	            // act
                 var result = IMEI.From(value);
+                
+                // assert
                 Assert.Equal(value.ToUpper(), result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
-        {
-            foreach (var value in _validValues)
-            {
-                var result = IMEI.TryFrom(value, out _);
-                Assert.Equal(IMEI.Validation.Ok, result);
             }
         }
 
@@ -132,16 +138,39 @@ namespace Smart.ValueTypes.UnitTests.ID
         [InlineData("", typeof(ArgumentException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+	        // act
             var result = Record.Exception(() => new IMEI(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
+        
+        #region From
+
+        [Fact]
+        public void TryFrom_ValidInput_ShouldReturnOK()
+        {
+            foreach (var value in ValidValues)
+            {
+	            // act
+                var result = IMEI.TryFrom(value, out _);
+                
+                // assert
+                Assert.Equal(IMEI.Validation.Ok, result);
+            }
+        }
+        
         [Theory]
         [InlineData(null, IMEI.Validation.Null)]
         [InlineData("", IMEI.Validation.Empty)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, IMEI.Validation expected)
         {
+	        // act
             var result = IMEI.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

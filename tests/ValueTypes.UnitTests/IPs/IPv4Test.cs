@@ -18,7 +18,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new IPv4();
+            
+            // assert
             Assert.Equal(IPv4.Empty, result);
         }
 
@@ -27,7 +30,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         {
             foreach (var value in ValidValues)
             {
+                // act
                 var result = new IPv4(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -44,7 +50,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [InlineData(IPv4TestData.InvalidSegmentCountValue, typeof(InvalidIPv4Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IPv4(input));
+            
+            // assert
             Assert.Equal(expectedException, result?.GetType());
         }
 
@@ -57,7 +66,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         {
             foreach (var value in ValidValues)
             {
+                // act
                 var result = IPv4.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -74,7 +86,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [InlineData(IPv4TestData.InvalidSegmentCountValue, typeof(InvalidIPv4Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IPv4(input));
+            
+            // assert
             Assert.Equal(expectedException, result?.GetType());
         }
         

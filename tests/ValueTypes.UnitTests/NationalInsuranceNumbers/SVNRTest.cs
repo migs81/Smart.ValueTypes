@@ -9,29 +9,35 @@ namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
     {
         #region test data
 
-        private static readonly string[] _validValues = SVNRGenerator.GenerateTestSVNRs(1000, int.MinValue, int.MaxValue);
+        private static readonly string[] ValidValues = SVNRGenerator.GenerateTestSVNRs(1000, int.MinValue, int.MaxValue);
 
-        private const string _wrongValue = "1234010190";
+        private const string WrongValue = "1234010190";
 
         public static string CorruptChecksum(string svnr) => svnr[..9] + ((svnr[9] - '0' + 1) % 10);
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new SVNR();
+            
+            // assert
             Assert.Equal(SVNR.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new SVNR(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -39,31 +45,30 @@ namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(_wrongValue, typeof(InvalidSvnrException))]
+        [InlineData(WrongValue, typeof(InvalidSvnrException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SVNR(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
-
+        #endregion
+        
+        #region From
+        
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SVNR.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
-            }
-        }
-
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
-        {
-            foreach (var value in _validValues)
-            {
-                var result = SVNR.TryFrom(value, out _);
-                Assert.Equal(SVNR.Validation.Ok, result);
             }
         }
 
@@ -71,21 +76,44 @@ namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
         [InlineData("1234", typeof(InvalidSvnrException))]
-        [InlineData(_wrongValue, typeof(InvalidSvnrException))]
+        [InlineData(WrongValue, typeof(InvalidSvnrException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SVNR(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
+        
+        #region TryFrom
+        
+        [Fact]
+        public void TryFrom_ValidInput_ShouldReturnOK()
+        {
+            foreach (var value in ValidValues)
+            {
+                // act
+                var result = SVNR.TryFrom(value, out _);
+                
+                // assert
+                Assert.Equal(SVNR.Validation.Ok, result);
+            }
+        }
+        
         [Theory]
         [InlineData(null, SVNR.Validation.Null)]
         [InlineData("", SVNR.Validation.Empty)]
         [InlineData("1234", SVNR.Validation.WrongLength)]
-        [InlineData(_wrongValue, SVNR.Validation.WrongChecksum)]
+        [InlineData(WrongValue, SVNR.Validation.WrongChecksum)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, SVNR.Validation expected)
         {
+            // act
             var result = SVNR.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

@@ -1,21 +1,19 @@
 ﻿using Smart.ValueTypes.Types;
-using System;
 using Xunit;
 
 namespace Smart.ValueTypes.UnitTests
 {
     public class PasswordTest
     {
-        #region test data
-
-        #endregion
-
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnEmptyPassword()
         {
+            // act
             var password = new Password();
+            
+            // assert
             Assert.Equal(Password.Empty, password);
             Assert.Equal("", password);
         }
@@ -27,7 +25,10 @@ namespace Smart.ValueTypes.UnitTests
         [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
         public void Constructor_ValidInput_ShouldReturnObject(string input, int minValue, int maxValue, Password.Requirement requirement)
         {
+            // act
             var password = new Password(input, minValue, maxValue, requirement);
+            
+            // assert
             Assert.Equal(input, password);
         }
 
@@ -41,8 +42,45 @@ namespace Smart.ValueTypes.UnitTests
         [InlineData("", 0, int.MaxValue, Password.Requirement.Symbols)]
         public void Constructor_WrongInput_ShouldThrowInvalidPasswordException(string input, int minValue, int maxValue, Password.Requirement requirement)
         {
+            // assert
             Assert.Throws<InvalidPasswordException>(() => new Password(input, minValue, maxValue, requirement));
         }
+
+        #endregion
+        
+        #region From
+
+        [Theory]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("abc", 3, 3, Password.Requirement.LowercaseLetters)]
+        [InlineData("abc123", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers)]
+        [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
+        public void From_ValidInput_ShouldReturnObject(string input, int minValue, int maxValue, Password.Requirement requirement)
+        {
+            // act
+            var password = Password.From(input, minValue, maxValue, requirement);
+            
+            // assert
+            Assert.Equal(input, password);
+        }
+
+        [Theory]
+        [InlineData(null, 0, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("", 1, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("a", 0, 0, Password.Requirement.Nothing)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.LowercaseLetters)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.UppercaseLetters)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.Numbers)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.Symbols)]
+        public void From_WrongInput_ShouldThrowInvalidPasswordException(string input, int minValue, int maxValue, Password.Requirement requirement)
+        {
+            // assert
+            Assert.Throws<InvalidPasswordException>(() => Password.From(input, minValue, maxValue, requirement));
+        }
+
+        #endregion
+        
+        #region TryFrom
 
         [Theory]
         [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
@@ -69,6 +107,10 @@ namespace Smart.ValueTypes.UnitTests
             Assert.Equal(expected, password);
         }
 
+        #endregion
+        
+        #region Equals
+
         [Theory]
         [InlineData("")]
         [InlineData("test")]
@@ -77,30 +119,6 @@ namespace Smart.ValueTypes.UnitTests
         {
             var password = new Password(input);
             Assert.True(password.Equals(input));
-        }
-
-        [Theory]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("abc", 3, 3, Password.Requirement.LowercaseLetters)]
-        [InlineData("abc123", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers)]
-        [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
-        public void From_ValidInput_ShouldReturnObject(string input, int minValue, int maxValue, Password.Requirement requirement)
-        {
-            var password = Password.From(input, minValue, maxValue, requirement);
-            Assert.Equal(input, password);
-        }
-
-        [Theory]
-        [InlineData(null, 0, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("", 1, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("a", 0, 0, Password.Requirement.Nothing)]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.LowercaseLetters)]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.UppercaseLetters)]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Numbers)]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Symbols)]
-        public void From_WrongInput_ShouldThrowInvalidPasswordException(string input, int minValue, int maxValue, Password.Requirement requirement)
-        {
-            Assert.Throws<InvalidPasswordException>(() => Password.From(input, minValue, maxValue, requirement));
         }
 
         #endregion

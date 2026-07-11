@@ -5,7 +5,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
 {
     public class HSLTest
     {
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
@@ -44,6 +44,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidHslException>(() => new HSL(hue, saturation, lightness));
         }
 
+        #endregion
+        
+        #region From
+
         [Theory]
         [InlineData(0f,0f,0f)]
         [InlineData(360f,1f,1f)]
@@ -71,7 +75,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidHslException>(() => HSL.From(hue, saturation, lightness));
         }
         
+        #endregion
         
+        #region TryFrom
+
         [Theory]
         [InlineData(0f,0f,0f)]
         [InlineData(360f,1f,1f)]

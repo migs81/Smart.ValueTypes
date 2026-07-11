@@ -5,7 +5,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
 {
     public class CMYKTest
     {
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
@@ -47,6 +47,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidCmykException>(() => new CMYK(cyan, magenta, yellow, key));
         }
 
+        #endregion
+        
+        #region From
+        
         [Theory]
         [InlineData(0f,0f,0f, 0f)]
         [InlineData(1f,1f,1f, 1f)]
@@ -77,7 +81,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidCmykException>(() => CMYK.From(cyan, magenta, yellow, key));
         }
         
+        #endregion
         
+        #region TryFrom
+
         [Theory]
         [InlineData(0f,0f,0f, 0f)]
         [InlineData(1f,1f,1f, 1f)]

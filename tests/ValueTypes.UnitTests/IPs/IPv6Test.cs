@@ -18,7 +18,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new IPv6();
+            
+            // assert
             Assert.Equal(IPv6.Empty, result);
         }
 
@@ -27,7 +30,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         {
             foreach (var value in ValidValues)
             {
+                // act
                 var result = new IPv6(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -43,7 +49,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [InlineData(IPv6TestData.EndsWithColon, typeof(InvalidIPv6Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IPv6(input));
+            
+            // assert
             Assert.Equal(expectedException, result?.GetType());
         }
 
@@ -56,7 +65,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         {
             foreach (var value in ValidValues)
             {
+                // act
                 var result = IPv6.From(value);
+
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -72,7 +84,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [InlineData(IPv6TestData.EndsWithColon, typeof(InvalidIPv6Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new IPv6(input));
+            
+            // assert
             Assert.Equal(expectedException, result?.GetType());
         }
 
@@ -85,7 +100,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         {
             foreach (var value in ValidValues)
             {
+                // act
                 var result = IPv6.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(IPv6.Validation.Ok, result);
             }
         }
@@ -101,7 +119,10 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [InlineData(IPv6TestData.EndsWithColon, IPv6.Validation.EndsWithColon)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, IPv6.Validation expected)
         {
+            // act
             var result = IPv6.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

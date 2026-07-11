@@ -5,7 +5,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
 {
     public class CIELABTest
     {
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
@@ -44,6 +44,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidCielabException>(() => new CIELAB(hue, saturation, lightness));
         }
 
+        #endregion
+        
+        #region From
+        
         [Theory]
         [InlineData(0f,-128f,-128f)]
         [InlineData(100f,127f,127f)]
@@ -71,6 +75,9 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidCielabException>(() => CIELAB.From(hue, saturation, lightness));
         }
         
+        #endregion
+        
+        #region TryFrom
         
         [Theory]
         [InlineData(0f,-128f,-128f)]

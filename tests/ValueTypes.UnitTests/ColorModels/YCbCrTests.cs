@@ -5,7 +5,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
 {
     public class YCbCrTest
     {
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
@@ -44,6 +44,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidYCbCrException>(() => new YCbCr(hue, saturation, lightness));
         }
 
+        #endregion
+        
+        #region From
+
         [Theory]
         [InlineData(0f,-0.5f,-0.5f)]
         [InlineData(1f,0.5f,0.5f)]
@@ -71,7 +75,10 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Throws<InvalidYCbCrException>(() => YCbCr.From(hue, saturation, lightness));
         }
         
+        #endregion
         
+        #region TryFrom
+
         [Theory]
         [InlineData(0f,-0.5f,-0.5f)]
         [InlineData(1f,0.5f,0.5f)]

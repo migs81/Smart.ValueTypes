@@ -8,29 +8,24 @@ namespace Smart.ValueTypes.UnitTests
     {
         #region test data
 
-        private const string TOO_SHORT = "ab";
-        private const string TOO_LONG = ""
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "@.com"; // 255 characters
-        private const string NO_AT_SIGN = "name_domain.com";
+        private const string TooShort = "ab";
+        private const string TooLong = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+                                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+                                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+                                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@.com"; // 255 characters
+        private const string NoAtSign = "name_domain.com";
 
-        private const string LOCAL_PART_STARTS_WITH_DOT = ".name@domain.com";
-        private const string LOCAL_PART_ENDS_WITH_DOT = "name.@domain.com";
-        private const string LOCAL_PART_TOO_SHORT = "@domain.com";
-        private const string LOCAL_PART_CONTAINS_ILLEGAL_CHARACTER = "firstname~lastname@domain.com";
-        private const string LOCAL_PART_TOO_LONG = ""
-            + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            + "xxxxxxxxxxxxxxx"
-            + "@.com"; // 65 characters for the name part
+        private const string LocalPartStartsWithDot = ".name@domain.com";
+        private const string LocalPartEndsWithDot = "name.@domain.com";
+        private const string LocalPartTooShort = "@domain.com";
+        private const string LocalPartContainsIllegalCharacter = "firstname~lastname@domain.com";
+        private const string LocalPartTooLong = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+                                                "xxxxxxxxxxxxxxxxxx@.com"; // 65 characters for the name part
 
-        private const string DOMAIN_PART_TOO_SHORT = "name@";
-        private const string DOMAIN_PART_CONTAINS_ILLEGAL_CHARACTER = "firstname.lastname@domain~xyz.com";
+        private const string DomainPartTooShort = "name@";
+        private const string DomainPartContainsIllegalCharacter = "firstname.lastname@domain~xyz.com";
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "name@domain.com",
             "firstname.lastname@company.gv.com",
@@ -53,21 +48,27 @@ namespace Smart.ValueTypes.UnitTests
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var email = new EmailAddress();
+            
+            // assert
             Assert.Equal(EmailAddress.Empty, email);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var email = new EmailAddress(value);
+                
+                // assert
                 Assert.Equal(value, email);
             }
         }
@@ -75,77 +76,100 @@ namespace Smart.ValueTypes.UnitTests
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(TOO_LONG, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_STARTS_WITH_DOT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_ENDS_WITH_DOT, typeof(InvalidEmailAddressException))]
-        [InlineData(NO_AT_SIGN, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_TOO_LONG, typeof(InvalidEmailAddressException))]
-        [InlineData(DOMAIN_PART_TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_CONTAINS_ILLEGAL_CHARACTER, typeof(InvalidEmailAddressException))]
-        [InlineData(DOMAIN_PART_CONTAINS_ILLEGAL_CHARACTER, typeof(InvalidEmailAddressException))]
+        [InlineData(TooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(TooLong, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartStartsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartEndsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(NoAtSign, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartTooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartTooLong, typeof(InvalidEmailAddressException))]
+        [InlineData(DomainPartTooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartContainsIllegalCharacter, typeof(InvalidEmailAddressException))]
+        [InlineData(DomainPartContainsIllegalCharacter, typeof(InvalidEmailAddressException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new EmailAddress(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var email = EmailAddress.From(value);
+                
+                // assert
                 Assert.Equal(value, email);
             }
         }
 
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(ArgumentException))]
+        [InlineData(TooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(TooLong, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartStartsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartEndsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(NoAtSign, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartTooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartTooLong, typeof(InvalidEmailAddressException))]
+        [InlineData(DomainPartTooShort, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartContainsIllegalCharacter, typeof(InvalidEmailAddressException))]
+        [InlineData(DomainPartContainsIllegalCharacter, typeof(InvalidEmailAddressException))]
+        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => new EmailAddress(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+        
+        #endregion
+        
+        #region TryFrom
+
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = EmailAddress.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(EmailAddress.Validation.Ok, result);
             }
         }
 
         [Theory]
-        [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(ArgumentException))]
-        [InlineData(TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(TOO_LONG, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_STARTS_WITH_DOT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_ENDS_WITH_DOT, typeof(InvalidEmailAddressException))]
-        [InlineData(NO_AT_SIGN, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_TOO_LONG, typeof(InvalidEmailAddressException))]
-        [InlineData(DOMAIN_PART_TOO_SHORT, typeof(InvalidEmailAddressException))]
-        [InlineData(LOCAL_PART_CONTAINS_ILLEGAL_CHARACTER, typeof(InvalidEmailAddressException))]
-        [InlineData(DOMAIN_PART_CONTAINS_ILLEGAL_CHARACTER, typeof(InvalidEmailAddressException))]
-        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
-        {
-            var result = Record.Exception(() => new EmailAddress(input));
-            Assert.Equal(expectedException, result.GetType());
-        }
-
-        [Theory]
         [InlineData(null, EmailAddress.Validation.Null)]
         [InlineData("", EmailAddress.Validation.Empty)]
-        [InlineData(TOO_SHORT, EmailAddress.Validation.TooShort)]
-        [InlineData(TOO_LONG, EmailAddress.Validation.TooLong)]
-        [InlineData(LOCAL_PART_STARTS_WITH_DOT, EmailAddress.Validation.LocalPartStartsWithDot)]
-        [InlineData(LOCAL_PART_ENDS_WITH_DOT, EmailAddress.Validation.LocalPartEndsWithDot)]
-        [InlineData(NO_AT_SIGN, EmailAddress.Validation.NoAtSign)]
-        [InlineData(LOCAL_PART_TOO_SHORT, EmailAddress.Validation.LocalPartTooShort)]
-        [InlineData(LOCAL_PART_TOO_LONG, EmailAddress.Validation.LocalPartTooLong)]
-        [InlineData(DOMAIN_PART_TOO_SHORT, EmailAddress.Validation.DomainPartTooShort)]
-        [InlineData(LOCAL_PART_CONTAINS_ILLEGAL_CHARACTER, EmailAddress.Validation.LocalPartContainsIllegalCharacter)]
-        [InlineData(DOMAIN_PART_CONTAINS_ILLEGAL_CHARACTER, EmailAddress.Validation.DomainPartContainsIllegalCharacter)]
+        [InlineData(TooShort, EmailAddress.Validation.TooShort)]
+        [InlineData(TooLong, EmailAddress.Validation.TooLong)]
+        [InlineData(LocalPartStartsWithDot, EmailAddress.Validation.LocalPartStartsWithDot)]
+        [InlineData(LocalPartEndsWithDot, EmailAddress.Validation.LocalPartEndsWithDot)]
+        [InlineData(NoAtSign, EmailAddress.Validation.NoAtSign)]
+        [InlineData(LocalPartTooShort, EmailAddress.Validation.LocalPartTooShort)]
+        [InlineData(LocalPartTooLong, EmailAddress.Validation.LocalPartTooLong)]
+        [InlineData(DomainPartTooShort, EmailAddress.Validation.DomainPartTooShort)]
+        [InlineData(LocalPartContainsIllegalCharacter, EmailAddress.Validation.LocalPartContainsIllegalCharacter)]
+        [InlineData(DomainPartContainsIllegalCharacter, EmailAddress.Validation.DomainPartContainsIllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, EmailAddress.Validation expected)
         {
+            // act
             var result = EmailAddress.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

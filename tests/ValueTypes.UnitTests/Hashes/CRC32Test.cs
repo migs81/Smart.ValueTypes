@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "00000000", "77073096", "EE0E612C", "990951BA", "076DC419", "706AF48F", "E963A535", "9E6495A3", "0EDB8832",
             "79DCB8A4", "E0D5E91E", "97D2D988", "09B64C2B", "7EB17CBD", "E7B82D07", "90BF1D91", "1DB71064", "6AB020F2",
@@ -41,25 +41,31 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             "B40BBE37", "C30C8EA1", "5A05DF1B", "2D02EF8D",
         ];
 
-        private const string _wrongCharacter = "gggggggg";
+        private const string WrongCharacter = "gggggggg";
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new CRC32();
+            
+            // assert
             Assert.Equal(CRC32.Empty, result);
         }
 
         [Fact]
         public void ConstructorValidInputShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new CRC32(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -70,47 +76,70 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [InlineData("wronginput", typeof(InvalidCrc32Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new CRC32(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = CRC32.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
+        
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(InvalidCrc32Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidCrc32Exception))]
+        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => new CRC32(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+
+        #endregion
+        
+        #region TryFrom
 
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = CRC32.TryFrom(value, out _);
+                
+                // assert
                 Assert.Equal(CRC32.Validation.Ok, result);
             }
         }
 
         [Theory]
-        [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(InvalidCrc32Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidCrc32Exception))]
-        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
-        {
-            var result = Record.Exception(() => new CRC32(input));
-            Assert.Equal(expectedException, result.GetType());
-        }
-
-        [Theory]
         [InlineData(null, CRC32.Validation.Null)]
         [InlineData("", CRC32.Validation.WrongLength)]
-        [InlineData(_wrongCharacter, CRC32.Validation.IllegalCharacter)]
+        [InlineData(WrongCharacter, CRC32.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, CRC32.Validation expected)
         {
+            // act
             var result = CRC32.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
         }
 

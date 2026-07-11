@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] _validValues =
+        private static readonly string[] ValidValues =
         [
             "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
             "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d",
@@ -21,35 +21,34 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             "de7d1b721a1e0632b7cf04edf5032c8ecffa9f9a08492152b926f1a5a7e765d7",
             "189f40034be7a199f1fa9891668ee3ab6049f82d38c68be70f596eab2e1857b7",
         ];
-        private static readonly ValueTuple<string, string> _validValue = new("test",
+        private static readonly ValueTuple<string, string> ValidValue = new("test",
             "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
 
-        private const string _wrongCharacter = 
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggggggggg" +
-            "gggg";
+        private const string WrongCharacter = "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
 
         #endregion
 
-        #region tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // act
             var result = new SHA256();
+            
+            // assert
             Assert.Equal(SHA256.Empty, result);
         }
 
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = new SHA256(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
         }
@@ -57,65 +56,102 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(InvalidSha256Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha256Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha256Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SHA256(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+
+        #endregion
+        
+        #region From
 
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
+                // act
                 var result = SHA256.From(value);
+                
+                // assert
                 Assert.Equal(value, result);
             }
-        }
-
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
-        {
-            foreach (var value in _validValues)
-            {
-                var result = SHA256.TryFrom(value, out _);
-                Assert.Equal(SHA256.Validation.Ok, result);
-            }
-        }
-
-        [Fact]
-        public void Create_ValidInput_ShouldReturnObject()
-        {
-            var result = SHA256.Create(_validValue.Item1);
-            Assert.Equal(_validValue.Item2.ToUpper(), result);
-        }
-
-        [Fact]
-        public void TryCreate_ValidInput_ShouldReturnTrue()
-        {
-            var result = SHA256.TryCreate(_validValue.Item1, out _);
-            Assert.True(result);
         }
 
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(InvalidSha256Exception))]
-        [InlineData(_wrongCharacter, typeof(InvalidSha256Exception))]
+        [InlineData(WrongCharacter, typeof(InvalidSha256Exception))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
+            // act
             var result = Record.Exception(() => new SHA256(input));
-            Assert.Equal(expectedException, result.GetType());
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
         }
+        
+        #endregion
+        
+        #region TryFrom
 
+        [Fact]
+        public void TryFrom_ValidInput_ShouldReturnOK()
+        {
+            foreach (var value in ValidValues)
+            {
+                // act
+                var result = SHA256.TryFrom(value, out _);
+                
+                // assert
+                Assert.Equal(SHA256.Validation.Ok, result);
+            }
+        }
+        
         [Theory]
         [InlineData(null, SHA256.Validation.Null)]
         [InlineData("", SHA256.Validation.WrongLength)]
-        [InlineData(_wrongCharacter, SHA256.Validation.IllegalCharacter)]
+        [InlineData(WrongCharacter, SHA256.Validation.IllegalCharacter)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, SHA256.Validation expected)
         {
+            // act
             var result = SHA256.TryFrom(input, out _);
+            
+            // assert
             Assert.Equal(expected, result);
+        }
+        
+        #endregion
+        
+        #region Create
+        
+        [Fact]
+        public void Create_ValidInput_ShouldReturnObject()
+        {
+            // act
+            var result = SHA256.Create(ValidValue.Item1);
+            
+            // assert
+            Assert.Equal(ValidValue.Item2.ToUpper(), result);
+        }
+
+        #endregion
+        
+        #region TryCreate
+
+        [Fact]
+        public void TryCreate_ValidInput_ShouldReturnTrue()
+        {
+            // act
+            var result = SHA256.TryCreate(ValidValue.Item1, out _);
+            
+            // assert
+            Assert.True(result);
         }
 
         #endregion
