@@ -8,7 +8,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
         public static string[] CreateAddresses(uint amount)
         {
             var values = new string[amount];
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
                 values[i] = CreateAddress();
 
             return values;
@@ -16,7 +16,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
 
         public static string CreateAddress()
         {
-            byte[] bytes = new byte[16];
+            var bytes = new byte[16];
             new Random().NextBytes(bytes);
             IPAddress ipv6Address = new(bytes);
             return ipv6Address.ToString();

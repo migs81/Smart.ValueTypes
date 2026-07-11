@@ -9,7 +9,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
         public static int[] NextInt(uint amount, int minValue, int maxValue)
         {
             var array = new int[amount];
-            for (int i = 0; i < amount; i++)
+            for (var i = 0; i < amount; i++)
                 array[i] = NextInt(minValue, maxValue);
 
             return array;
@@ -40,7 +40,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
         public static double[] NextDouble(int amount, double minValue, double maxValue)
         {
             var array = new double[amount];
-            for (int i = 0; i < amount; i++)
+            for (var i = 0; i < amount; i++)
                 array[i] = NextDouble(minValue, maxValue);
 
             return array;

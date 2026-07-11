@@ -207,7 +207,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Celsius celsius = new(temp.Celsius);
 
                 // act
-                Reaumur kelvin = Reaumur.From(celsius);
+                var kelvin = Reaumur.From(celsius);
 
                 // assert
                 Assert.Equal(temp.Reaumur, kelvin, 0);
@@ -223,7 +223,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Fahrenheit fahrenheit = new(temp.Fahrenheit);
 
                 // act
-                Reaumur kelvin = Reaumur.From(fahrenheit);
+                var kelvin = Reaumur.From(fahrenheit);
 
                 // assert
                 Assert.Equal(temp.Reaumur, kelvin, 0);
@@ -239,7 +239,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Reaumur kelvin = new(temp.Reaumur);
 
                 // act
-                double celsius = kelvin.ToCelsius();
+                var celsius = kelvin.ToCelsius();
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -255,7 +255,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Reaumur kelvin = new(temp.Reaumur);
 
                 // act
-                double fahrenheit = kelvin.ToFahrenheit();
+                var fahrenheit = kelvin.ToFahrenheit();
 
                 // assert
                 Assert.Equal(temp.Fahrenheit, fahrenheit, 0);

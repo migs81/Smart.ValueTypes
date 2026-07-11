@@ -207,7 +207,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Celsius celsius = new(temp.Celsius);
 
                 // act
-                Kelvin kelvin = Kelvin.From(celsius);
+                var kelvin = Kelvin.From(celsius);
 
                 // assert
                 Assert.Equal(temp.Kelvin, kelvin, 0);
@@ -223,7 +223,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Fahrenheit fahrenheit = new(temp.Fahrenheit);
 
                 // act
-                Kelvin kelvin = Kelvin.From(fahrenheit);
+                var kelvin = Kelvin.From(fahrenheit);
 
                 // assert
                 Assert.Equal(temp.Kelvin, kelvin, 0);
@@ -239,7 +239,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                double celsius = kelvin.ToCelsius();
+                var celsius = kelvin.ToCelsius();
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -255,7 +255,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                double fahrenheit = kelvin.ToFahrenheit();
+                var fahrenheit = kelvin.ToFahrenheit();
 
                 // assert
                 Assert.Equal(temp.Fahrenheit, fahrenheit, 0);

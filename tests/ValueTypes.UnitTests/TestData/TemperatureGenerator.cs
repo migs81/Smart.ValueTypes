@@ -7,12 +7,12 @@ namespace Smart.ValueTypes.UnitTests.TestData
         public static Temp[] CreateTemperatures(uint amount)
         {
             var array = new Temp[amount];
-            for (int i = 0; i < amount; i++)
+            for (var i = 0; i < amount; i++)
             {
-                double celsius = NumberGenerator.NextDouble(Celsius.MinValue, 1_000_000);
-                double kelvin = Converter.Celsius.ToKelvin(celsius);
-                double fahrenheit = Converter.Celsius.ToFahrenheit(celsius);
-                double reaumur = Converter.Celsius.ToReaumur(celsius);
+                var celsius = NumberGenerator.NextDouble(Celsius.MinValue, 1_000_000);
+                var kelvin = Converter.Celsius.ToKelvin(celsius);
+                var fahrenheit = Converter.Celsius.ToFahrenheit(celsius);
+                var reaumur = Converter.Celsius.ToReaumur(celsius);
                 array[i] = new Temp(celsius, kelvin, fahrenheit, reaumur);
             }
 

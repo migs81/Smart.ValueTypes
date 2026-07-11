@@ -173,7 +173,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach(var temp in _validTemperatures)
             {
                 // arrange
-                Celsius celsius = Celsius.From(temp.Celsius);
+                var celsius = Celsius.From(temp.Celsius);
 
                 // act
                 Kelvin kelvin = celsius;
@@ -189,7 +189,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in _validTemperatures)
             {
                 // arrange
-                Celsius celsius = Celsius.From(temp.Celsius);
+                var celsius = Celsius.From(temp.Celsius);
 
                 // act
                 Fahrenheit fahrenheit = celsius;
@@ -209,7 +209,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                Celsius celsius = Celsius.From(kelvin);
+                var celsius = Celsius.From(kelvin);
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -225,7 +225,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 Fahrenheit fahrenheit = new(temp.Fahrenheit);
 
                 // act
-                Celsius celsius = Celsius.From(fahrenheit);
+                var celsius = Celsius.From(fahrenheit);
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -238,10 +238,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in _validTemperatures)
             {
                 // arrange
-                Celsius celsius = Celsius.From(temp.Celsius);
+                var celsius = Celsius.From(temp.Celsius);
 
                 // act
-                double kelvin = celsius.ToKelvin();
+                var kelvin = celsius.ToKelvin();
 
                 // assert
                 Assert.Equal(temp.Kelvin, kelvin, 0);
@@ -254,10 +254,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in _validTemperatures)
             {
                 // arrange
-                Celsius celsius = Celsius.From(temp.Celsius);
+                var celsius = Celsius.From(temp.Celsius);
 
                 // act
-                double fahrenheit = celsius.ToFahrenheit();
+                var fahrenheit = celsius.ToFahrenheit();
 
                 // assert
                 Assert.Equal(temp.Fahrenheit, fahrenheit, 0);

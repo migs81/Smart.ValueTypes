@@ -5,7 +5,7 @@
         public static string[] CreateAddresses(uint amount)
         {
             var values = new string[amount];
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
                 values[i] = CreateAddress();
 
             return values;

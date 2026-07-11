@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
         public static string[] GenerateTestSVNRs(uint amount, int minValue, int maxValue)
         {
             var array = new string[amount];
-            for (int i = 0; i < amount; i++)
+            for (var i = 0; i < amount; i++)
             {
                 var seed = NumberGenerator.NextInt(minValue, maxValue);
                 array[i] = GenerateTestSVNR(seed);
@@ -23,29 +23,29 @@ namespace Smart.ValueTypes.UnitTests.TestData
             while (true)
             {
                 // Laufende Nummer: erste Ziffer ≠ 0
-                int firstDigit = random.Next(1, 10);
-                int secondDigit = random.Next(0, 10);
-                int thirdDigit = random.Next(0, 10);
+                var firstDigit = random.Next(1, 10);
+                var secondDigit = random.Next(0, 10);
+                var thirdDigit = random.Next(0, 10);
 
-                string part1 = $"{firstDigit}{secondDigit}{thirdDigit}";
+                var part1 = $"{firstDigit}{secondDigit}{thirdDigit}";
 
                 // Synthetisches, immer gültiges Datum
-                int day = random.Next(1, 29);
-                int month = random.Next(1, 13);
-                int year = random.Next(0, 100);
+                var day = random.Next(1, 29);
+                var month = random.Next(1, 13);
+                var year = random.Next(0, 100);
 
-                string birthDate = $"{day:00}{month:00}{year:00}";
-                string calculationBase = part1 + birthDate; // 9 Ziffern
+                var birthDate = $"{day:00}{month:00}{year:00}";
+                var calculationBase = part1 + birthDate; // 9 Ziffern
 
                 int[] weights = { 3, 7, 9, 5, 8, 4, 2, 1, 6 };
-                int sum = 0;
+                var sum = 0;
 
-                for (int i = 0; i < 9; i++)
+                for (var i = 0; i < 9; i++)
                 {
                     sum += (calculationBase[i] - '0') * weights[i];
                 }
 
-                int checkDigit = sum % 11;
+                var checkDigit = sum % 11;
 
                 // ❗ Prüfziffer 10 ist ungültig → neu generieren
                 if (checkDigit == 10)
