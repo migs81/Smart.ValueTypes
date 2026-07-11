@@ -2,7 +2,7 @@
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal class NumberGenerator
+    internal static class NumberGenerator
     {
         #region integer
 

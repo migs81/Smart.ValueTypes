@@ -2,7 +2,7 @@
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal class SVNRGenerator
+    internal static class SVNRGenerator
     {
         public static string[] GenerateTestSVNRs(uint amount, int minValue, int maxValue)
         {
@@ -22,20 +22,20 @@ namespace Smart.ValueTypes.UnitTests.TestData
 
             while (true)
             {
-                // Laufende Nummer: erste Ziffer ≠ 0
+                // number sequence
                 var firstDigit = random.Next(1, 10);
                 var secondDigit = random.Next(0, 10);
                 var thirdDigit = random.Next(0, 10);
 
                 var part1 = $"{firstDigit}{secondDigit}{thirdDigit}";
 
-                // Synthetisches, immer gültiges Datum
+                // date
                 var day = random.Next(1, 29);
                 var month = random.Next(1, 13);
                 var year = random.Next(0, 100);
 
                 var birthDate = $"{day:00}{month:00}{year:00}";
-                var calculationBase = part1 + birthDate; // 9 Ziffern
+                var calculationBase = part1 + birthDate; // 9 digits
 
                 int[] weights = { 3, 7, 9, 5, 8, 4, 2, 1, 6 };
                 var sum = 0;
@@ -47,7 +47,7 @@ namespace Smart.ValueTypes.UnitTests.TestData
 
                 var checkDigit = sum % 11;
 
-                // ❗ Prüfziffer 10 ist ungültig → neu generieren
+                // regenerate if check digit is 10 (invalid)
                 if (checkDigit == 10)
                     continue;
 

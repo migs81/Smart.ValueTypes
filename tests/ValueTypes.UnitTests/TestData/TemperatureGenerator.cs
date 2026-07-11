@@ -2,7 +2,7 @@
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal class TemperatureGenerator
+    internal static class TemperatureGenerator
     {
         public static Temp[] CreateTemperatures(uint amount)
         {

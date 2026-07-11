@@ -1,4 +1,5 @@
-﻿using Smart.ValueTypes.Types.Temperatures;
+﻿using System;
+using Smart.ValueTypes.Types.Temperatures;
 using Smart.ValueTypes.UnitTests.TestData;
 using Xunit;
 
@@ -17,14 +18,20 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            const double celsius = 0d;
+            var fahrenheit = Converter.Celsius.ToFahrenheit(celsius);
+            var kelvin = Converter.Celsius.ToKelvin(celsius);
+            var reaumur = Converter.Celsius.ToReaumur(celsius);
+            
             // act
             var result = new Temperature();
             
             // assert
-            Assert.Equal(0d, result.Celsius, 0);
-            Assert.Equal(32.0d, result.Fahrenheit, 0);
-            Assert.Equal(273.15d, result.Kelvin, 0);
-            Assert.Equal(0.0d, result.Reaumur, 0);
+            Assert.Equal(celsius, result.Celsius, 0);
+            Assert.Equal(fahrenheit, result.Fahrenheit, 0);
+            Assert.Equal(kelvin, result.Kelvin, 0);
+            Assert.Equal(reaumur, result.Reaumur, 0);
         }
 
         [Fact]
