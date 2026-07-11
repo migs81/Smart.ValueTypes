@@ -9,19 +9,11 @@ namespace Smart.ValueTypes.UnitTests.IPs
     {
         #region test data
 
-        private static readonly string[] _validValues = IPv4Generator.CreateAddresses(1000);
-
-        private const string _tooShortValue = "255";
-        private const string _tooLongValue = "255.255.255.255.0";
-        private const string _startsWithDotValue = ".127.0.0.1";
-        private const string _endsWithDotValue = "127.0.0.1.";
-        private const string _containsIllegalCharacterValue = "127.a.0.1";
-        private const string _invalidSegmentNumberValue = "1.0.0.256";
-        private const string _invalidSegmentCountValue = "0.0.0.0.0";
+        private static readonly string[] ValidValues = IPv4Generator.CreateAddresses(1000);
 
         #endregion
 
-        #region Tests
+        #region constructor
 
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
@@ -33,7 +25,7 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [Fact]
         public void Constructor_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
                 var result = new IPv4(value);
                 Assert.Equal(value, result);
@@ -43,66 +35,73 @@ namespace Smart.ValueTypes.UnitTests.IPs
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
-        [InlineData(_tooShortValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_tooLongValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_startsWithDotValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_endsWithDotValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_containsIllegalCharacterValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_invalidSegmentNumberValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_invalidSegmentCountValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.TooShortValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.TooLongValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.StartsWithDotValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.EndsWithDotValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.ContainsIllegalCharacterValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.InvalidSegmentNumberValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.InvalidSegmentCountValue, typeof(InvalidIPv4Exception))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             var result = Record.Exception(() => new IPv4(input));
-            Assert.Equal(expectedException, result.GetType());
+            Assert.Equal(expectedException, result?.GetType());
         }
 
+        #endregion
 
+        #region From
+        
         [Fact]
         public void From_ValidInput_ShouldReturnObject()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
                 var result = IPv4.From(value);
                 Assert.Equal(value, result);
             }
         }
 
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(ArgumentException))]
+        [InlineData(IPv4TestData.TooShortValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.TooLongValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.StartsWithDotValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.EndsWithDotValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.ContainsIllegalCharacterValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.InvalidSegmentNumberValue, typeof(InvalidIPv4Exception))]
+        [InlineData(IPv4TestData.InvalidSegmentCountValue, typeof(InvalidIPv4Exception))]
+        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            var result = Record.Exception(() => new IPv4(input));
+            Assert.Equal(expectedException, result?.GetType());
+        }
+        
+        #endregion
+        
+        #region TryFrom
+        
         [Fact]
         public void TryFrom_ValidInput_ShouldReturnOK()
         {
-            foreach (var value in _validValues)
+            foreach (var value in ValidValues)
             {
                 var result = IPv4.TryFrom(value, out _);
                 Assert.Equal(IPv4.Validation.Ok, result);
             }
         }
-
-        [Theory]
-        [InlineData(null, typeof(ArgumentNullException))]
-        [InlineData("", typeof(ArgumentException))]
-        [InlineData(_tooShortValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_tooLongValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_startsWithDotValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_endsWithDotValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_containsIllegalCharacterValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_invalidSegmentNumberValue, typeof(InvalidIPv4Exception))]
-        [InlineData(_invalidSegmentCountValue, typeof(InvalidIPv4Exception))]
-        public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
-        {
-            var result = Record.Exception(() => new IPv4(input));
-            Assert.Equal(expectedException, result.GetType());
-        }
-
+        
         [Theory]
         [InlineData(null, IPv4.Validation.Null)]
         [InlineData("", IPv4.Validation.Empty)]
-        [InlineData(_tooShortValue, IPv4.Validation.TooShort)]
-        [InlineData(_tooLongValue, IPv4.Validation.TooLong)]
-        [InlineData(_startsWithDotValue, IPv4.Validation.StartsWithDot)]
-        [InlineData(_endsWithDotValue, IPv4.Validation.EndsWithDot)]
-        [InlineData(_containsIllegalCharacterValue, IPv4.Validation.ContainsIllegalCharacter)]
-        [InlineData(_invalidSegmentNumberValue, IPv4.Validation.InvalidSegmentNumber)]
-        [InlineData(_invalidSegmentCountValue, IPv4.Validation.InvalidSegmentCount)]
+        [InlineData(IPv4TestData.TooShortValue, IPv4.Validation.TooShort)]
+        [InlineData(IPv4TestData.TooLongValue, IPv4.Validation.TooLong)]
+        [InlineData(IPv4TestData.StartsWithDotValue, IPv4.Validation.StartsWithDot)]
+        [InlineData(IPv4TestData.EndsWithDotValue, IPv4.Validation.EndsWithDot)]
+        [InlineData(IPv4TestData.ContainsIllegalCharacterValue, IPv4.Validation.ContainsIllegalCharacter)]
+        [InlineData(IPv4TestData.InvalidSegmentNumberValue, IPv4.Validation.InvalidSegmentNumber)]
+        [InlineData(IPv4TestData.InvalidSegmentCountValue, IPv4.Validation.InvalidSegmentCount)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, IPv4.Validation expected)
         {
             var result = IPv4.TryFrom(input, out _);
