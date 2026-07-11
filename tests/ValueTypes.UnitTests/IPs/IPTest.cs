@@ -78,7 +78,7 @@ namespace Smart.ValueTypes.UnitTests.IPs
         #region From
 
         [Fact]
-        public void From_ValidInput_ShouldReturnObject()
+        public void From_ValidIPv4Input_ShouldReturnObject()
         {
             foreach (var value in ValidIPv4)
             {
@@ -90,6 +90,19 @@ namespace Smart.ValueTypes.UnitTests.IPs
             }
         }
 
+        [Fact]
+        public void From_ValidIPv6Input_ShouldReturnObject()
+        {
+            foreach (var value in ValidIPv6)
+            {
+                // act
+                var result = IP.From(value);
+                
+                // assert
+                Assert.Equal(value, result);
+            }
+        }
+        
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -117,9 +130,22 @@ namespace Smart.ValueTypes.UnitTests.IPs
         #region TryFrom
 
         [Fact]
-        public void TryFrom_ValidInput_ShouldReturnTrue()
+        public void TryFrom_ValidIPv4Input_ShouldReturnTrue()
         {
             foreach (var value in ValidIPv4)
+            {
+                // act
+                var result = IP.TryFrom(value, out _);
+                
+                // assert
+                Assert.True(result);
+            }
+        }
+        
+        [Fact]
+        public void TryFrom_ValidIPv6Input_ShouldReturnTrue()
+        {
+            foreach (var value in ValidIPv6)
             {
                 // act
                 var result = IP.TryFrom(value, out _);
