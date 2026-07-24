@@ -157,21 +157,7 @@ namespace Smart.ValueTypes.Types.ID
             
             return Validation.Ok;
         }
-
-        private static bool ValidateCharacters(ref ReadOnlySpan<char> span)
-        {
-            foreach (var c in span)
-            {
-                if (c is >= 'A' and <= 'Z' and not 'I' and not 'L' and not 'O' and not 'I') continue; // Base32
-                if (c is >= '0' and <= '9') continue;
-                if (c is '!' or '#' or '$' or '&' or '-' or '^' or '_' or '.' or '+') continue;
-
-                return false;
-            }
-
-            return true;
-        }
-
+        
         #endregion
     }
 
