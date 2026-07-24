@@ -151,20 +151,6 @@ namespace Smart.ValueTypes.Types.Network
         #endregion
 
         #region private methods
-
-        /*
-         * 29.39 ns => 14,06 ns => 13,27 ns
-         * ✅ darf nicht null sein
-         * ✅ darf nicht leer sein
-         * ✅ slash darf nur einmal vorkommen
-         * ✅ type muss mindestens ein Zeichen lang sein
-         * ✅ type darf nur aus bestimmten Zeichen bestehen
-         * ✅ subtype muss mindestens ein Zeichen lang sein
-         * ✅ subtype darf nur aus bestimmten Zeichen bestehen
-         * ✅ parameter muss mindestens drei Zeichen lang sein
-         * ✅ parameter muss und darf nur ein = enthalten
-         * ✅ = darf nicht am Anfang oder am Ende des Parameters sein
-         */
         
         private static Validation ValidateFormat(ref string value)
         {
