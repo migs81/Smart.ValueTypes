@@ -16,7 +16,7 @@ namespace Smart.ValueTypes.Types.Network
         #region fields
 
         private readonly string _value;
-        private const string Default = ""; // TODO: set default value
+        private const string Default = "n-a";
         
         public enum Validation
         {
