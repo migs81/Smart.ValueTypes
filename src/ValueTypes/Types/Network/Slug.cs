@@ -152,6 +152,20 @@ namespace Smart.ValueTypes.Types.Network
             return new Slug(value);
         }
         
+        public static bool TryParse(string value, out Slug output)
+        {
+            try
+            {
+                output = Parse(value);
+                return true;
+            }
+            catch (Exception)
+            {
+                output = Empty;
+                return false;
+            }
+        }
+        
         public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
 
         #endregion
