@@ -192,6 +192,112 @@ namespace Smart.ValueTypes.UnitTests.Network
             Assert.Equal(expected, result);
         }
         
+        [Theory]
+        [InlineData(null, typeof(ArgumentNullException))]
+        [InlineData("", typeof(ArgumentException))]
+        [InlineData(" ", typeof(ArgumentException))]
+        public void Parse_WrongInput_ShouldThrowException(string input, Type expectedException)
+        {
+            // act
+            var result = Record.Exception(() => Slug.Parse(input));
+            
+            // assert
+            Assert.Equal(expectedException, result?.GetType());
+        }
+        
+        #endregion
+        
+        #region TryParse
+
+        [Theory]
+        [InlineData("About Us", "about-us")]
+        [InlineData("Hello World", "hello-world")]
+        [InlineData("  Hello World  ", "hello-world")]
+        [InlineData("C# Grundlagen", "c-grundlagen")]
+        [InlineData("Über uns", "ueber-uns")]
+        [InlineData("Müller & Söhne", "mueller-soehne")]
+        [InlineData("Café Crème", "cafe-creme")]
+        [InlineData("My   Product", "my-product")]
+        [InlineData("Hello---World", "hello-world")]
+        [InlineData("HELLO WORLD", "hello-world")]
+        [InlineData("  Multiple   Spaces  ", "multiple-spaces")]
+        [InlineData("Das ist ein Test!", "das-ist-ein-test")]
+        [InlineData("100% Coverage", "100-coverage")]
+        [InlineData("hello", "hello")]
+        [InlineData("Hello", "hello")]
+        [InlineData("HELLO", "hello")]
+        [InlineData("Hello   World", "hello-world")]
+        [InlineData("hello-world", "hello-world")]
+        [InlineData("hello--world", "hello-world")]
+        [InlineData("hello---world", "hello-world")]
+        [InlineData("-hello-world", "hello-world")]
+        [InlineData("hello-world-", "hello-world")]
+        [InlineData("--hello--world--", "hello-world")]
+        [InlineData("hello_world", "hello-world")]
+        [InlineData("hello.world", "hello-world")]
+        [InlineData("hello/world", "hello-world")]
+        [InlineData("hello\\world", "hello-world")]
+        [InlineData("hello@world", "hello-world")]
+        [InlineData("hello#world", "hello-world")]
+        [InlineData("hello+world", "hello-world")]
+        [InlineData("hello&world", "hello-world")]
+        [InlineData("hello=world", "hello-world")]
+        [InlineData("hello?world", "hello-world")]
+        [InlineData("hello!world", "hello-world")]
+        [InlineData("hello,world", "hello-world")]
+        [InlineData("hello:world", "hello-world")]
+        [InlineData("hello;world", "hello-world")]
+        [InlineData("hello(world)", "hello-world")]
+        [InlineData("hello[world]", "hello-world")]
+        [InlineData("hello{world}", "hello-world")]
+        [InlineData("hello\"world", "hello-world")]
+        [InlineData("hello'world", "hello-world")]
+        [InlineData("123", "123")]
+        [InlineData("123 456", "123-456")]
+        [InlineData("version 2", "version-2")]
+        [InlineData("v2.1", "v2-1")]
+        [InlineData("C#", "c")]
+        [InlineData("C++", "c")]
+        [InlineData(".NET 9", "net-9")]
+        [InlineData("ASP.NET Core", "asp-net-core")]
+        [InlineData("Über", "ueber")]
+        [InlineData("Österreich", "oesterreich")]
+        [InlineData("Äpfel", "aepfel")]
+        [InlineData("Fußball", "fussball")]
+        [InlineData("Müller", "mueller")]
+        [InlineData("Café", "cafe")]
+        [InlineData("Crème brûlée", "creme-brulee")]
+        [InlineData("São Paulo", "sao-paulo")]
+        [InlineData("François", "francois")]
+        [InlineData("naïve", "naive")]
+        [InlineData("piñata", "pinata")]
+        [InlineData("___hello___", "hello")]
+        [InlineData("***hello***", "hello")]
+        [InlineData("...hello...", "hello")]
+        [InlineData("###hello###", "hello")]
+        public void TryParse_ValidInput_ShouldReturnTrue(string input, string expected)
+        {
+            // act
+            var result = Slug.TryParse(input, out var slug);
+                
+            // assert
+            Assert.True(result);
+            Assert.Equal(expected, slug);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void TryParse_WrongInput_ShouldReturnFalse(string input)
+        {
+            // act
+            var result = Slug.TryParse(input, out _);
+            
+            // assert
+            Assert.False(result);
+        }
+        
         #endregion
     }
 }
