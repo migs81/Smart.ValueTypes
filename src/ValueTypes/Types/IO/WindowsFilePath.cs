@@ -16,7 +16,7 @@ namespace Smart.ValueTypes.Types.IO
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
         
         public enum Validation
         {
@@ -37,16 +37,11 @@ namespace Smart.ValueTypes.Types.IO
 
         #region properties
 
-        public static WindowsFilePath Empty => new();
+        public bool IsDefault => _value is null;
         
         #endregion
         
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsFilePath"/> struct.
-        /// </summary>
-        public WindowsFilePath() => _value = @"\";
         
         /// <summary>
         /// Initializes a new instance of the <see cref="value"/> struct.
@@ -88,7 +83,7 @@ namespace Smart.ValueTypes.Types.IO
         public static bool operator ==(WindowsFilePath left, string right) => left.Equals(right);
         public static bool operator !=(WindowsFilePath left, string right) => !left.Equals(right);
 
-        public static implicit operator string(WindowsFilePath left) => left._value;
+        public static implicit operator string(WindowsFilePath left) => left._value ?? "";
         public static implicit operator WindowsFilePath(string value) => new(value);
         public static implicit operator WindowsFilePath(FileInfo fileInfo) => new(fileInfo.FullName);
 
@@ -96,9 +91,13 @@ namespace Smart.ValueTypes.Types.IO
 
         #region public methods
 
-        public FileInfo GetInfo() => new(_value);
-        
-        public WindowsFilePath Combine(params string[] args) => Path.Combine(args.Prepend(_value).ToArray());
+        public WindowsFilePath Combine(params string[] args)
+        {
+            if (args is null)
+                return this;
+            
+            return Path.Combine(args.Where(w => w is not null).Prepend(_value ?? "").ToArray());
+        }
 
         public static WindowsFilePath From(string value) => new(value);
         
@@ -113,12 +112,12 @@ namespace Smart.ValueTypes.Types.IO
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = new WindowsFilePath();
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = new WindowsFilePath();
                 return Validation.UnknownError;
             }
         }
@@ -148,7 +147,7 @@ namespace Smart.ValueTypes.Types.IO
             }
             catch (Exception)
             {
-                output = Empty;
+                output = new WindowsFilePath();
                 return false;
             }
         }

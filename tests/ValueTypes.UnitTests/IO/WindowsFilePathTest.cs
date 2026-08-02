@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Smart.ValueTypes.Types.IO;
 using Xunit;
 
@@ -11,11 +12,15 @@ namespace Smart.ValueTypes.UnitTests.IO
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(WindowsFilePath);
+            
             // act
             var result = new WindowsFilePath();
             
             // assert
-            Assert.Equal(WindowsFilePath.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]
@@ -346,6 +351,55 @@ namespace Smart.ValueTypes.UnitTests.IO
             
             // assert
             Assert.False(result);
+        }
+        
+        #endregion
+
+        #region Combine
+
+        [Fact]
+        public void Combine_NullValue_ShouldReturnObject()
+        {
+            // arrange
+            var path = new WindowsFilePath(); // default = null
+            var expected = Path.Combine("home", "user");
+            
+            // act
+            var result = path.Combine("home", "user");
+            
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Combine_NullInput_ShouldReturnObject()
+        {
+            // arrange
+            var path = new WindowsFilePath("home");
+            var expected = Path.Combine("home", "user");
+            
+            // act
+            var result = path.Combine(null, "user");
+            
+            // assert
+            Assert.Equal(expected, result);
+        }
+        
+        [Theory]
+        [InlineData(@"\home", "user")]
+        [InlineData(@"C:\Windows", "explorer.exe")]
+        [InlineData(@"C:\Program Files (x86)", "Microsoft Office")]
+        public void Combine_ValidInput_ShouldReturnObject(string input1, string input2)
+        {
+            // arrange
+            var path = new WindowsFilePath(input1);
+            var expected = Path.Combine(input1, input2);
+            
+            // act
+            var result = path.Combine(input2);
+            
+            // assert
+            Assert.Equal(expected, result);
         }
         
         #endregion
