@@ -34,7 +34,7 @@ namespace Smart.ValueTypes.Types.ColorModels
 
         #region properties
 
-        public static CMYK Empty => new();
+        public bool IsDefault => Cyan == 0f && Magenta == 0f && Yellow == 0f && Key == 0f;
         
         public float Cyan { get; }
 
@@ -47,17 +47,6 @@ namespace Smart.ValueTypes.Types.ColorModels
         #endregion
 
         #region constructor
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CMYK"/> struct.
-        /// </summary>
-        public CMYK()
-        {
-            Cyan = 0f;
-            Magenta = 0f;
-            Yellow = 0f;
-            Key = 0f;
-        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CMYK"/> struct.
@@ -118,12 +107,12 @@ namespace Smart.ValueTypes.Types.ColorModels
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

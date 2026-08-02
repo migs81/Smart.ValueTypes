@@ -10,11 +10,17 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(HSL);
+            
             // act
             var result = new HSL();
             
             // assert
-            Assert.Equal(HSL.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.Equal(0f, result.Hue);
+            Assert.Equal(0f, result.Saturation);
+            Assert.Equal(0f, result.Lightness);
         }
 
         [Theory]

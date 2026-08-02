@@ -1,4 +1,5 @@
-﻿using Smart.ValueTypes.Types.ColorModels;
+﻿using Smart.ValueTypes.Types.Bank;
+using Smart.ValueTypes.Types.ColorModels;
 using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.ColorModels
@@ -10,11 +11,17 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(CIELAB);
+            
             // act
             var result = new CIELAB();
             
             // assert
-            Assert.Equal(CIELAB.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.Equal(0f, result.Lightness);
+            Assert.Equal(0f, result.BlueToYellow);
+            Assert.Equal(0f, result.GreenToRed);
         }
 
         [Theory]

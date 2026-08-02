@@ -31,7 +31,7 @@ namespace Smart.ValueTypes.Types.ColorModels
 
         #region properties
 
-        public static CIELAB Empty => new();
+        public bool IsDefault => Lightness == 0f && GreenToRed == 0f && BlueToYellow == 0f;
         
         public float Lightness { get; }
 
@@ -42,16 +42,6 @@ namespace Smart.ValueTypes.Types.ColorModels
         #endregion
 
         #region constructor
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CIELAB"/> struct.
-        /// </summary>
-        public CIELAB()
-        {
-            Lightness = 0f;
-            GreenToRed = 0f;
-            BlueToYellow = 0f;
-        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CIELAB"/> struct.
@@ -107,12 +97,12 @@ namespace Smart.ValueTypes.Types.ColorModels
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

@@ -31,7 +31,7 @@ namespace Smart.ValueTypes.Types.ColorModels
 
         #region properties
 
-        public static YCbCr Empty => new();
+        public bool IsDefault => Luma == 0f && BlueDifference == 0f && RedDifference == 0f;
         
         public float Luma { get; }
 
@@ -42,16 +42,6 @@ namespace Smart.ValueTypes.Types.ColorModels
         #endregion
 
         #region constructor
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="YCbCr"/> struct.
-        /// </summary>
-        public YCbCr()
-        {
-            Luma = 0f;
-            BlueDifference = 0f;
-            RedDifference = 0f;
-        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="YCbCr"/> struct.
@@ -107,12 +97,12 @@ namespace Smart.ValueTypes.Types.ColorModels
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

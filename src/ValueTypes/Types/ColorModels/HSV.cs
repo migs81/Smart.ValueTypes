@@ -31,7 +31,7 @@ namespace Smart.ValueTypes.Types.ColorModels
 
         #region properties
 
-        public static HSV Empty => new();
+        public bool IsDefault => Hue == 0f && Saturation == 0f && Value == 0f;
         
         public float Hue { get; }
 
@@ -42,17 +42,7 @@ namespace Smart.ValueTypes.Types.ColorModels
         #endregion
 
         #region constructor
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HSV"/> struct.
-        /// </summary>
-        public HSV()
-        {
-            Hue = 0f;
-            Saturation = 0f;
-            Value = 0f;
-        }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HSV"/> struct.
         /// </summary>
@@ -107,12 +97,12 @@ namespace Smart.ValueTypes.Types.ColorModels
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

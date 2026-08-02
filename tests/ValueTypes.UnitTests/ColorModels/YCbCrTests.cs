@@ -10,11 +10,17 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(YCbCr);
+            
             // act
             var result = new YCbCr();
             
             // assert
-            Assert.Equal(YCbCr.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.Equal(0f, result.Luma);
+            Assert.Equal(0f, result.RedDifference);
+            Assert.Equal(0f, result.BlueDifference);
         }
 
         [Theory]

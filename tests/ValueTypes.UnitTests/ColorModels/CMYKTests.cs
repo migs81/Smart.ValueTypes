@@ -10,11 +10,18 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(CMYK);
+            
             // act
             var result = new CMYK();
             
             // assert
-            Assert.Equal(CMYK.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.Equal(0f, result.Cyan);
+            Assert.Equal(0f, result.Magenta);
+            Assert.Equal(0f, result.Yellow);
+            Assert.Equal(0f, result.Key);
         }
 
         [Theory]
