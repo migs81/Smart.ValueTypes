@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Smart.ValueTypes.Interfaces;
 
@@ -8,7 +7,7 @@ namespace Smart.ValueTypes.Types.Bank
     /// <summary>
     /// Value type for IBANs.l
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, IBAN&gt;" />
+    /// <seealso cref="Smart.ValueTypes.Interfaces.IValueType{,IBAN}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidIbanException"></exception>
@@ -16,17 +15,16 @@ namespace Smart.ValueTypes.Types.Bank
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "XY000";
+        private readonly string? _value;
 
         #endregion
 
         #region properties
 
-        public static IBAN Empty => new();
-        public string CountryCode => _value[..2];
-        public int Checksum => int.Parse(_value[2..4]);
-        public string AccountIdentifier => _value[4..];
+        public bool IsDefault => _value is null;
+        public string CountryCode => _value is not null ? _value[..2] : "";
+        public int Checksum => _value is not null ? int.Parse(_value[2..4]) : -1;
+        public string AccountIdentifier => _value is not null ? _value[4..] : "";
 
         public enum Validation
         {
@@ -45,11 +43,6 @@ namespace Smart.ValueTypes.Types.Bank
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IBAN"/> struct.
-        /// </summary>
-        public IBAN() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="IBAN"/> struct.
         /// </summary>
@@ -87,7 +80,7 @@ namespace Smart.ValueTypes.Types.Bank
         public static bool operator ==(IBAN left, string right) => left.Equals(right);
         public static bool operator !=(IBAN left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IBAN iban) => iban._value;
+        public static implicit operator string(IBAN iban) => iban._value ?? "";
         public static implicit operator IBAN(string value) => new(value);
 
         #endregion
@@ -107,12 +100,12 @@ namespace Smart.ValueTypes.Types.Bank
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }
