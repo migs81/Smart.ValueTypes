@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Smart.ValueTypes.Interfaces;
 
 namespace Smart.ValueTypes.Types.Bank
@@ -11,8 +10,7 @@ namespace Smart.ValueTypes.Types.Bank
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "AAAABBCC";
+        private readonly string? _value;
 
         public enum Validation
         {
@@ -31,16 +29,11 @@ namespace Smart.ValueTypes.Types.Bank
 
         #region properties
 
-        public static BIC Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region construct
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BIC"/> struct.
-        /// </summary>
-        public BIC() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="BIC"/> struct.
@@ -80,7 +73,7 @@ namespace Smart.ValueTypes.Types.Bank
         public static bool operator ==(BIC left, string right) => left.Equals(right);
         public static bool operator !=(BIC left, string right) => !left.Equals(right);
 
-        public static implicit operator string(BIC bic) => bic._value;
+        public static implicit operator string(BIC bic) => bic._value ?? "";
         public static implicit operator BIC(string value) => new(value);
 
         #endregion
@@ -100,12 +93,12 @@ namespace Smart.ValueTypes.Types.Bank
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

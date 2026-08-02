@@ -39,11 +39,14 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(BIC);
+            
             // act
             var bic = new BIC();
             
             // assert
-            Assert.Equal(BIC.Empty, bic);
+            Assert.Equal(expected, bic);
         }
 
         [Fact]
