@@ -21,17 +21,6 @@ namespace Smart.ValueTypes.UnitTests.Bank
         private const string WrongBranchCode1 = "abcdefghx23"; // wrong branch code (can not start with x unless it is XXX)
         private const string WrongBranchCode2 = "abcdefghxx3"; // wrong branch code (can not start with x unless it is XXX)
 
-        private static readonly string[] ValidValues =
-        {
-            "BYLADEM1001", "INGDDEFF", "BELADEBE", "CMCIDEDD", "HASPDEHH", "PBNKDEFF", "DAAEDEDD", "SOLADEST600",
-            "HYVEDEMM", "COKSDE33", "BEVODEBB", "SSKMDEMM", "OPSKATWW", "EASYATW1", "RLNWATWW", "BKAUATWW", "GIBAATWW",
-            "STSPAT2G", "SBGSAT2S", "RZOOAT2L", "ASPKAT2L", "RVSAAT2S", "VKBLAT2L", "RZTIAT22", "BFKKAT2K", "SPIHAT22",
-            "RLNWATWWGTD", "POFICHBE", "CRESCHZZ80A", "ZKBKCHZZ80A", "MIGRCHZZ", "BCVLCH2L", "UBSWCHZH12A", "KBBECH22",
-            "KBSGCH22", "UBSWCHZH80A", "BLKBCH22", "KBTGCH22", "VABECH22", "KBAGCH22", "LUKBCH2260A", "AHHBCH22",
-            "LILALI2X", "VPBVLI2X", "BLFLLI2X", "HYIBLI22", "VOAGLI22", "CBKVLI2X", "BFRILI22", "RAIBLI22", "NBANLI22",
-            "BALPLI22", "balpli22"
-        };
-
         #endregion
 
         #region constructor
@@ -50,17 +39,24 @@ namespace Smart.ValueTypes.UnitTests.Bank
             Assert.True(result.IsDefault);
         }
 
-        [Fact]
-        public void Constructor_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("BYLADEM1001")]
+        [InlineData("HYVEDEMM")]
+        [InlineData("RLNWATWWGTD")]
+        [InlineData("KBSGCH22")]
+        [InlineData("balpli22")]
+        [InlineData("ZKBKCHZZ80A")]
+        [InlineData("UBSWCHZH12A")]
+        [InlineData("GIBAATWW")]
+        [InlineData("RAIBLI22")]
+        [InlineData("BLFLLI2X")]
+        public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var bic = new BIC(value);
+            // act
+            var bic = new BIC(input);
                 
-                // assert
-                Assert.Equal(value.ToUpper(), bic);
-            }
+            // assert
+            Assert.Equal(input.ToUpper(), bic);
         }
 
         [Theory]
@@ -91,17 +87,24 @@ namespace Smart.ValueTypes.UnitTests.Bank
         
         #region From
         
-        [Fact]
-        public void From_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("BYLADEM1001")]
+        [InlineData("HYVEDEMM")]
+        [InlineData("RLNWATWWGTD")]
+        [InlineData("KBSGCH22")]
+        [InlineData("balpli22")]
+        [InlineData("ZKBKCHZZ80A")]
+        [InlineData("UBSWCHZH12A")]
+        [InlineData("GIBAATWW")]
+        [InlineData("RAIBLI22")]
+        [InlineData("BLFLLI2X")]
+        public void From_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var bic = BIC.From(value);
+            // act
+            var bic = BIC.From(input);
                 
-                // assert
-                Assert.Equal(value.ToUpper(), bic);
-            }
+            // assert
+            Assert.Equal(input.ToUpper(), bic);
         }
 
         [Theory]
@@ -132,17 +135,24 @@ namespace Smart.ValueTypes.UnitTests.Bank
         
         #region TryFrom
         
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
+        [Theory]
+        [InlineData("BYLADEM1001")]
+        [InlineData("HYVEDEMM")]
+        [InlineData("RLNWATWWGTD")]
+        [InlineData("KBSGCH22")]
+        [InlineData("balpli22")]
+        [InlineData("ZKBKCHZZ80A")]
+        [InlineData("UBSWCHZH12A")]
+        [InlineData("GIBAATWW")]
+        [InlineData("RAIBLI22")]
+        [InlineData("BLFLLI2X")]
+        public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = BIC.TryFrom(value, out _);
+            // act
+            var result = BIC.TryFrom(input, out _);
                 
-                // assert
-                Assert.Equal(BIC.Validation.Ok, result);
-            }
+            // assert
+            Assert.Equal(BIC.Validation.Ok, result);
         }
         
         [Theory]

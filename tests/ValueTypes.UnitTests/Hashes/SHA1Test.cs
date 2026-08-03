@@ -8,19 +8,6 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] ValidValues =
-        [
-            "86f7e437faa5a7fce15d1ddcb9eaeaea377667b8",
-            "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98",
-            "84a516841ba77a5b4648de2cd0dfcb30ea46dbb4",
-            "3c363836cf4e16666669a25da280a1865c2d2874",
-            "58e6b3a414a1e090dfc6029add0f3555ccba127f",
-            "4a0a19218e082a343a1b17e5333409af9d98f0f5",
-            "54fd1711209fb1c0781092374132c66e79e2241b",
-            "27d5482eebd075de44389774fce28c69f45c8a75",
-            "042dc4512fa3d391c5170cf3aa61e6a638f84342",
-            "5c2dd944dde9e08881bef0894fe7b22a5c9c4b06",
-        ];
         private static readonly ValueTuple<string, string> ValidValue = new("test",
             "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3");
 
@@ -44,17 +31,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             Assert.True(result.IsDefault);
         }
 
-        [Fact]
-        public void Constructor_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("86f7e437faa5a7fce15d1ddcb9eaeaea377667b8")]
+        [InlineData("e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98")]
+        [InlineData("84a516841ba77a5b4648de2cd0dfcb30ea46dbb4")]
+        [InlineData("3c363836cf4e16666669a25da280a1865c2d2874")]
+        [InlineData("58e6b3a414a1e090dfc6029add0f3555ccba127f")]
+        [InlineData("4a0a19218e082a343a1b17e5333409af9d98f0f5")]
+        [InlineData("54fd1711209fb1c0781092374132c66e79e2241b")]
+        [InlineData("27d5482eebd075de44389774fce28c69f45c8a75")]
+        [InlineData("042dc4512fa3d391c5170cf3aa61e6a638f84342")]
+        [InlineData("5c2dd944dde9e08881bef0894fe7b22a5c9c4b06")]
+        public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = new SHA1(value);
+            // act
+            var result = new SHA1(input);
                 
-                // assert
-                Assert.Equal(value, result);
-            }
+            // assert
+            Assert.Equal(input, result);
         }
 
         [Theory]
@@ -74,17 +68,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         
         #region From
 
-        [Fact]
-        public void From_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("86f7e437faa5a7fce15d1ddcb9eaeaea377667b8")]
+        [InlineData("e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98")]
+        [InlineData("84a516841ba77a5b4648de2cd0dfcb30ea46dbb4")]
+        [InlineData("3c363836cf4e16666669a25da280a1865c2d2874")]
+        [InlineData("58e6b3a414a1e090dfc6029add0f3555ccba127f")]
+        [InlineData("4a0a19218e082a343a1b17e5333409af9d98f0f5")]
+        [InlineData("54fd1711209fb1c0781092374132c66e79e2241b")]
+        [InlineData("27d5482eebd075de44389774fce28c69f45c8a75")]
+        [InlineData("042dc4512fa3d391c5170cf3aa61e6a638f84342")]
+        [InlineData("5c2dd944dde9e08881bef0894fe7b22a5c9c4b06")]
+        public void From_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = SHA1.From(value);
+            // act
+            var result = SHA1.From(input);
                 
-                // assert
-                Assert.Equal(value, result);
-            }
+            // assert
+            Assert.Equal(input, result);
         }
                 
         [Theory]
@@ -104,17 +105,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         
         #region TryFrom
 
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
+        [Theory]
+        [InlineData("86f7e437faa5a7fce15d1ddcb9eaeaea377667b8")]
+        [InlineData("e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98")]
+        [InlineData("84a516841ba77a5b4648de2cd0dfcb30ea46dbb4")]
+        [InlineData("3c363836cf4e16666669a25da280a1865c2d2874")]
+        [InlineData("58e6b3a414a1e090dfc6029add0f3555ccba127f")]
+        [InlineData("4a0a19218e082a343a1b17e5333409af9d98f0f5")]
+        [InlineData("54fd1711209fb1c0781092374132c66e79e2241b")]
+        [InlineData("27d5482eebd075de44389774fce28c69f45c8a75")]
+        [InlineData("042dc4512fa3d391c5170cf3aa61e6a638f84342")]
+        [InlineData("5c2dd944dde9e08881bef0894fe7b22a5c9c4b06")]
+        public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = SHA1.TryFrom(value, out _);
+            // act
+            var result = SHA1.TryFrom(input, out _);
                 
-                // assert
-                Assert.Equal(SHA1.Validation.Ok, result);
-            }
+            // assert
+            Assert.Equal(SHA1.Validation.Ok, result);
         }
 
         [Theory]

@@ -8,24 +8,11 @@ namespace Smart.ValueTypes.UnitTests.Hashes
     {
         #region test data
 
-        private static readonly string[] ValidValues =
-        [
-            "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
-            "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d",
-            "2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6",
-            "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4",
-            "3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea",
-            "252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111",
-            "cd0aa9856147b6c5b4ff2b7dfee5da20aa38253099ef1b4a64aced233c9afe29",
-            "aaa9402664f1a41f40ebbc52c9993eb66aeb366602958fdfaa283b71e64db123",
-            "de7d1b721a1e0632b7cf04edf5032c8ecffa9f9a08492152b926f1a5a7e765d7",
-            "189f40034be7a199f1fa9891668ee3ab6049f82d38c68be70f596eab2e1857b7",
-        ];
         private static readonly ValueTuple<string, string> ValidValue = new("test",
             "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
 
         private const string WrongCharacter = "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
-
+        
         #endregion
 
         #region constructor
@@ -44,17 +31,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
             Assert.True(result.IsDefault);
         }
 
-        [Fact]
-        public void Constructor_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb")]
+        [InlineData("3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d")]
+        [InlineData("2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6")]
+        [InlineData("18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4")]
+        [InlineData("3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea")]
+        [InlineData("252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111")]
+        [InlineData("cd0aa9856147b6c5b4ff2b7dfee5da20aa38253099ef1b4a64aced233c9afe29")]
+        [InlineData("aaa9402664f1a41f40ebbc52c9993eb66aeb366602958fdfaa283b71e64db123")]
+        [InlineData("de7d1b721a1e0632b7cf04edf5032c8ecffa9f9a08492152b926f1a5a7e765d7")]
+        [InlineData("189f40034be7a199f1fa9891668ee3ab6049f82d38c68be70f596eab2e1857b7")]
+        public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = new SHA256(value);
+            // act
+            var result = new SHA256(input);
                 
-                // assert
-                Assert.Equal(value, result);
-            }
+            // assert
+            Assert.Equal(input, result);
         }
 
         [Theory]
@@ -74,17 +68,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         
         #region From
 
-        [Fact]
-        public void From_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb")]
+        [InlineData("3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d")]
+        [InlineData("2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6")]
+        [InlineData("18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4")]
+        [InlineData("3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea")]
+        [InlineData("252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111")]
+        [InlineData("cd0aa9856147b6c5b4ff2b7dfee5da20aa38253099ef1b4a64aced233c9afe29")]
+        [InlineData("aaa9402664f1a41f40ebbc52c9993eb66aeb366602958fdfaa283b71e64db123")]
+        [InlineData("de7d1b721a1e0632b7cf04edf5032c8ecffa9f9a08492152b926f1a5a7e765d7")]
+        [InlineData("189f40034be7a199f1fa9891668ee3ab6049f82d38c68be70f596eab2e1857b7")]
+        public void From_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = SHA256.From(value);
+            // act
+            var result = SHA256.From(input);
                 
-                // assert
-                Assert.Equal(value, result);
-            }
+            // assert
+            Assert.Equal(input, result);
         }
 
         [Theory]
@@ -104,17 +105,24 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         
         #region TryFrom
 
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
+        [Theory]
+        [InlineData("ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb")]
+        [InlineData("3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d")]
+        [InlineData("2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6")]
+        [InlineData("18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4")]
+        [InlineData("3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea")]
+        [InlineData("252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111")]
+        [InlineData("cd0aa9856147b6c5b4ff2b7dfee5da20aa38253099ef1b4a64aced233c9afe29")]
+        [InlineData("aaa9402664f1a41f40ebbc52c9993eb66aeb366602958fdfaa283b71e64db123")]
+        [InlineData("de7d1b721a1e0632b7cf04edf5032c8ecffa9f9a08492152b926f1a5a7e765d7")]
+        [InlineData("189f40034be7a199f1fa9891668ee3ab6049f82d38c68be70f596eab2e1857b7")]
+        public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = SHA256.TryFrom(value, out _);
+            // act
+            var result = SHA256.TryFrom(input, out _);
                 
-                // assert
-                Assert.Equal(SHA256.Validation.Ok, result);
-            }
+            // assert
+            Assert.Equal(SHA256.Validation.Ok, result);
         }
         
         [Theory]
