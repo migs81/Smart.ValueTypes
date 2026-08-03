@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Types.Bank
     /// <summary>
     /// Value type for IBANs.l
     /// </summary>
-    /// <seealso cref="Smart.ValueTypes.Interfaces.IValueType{,IBAN}" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidIbanException"></exception>

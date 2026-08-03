@@ -11,11 +11,15 @@ namespace Smart.ValueTypes.UnitTests.ID
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(IMSI);
+
             // act
             var result = new IMSI();
             
             // assert
-            Assert.Equal(IMSI.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

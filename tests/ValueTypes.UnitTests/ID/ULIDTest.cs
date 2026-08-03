@@ -11,11 +11,15 @@ namespace Smart.ValueTypes.UnitTests.ID
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(ULID);
+
 	        // act
             var result = new ULID();
             
             // assert
-            Assert.Equal(ULID.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
     /// <summary>
     /// Value type for the austrian national insurance number (Sozialversicherungsnummer).
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, SVNR&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidSvnrException"></exception>
@@ -15,8 +15,7 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "0000000000";
+        private readonly string? _value;
         
         public const int Length = 10;
 
@@ -38,16 +37,11 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
 
         #region properties
 
-        public static SVNR Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SVNR"/> struct.
-        /// </summary>
-        public SVNR() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SVNR"/> struct.
@@ -88,7 +82,7 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
         public static bool operator ==(SVNR left, string right) => left.Equals(right);
         public static bool operator !=(SVNR left, string right) => !left.Equals(right);
 
-        public static implicit operator string(SVNR svnr) => svnr._value;
+        public static implicit operator string(SVNR svnr) => svnr._value ?? "";
         public static implicit operator SVNR(string value) => new(value);
 
         #endregion
@@ -108,12 +102,12 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

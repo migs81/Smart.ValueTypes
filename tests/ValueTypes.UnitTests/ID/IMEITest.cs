@@ -84,11 +84,15 @@ namespace Smart.ValueTypes.UnitTests.ID
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+	        // arrange
+	        var expected = default(IMEI);
+	        
 	        // act
             var result = new IMEI();
             
             // assert
-            Assert.Equal(IMEI.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

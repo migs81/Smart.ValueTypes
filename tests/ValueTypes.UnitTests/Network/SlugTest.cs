@@ -11,11 +11,15 @@ namespace Smart.ValueTypes.UnitTests.Network
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(Slug);
+            
             // act
             var result = new Slug();
             
             // assert
-            Assert.Equal(Slug.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

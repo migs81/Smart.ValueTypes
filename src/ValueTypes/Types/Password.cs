@@ -7,14 +7,14 @@ namespace Smart.ValueTypes.Types
     /// <summary>
     /// Value type for passwords.
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, Password&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="InvalidPasswordException"></exception>
     public readonly record struct Password : IValueType<string, Password>
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
 
         public enum Validation
         {
@@ -43,25 +43,14 @@ namespace Smart.ValueTypes.Types
 
         #region properties
 
+        public bool IsDefault => _value is null;
         public int MinLength { get; }
         public int MaxLength { get; }
         public Requirement Requirements { get; }
-        public static Password Empty { get; } = new();
-
+        
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Password"/> struct.
-        /// </summary>
-        public Password()
-        {
-            _value = "";
-            MinLength = 0;
-            MaxLength = int.MaxValue;
-            Requirements = Requirement.Nothing;
-        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Password"/> struct.
@@ -111,7 +100,7 @@ namespace Smart.ValueTypes.Types
         public static bool operator ==(Password left, string right) => left.Equals(right);
         public static bool operator !=(Password left, string right) => !left.Equals(right);
 
-        public static implicit operator string(Password password) => password._value;
+        public static implicit operator string(Password password) => password._value ?? "";
         public static implicit operator Password(string value) => new(value);
 
         #endregion
@@ -132,12 +121,12 @@ namespace Smart.ValueTypes.Types
                     return Validation.Ok;
                 }
 
-                password = Empty;
+                password = default;
                 return result;
             }
             catch (Exception)
             {
-                password = Empty;
+                password = default;
                 return Validation.UnknownError;
             }
         }

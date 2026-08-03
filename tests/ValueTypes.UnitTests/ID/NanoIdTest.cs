@@ -11,11 +11,15 @@ namespace Smart.ValueTypes.UnitTests.ID
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(NanoId);
+
 	        // act
             var result = new NanoId();
             
             // assert
-            Assert.Equal(NanoId.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

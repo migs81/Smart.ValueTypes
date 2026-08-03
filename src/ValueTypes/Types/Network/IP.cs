@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Types.Network
     /// <summary>
     /// Value type for IP addresses.
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, IP&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidIPException"></exception>
@@ -15,8 +15,7 @@ namespace Smart.ValueTypes.Types.Network
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "0.0.0.0";
+        private readonly string? _value;
         
         public enum IPType
         {
@@ -30,20 +29,11 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static IP Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IP"/> struct.
-        /// </summary>
-        public IP()
-        {
-            _value = Default;
-            Type = IPType.IPv4;
-        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="IP"/> struct.
@@ -100,7 +90,7 @@ namespace Smart.ValueTypes.Types.Network
         public static bool operator ==(IP left, string right) => left.Equals(right);
         public static bool operator !=(IP left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IP ip) => ip._value;
+        public static implicit operator string(IP ip) => ip._value ?? "";
         public static implicit operator IP(string value) => new(value);
         public static implicit operator IP(IPv4 ip) => new(ip, IPType.IPv4);
         public static implicit operator IP(IPv6 ip) => new(ip, IPType.IPv4);
@@ -131,12 +121,12 @@ namespace Smart.ValueTypes.Types.Network
                     return true;
                 }
 
-                output = Empty;
+                output = default;
                 return false;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return false;
             }
         }
@@ -155,17 +145,15 @@ namespace Smart.ValueTypes.Types.Network
                     }
                 }
 
-                output = Empty;
+                output = default;
                 return false;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return false;
             }
         }
-
-        public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
         #endregion
     }

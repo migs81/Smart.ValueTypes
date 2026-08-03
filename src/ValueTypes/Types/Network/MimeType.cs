@@ -8,6 +8,7 @@ namespace Smart.ValueTypes.Types.Network
     /// <summary>
     /// Value type for International Mobile Equipment Identity (MimeType).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidMimeTypeException"></exception>
@@ -15,8 +16,7 @@ namespace Smart.ValueTypes.Types.Network
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "application/octet-stream";
+        private readonly string? _value;
         
         public enum Validation
         {
@@ -37,14 +37,16 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static MimeType Empty => new();
+        public bool IsDefault => _value is null;
 
-        public string Type => _value[.._value.IndexOf('/')];
+        public string Type => _value is not null ? _value[.._value.IndexOf('/')] : "";
 
         public string Subtype
         {
             get
             {
+                if (_value is null) return "";
+                
                 var slashPos = _value.IndexOf('/');
                 var semicolonPos = _value.IndexOf(';', slashPos + 1);
 
@@ -59,6 +61,8 @@ namespace Smart.ValueTypes.Types.Network
         {
             get
             {
+                if (_value is null) return "";
+                
                 var semicolonPos = _value.IndexOf(';');
                 if (semicolonPos == -1)
                     return "";
@@ -70,11 +74,6 @@ namespace Smart.ValueTypes.Types.Network
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MimeType"/> struct.
-        /// </summary>
-        public MimeType() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="MimeType"/> struct.
@@ -116,14 +115,12 @@ namespace Smart.ValueTypes.Types.Network
         public static bool operator ==(MimeType left, string right) => left.Equals(right);
         public static bool operator !=(MimeType left, string right) => !left.Equals(right);
 
-        public static implicit operator string(MimeType imei) => imei._value;
+        public static implicit operator string(MimeType imei) => imei._value ?? "";
         public static implicit operator MimeType(string value) => new(value);
 
         #endregion
 
         #region public methods
-
-        public static MimeType New() => new();
 
         public static MimeType From(string value) => new(value);
         
@@ -135,13 +132,13 @@ namespace Smart.ValueTypes.Types.Network
                 if (result == Validation.Ok)
                     output = new MimeType(ref value);
                 else
-                    output = Empty;
+                    output = default;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

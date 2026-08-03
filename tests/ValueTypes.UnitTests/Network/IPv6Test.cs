@@ -18,11 +18,15 @@ namespace Smart.ValueTypes.UnitTests.Network
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(IPv6);
+            
             // act
             var result = new IPv6();
             
             // assert
-            Assert.Equal(IPv6.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

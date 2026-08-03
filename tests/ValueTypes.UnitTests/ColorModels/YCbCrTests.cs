@@ -21,6 +21,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Equal(0f, result.Luma);
             Assert.Equal(0f, result.RedDifference);
             Assert.Equal(0f, result.BlueDifference);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

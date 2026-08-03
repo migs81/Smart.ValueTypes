@@ -6,6 +6,7 @@ namespace Smart.ValueTypes.Types.ID
     /// <summary>
     /// Value type for Universally Unique Lexicographically Sortable Identifier (NanoId).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidNanoIdException"></exception>
@@ -13,10 +14,8 @@ namespace Smart.ValueTypes.Types.ID
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
 
-        private const string Default = "000000000000000000000";
-        
         public enum Validation
         {
             Ok = 0,
@@ -31,17 +30,12 @@ namespace Smart.ValueTypes.Types.ID
 
         #region properties
 
-        public static NanoId Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NanoId"/> struct.
-        /// </summary>
-        public NanoId() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="NanoId"/> struct.
         /// </summary>
@@ -77,14 +71,12 @@ namespace Smart.ValueTypes.Types.ID
         public static bool operator ==(NanoId left, string right) => left.Equals(right);
         public static bool operator !=(NanoId left, string right) => !left.Equals(right);
 
-        public static implicit operator string(NanoId imei) => imei._value;
+        public static implicit operator string(NanoId imei) => imei._value ?? "";
         public static implicit operator NanoId(string value) => new(value);
 
         #endregion
 
         #region public methods
-
-        public static NanoId New() => new();
 
         public static NanoId From(string value) => new(value);
         
@@ -96,13 +88,13 @@ namespace Smart.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new NanoId(ref value);
                 else
-                    output = Empty;
+                    output = default;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

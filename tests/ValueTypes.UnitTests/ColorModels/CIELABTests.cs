@@ -22,6 +22,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Equal(0f, result.Lightness);
             Assert.Equal(0f, result.BlueToYellow);
             Assert.Equal(0f, result.GreenToRed);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

@@ -53,11 +53,15 @@ namespace Smart.ValueTypes.UnitTests
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(EmailAddress);
+            
             // act
-            var email = new EmailAddress();
+            var result = new EmailAddress();
             
             // assert
-            Assert.Equal(EmailAddress.Empty, email);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

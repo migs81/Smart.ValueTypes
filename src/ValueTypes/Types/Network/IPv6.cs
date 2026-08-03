@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Types.Network
     /// <summary>
     /// Value type for IPv6 addresses.
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, IPv6&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidIPv6Exception"></exception>
@@ -15,8 +15,7 @@ namespace Smart.ValueTypes.Types.Network
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "0:0:0:0:0:0:0:0";
+        private readonly string? _value;
 
         public enum Validation
         {
@@ -36,17 +35,12 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static IPv6 Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IPv6"/> struct.
-        /// </summary>
-        public IPv6() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="IPv6"/> struct.
         /// </summary>
@@ -86,15 +80,13 @@ namespace Smart.ValueTypes.Types.Network
         public static bool operator ==(IPv6 left, string right) => left.Equals(right);
         public static bool operator !=(IPv6 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IPv6 ip) => ip._value;
+        public static implicit operator string(IPv6 ip) => ip._value ?? "";
         public static implicit operator IPv6(string value) => new(value);
         public static implicit operator IPv6(IPAddress address) => new(address.MapToIPv6().ToString());
 
         #endregion
 
         #region public methods
-
-        public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
         public static IPv6 From(string value) => new(value);
         
@@ -109,12 +101,12 @@ namespace Smart.ValueTypes.Types.Network
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

@@ -20,11 +20,15 @@ namespace Smart.ValueTypes.UnitTests.Coordinates
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(Latitude);
+            
             // act
             var result = new Latitude();
             
             // assert
-            Assert.Equal(Latitude.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

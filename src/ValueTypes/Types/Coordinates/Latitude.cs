@@ -14,7 +14,6 @@ namespace Smart.ValueTypes.Types.Coordinates
         #region fields
 
         private readonly double _value;
-        private const double Default = 0;
         
         public const double MaxValue = 90;
         public const double MinValue = -90;
@@ -31,17 +30,12 @@ namespace Smart.ValueTypes.Types.Coordinates
 
         #region properties
 
-        public static Latitude Empty => new();
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Latitude"/> struct.
-        /// </summary>
-        public Latitude() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="Latitude"/> struct.
         /// </summary>
@@ -93,12 +87,12 @@ namespace Smart.ValueTypes.Types.Coordinates
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

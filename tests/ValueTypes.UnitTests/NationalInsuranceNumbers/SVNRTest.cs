@@ -22,11 +22,15 @@ namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(SVNR);
+            
             // act
             var result = new SVNR();
             
             // assert
-            Assert.Equal(SVNR.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

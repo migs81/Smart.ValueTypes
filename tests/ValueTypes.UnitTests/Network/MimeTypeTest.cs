@@ -12,11 +12,15 @@ namespace Smart.ValueTypes.UnitTests.Network
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(MimeType);
+            
             // act
             var result = new MimeType();
             
             // assert
-            Assert.Equal(MimeType.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
             
         [Theory]

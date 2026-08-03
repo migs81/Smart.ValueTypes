@@ -10,12 +10,15 @@ namespace Smart.ValueTypes.UnitTests
         [Fact]
         public void Constructor_NoInput_ShouldReturnEmptyPassword()
         {
+            // arrange
+            var expected = default(Password);
+            
             // act
-            var password = new Password();
+            var result = new Password();
             
             // assert
-            Assert.Equal(Password.Empty, password);
-            Assert.Equal("", password);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

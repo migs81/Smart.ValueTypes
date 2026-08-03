@@ -14,8 +14,8 @@ namespace Smart.ValueTypes.UnitTests.Coordinates
             var result = new GeoCoordinate();
             
             // assert
-            Assert.Equal(Latitude.Empty, result.Latitude, 0);
-            Assert.Equal(Longitude.Empty, result.Longitude, 0);
+            Assert.Equal(default(Latitude), result.Latitude, 0);
+            Assert.Equal(default(Longitude), result.Longitude, 0);
         }
 
         [Fact]

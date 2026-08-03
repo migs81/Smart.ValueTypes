@@ -7,6 +7,7 @@ namespace Smart.ValueTypes.Types.ID
     /// <summary>
     /// Value type for International Mobile Subscriber Identity (IMSI).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidImsiException"></exception>
@@ -14,10 +15,8 @@ namespace Smart.ValueTypes.Types.ID
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
 
-        private const string Default = "000000";
-        
         public enum Validation
         {
             Ok = 0,
@@ -33,18 +32,13 @@ namespace Smart.ValueTypes.Types.ID
 
         #region properties
 
-        public static IMSI Empty => new();
+        public bool IsDefault => _value is null;
 
-        public string MobileCountryCode => _value[..3];
+        public string MobileCountryCode => _value is not null ? _value[..3] : "";
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IMSI"/> struct.
-        /// </summary>
-        public IMSI() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="IMSI"/> struct.
@@ -82,7 +76,7 @@ namespace Smart.ValueTypes.Types.ID
         public static bool operator ==(IMSI left, string right) => left.Equals(right);
         public static bool operator !=(IMSI left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IMSI imsi) => imsi._value;
+        public static implicit operator string(IMSI imsi) => imsi._value ?? "";
         public static implicit operator IMSI(string value) => new(value);
 
         #endregion
@@ -101,13 +95,13 @@ namespace Smart.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new IMSI(ref value);
                 else
-                    output = Empty;
+                    output = default;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

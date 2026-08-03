@@ -7,6 +7,7 @@ namespace Smart.ValueTypes.Types.ID
     /// <summary>
     /// Value type for International Mobile Equipment Identity (IMEI).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidImeiException"></exception>
@@ -14,10 +15,8 @@ namespace Smart.ValueTypes.Types.ID
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
 
-        private const string Default = "000000000000000";
-        
         public enum Validation
         {
             Ok = 0,
@@ -34,21 +33,15 @@ namespace Smart.ValueTypes.Types.ID
 
         #region properties
 
-        public static IMEI Empty => new();
-
-        public string TypeAllocationCode => _value[..8];
-        public string SerialNumber => _value[9..14];
-        public string CheckDigit => _value[14..15];
+        public bool IsDefault => _value is null;
+        public string TypeAllocationCode => _value is not null ? _value[..8] : "";
+        public string SerialNumber => _value is not null ? _value[9..14] : "";
+        public string CheckDigit => _value is not null ? _value[14..15] : "";
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IMEI"/> struct.
-        /// </summary>
-        public IMEI() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="IMEI"/> struct.
         /// </summary>
@@ -86,7 +79,7 @@ namespace Smart.ValueTypes.Types.ID
         public static bool operator ==(IMEI left, string right) => left.Equals(right);
         public static bool operator !=(IMEI left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IMEI imei) => imei._value;
+        public static implicit operator string(IMEI imei) => imei._value ?? "";
         public static implicit operator IMEI(string value) => new(value);
 
         #endregion
@@ -105,13 +98,13 @@ namespace Smart.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new IMEI(ref value);
                 else
-                    output = Empty;
+                    output = default;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

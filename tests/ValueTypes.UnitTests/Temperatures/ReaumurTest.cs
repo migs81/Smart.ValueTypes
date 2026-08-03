@@ -19,11 +19,15 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(Reaumur);
+            
             // act
             var result = new Reaumur();
             
             // assert
-            Assert.Equal(Reaumur.Zero, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

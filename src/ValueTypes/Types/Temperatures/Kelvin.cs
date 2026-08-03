@@ -7,11 +7,14 @@ namespace Smart.ValueTypes.Types.Temperatures
     /// <summary>
     /// Value type for Kelvin temperatures.
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidKelvinException"></exception>
     public readonly record struct Kelvin : IValueType<double, Kelvin>, ITemperature
     {
         #region fields
 
+        private readonly double _value;
+        
         public const double MinValue = 0d;
         public const double MaxValue = double.MaxValue;
         public const double FreezingPoint = 273.15d;
@@ -29,18 +32,11 @@ namespace Smart.ValueTypes.Types.Temperatures
 
         #region properties
 
-        public double Value { get; }
-
-        public static Kelvin Zero => new(0d);
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Kelvin"/> struct.
-        /// </summary>
-        public Kelvin() => Value = 0d;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Kelvin"/> struct.
@@ -59,7 +55,7 @@ namespace Smart.ValueTypes.Types.Temperatures
                 };
             }
 
-            Value = value;
+            _value = value;
         }
         
         /// <summary>
@@ -74,24 +70,24 @@ namespace Smart.ValueTypes.Types.Temperatures
         /// </summary>
         /// <param name="celsius"></param>
         /// <exception cref="InvalidKelvinException"></exception>
-        public Kelvin(Celsius celsius) => Value = FromCelsius(celsius);
+        public Kelvin(Celsius celsius) => _value = FromCelsius(celsius);
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Kelvin"/> struct.
         /// </summary>
         /// <param name="fahrenheit"></param>
         /// <exception cref="InvalidKelvinException"></exception>
-        public Kelvin(Fahrenheit fahrenheit) => Value = FromFahrenheit(fahrenheit);
+        public Kelvin(Fahrenheit fahrenheit) => _value = FromFahrenheit(fahrenheit);
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Kelvin"/> struct.
         /// </summary>
         /// <param name="reaumur"></param>
         /// <exception cref="InvalidKelvinException"></exception>
-        public Kelvin(Reaumur reaumur) => Value = FromReaumur(reaumur);
+        public Kelvin(Reaumur reaumur) => _value = FromReaumur(reaumur);
         
         // required for internal initialization
-        private Kelvin(ref double value) => Value = value;
+        private Kelvin(ref double value) => _value = value;
 
         #endregion
 
@@ -100,7 +96,7 @@ namespace Smart.ValueTypes.Types.Temperatures
         public static bool operator ==(Kelvin left, double right) => left.Equals(right);
         public static bool operator !=(Kelvin left, double right) => !left.Equals(right);
 
-        public static implicit operator double(Kelvin kelvin) => kelvin.Value;
+        public static implicit operator double(Kelvin kelvin) => kelvin._value;
         public static implicit operator Kelvin(double value) => new(value);
         public static implicit operator Celsius(Kelvin kelvin) => new(ToCelsius(kelvin));
         public static implicit operator Fahrenheit(Kelvin kelvin) => new(ToFahrenheit(kelvin));
@@ -127,12 +123,12 @@ namespace Smart.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Zero;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Zero;
+                output = default;
                 return Validation.UnknownError;
             }
         }

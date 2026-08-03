@@ -6,6 +6,7 @@ namespace Smart.ValueTypes.Types.ID
     /// <summary>
     /// Value type for Universally Unique Lexicographically Sortable Identifier (ULID).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidUlidException"></exception>
@@ -13,9 +14,7 @@ namespace Smart.ValueTypes.Types.ID
     {
         #region fields
 
-        private readonly string _value;
-
-        private const string Default = "00000000000000000000000000";
+        private readonly string? _value;
         
         public enum Validation
         {
@@ -32,12 +31,14 @@ namespace Smart.ValueTypes.Types.ID
 
         #region properties
 
-        public static ULID Empty => new();
+        public bool IsDefault => _value is null;
 
         public DateTimeOffset TimeStamp
         {
             get
             {
+                if (_value is null) return default;
+                
                 const string alphabet = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
                 long timestamp = 0;
 
@@ -51,11 +52,6 @@ namespace Smart.ValueTypes.Types.ID
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ULID"/> struct.
-        /// </summary>
-        public ULID() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="ULID"/> struct.
@@ -93,14 +89,12 @@ namespace Smart.ValueTypes.Types.ID
         public static bool operator ==(ULID left, string right) => left.Equals(right);
         public static bool operator !=(ULID left, string right) => !left.Equals(right);
 
-        public static implicit operator string(ULID imei) => imei._value;
+        public static implicit operator string(ULID imei) => imei._value ?? "";
         public static implicit operator ULID(string value) => new(value);
 
         #endregion
 
         #region public methods
-
-        public static ULID New() => new();
 
         public static ULID From(string value) => new(value);
         
@@ -112,13 +106,13 @@ namespace Smart.ValueTypes.Types.ID
                 if (result == Validation.Ok)
                     output = new ULID(ref value);
                 else
-                    output = Empty;
+                    output = default;
 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

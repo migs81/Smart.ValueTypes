@@ -7,11 +7,9 @@ namespace Smart.ValueTypes.Types
 {
     /// <summary>
     /// Value type for email addresses (RFC 5322/5321)
-    /// 
     /// Does not support UTF8, Display name
-    ///     
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, EmailAddress&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidEmailAddressException"></exception>
@@ -19,7 +17,7 @@ namespace Smart.ValueTypes.Types
     {
         #region fields
 
-        private readonly string _value;
+        private readonly string? _value;
         
         public enum Validation
         {
@@ -43,17 +41,18 @@ namespace Smart.ValueTypes.Types
 
         #region properties
 
-        public static EmailAddress Empty => new EmailAddress();
+        public bool IsDefault => _value is null;
         
-        public string LocalPart => _value[.._value.IndexOf('@')];
-        public string DomainPart => _value[(_value.IndexOf('@') + 1)..];
-        public string Host => DomainPart[..DomainPart.IndexOf('.')];
-        public string TopLevelDomain => DomainPart[..];
-        public string SecondLevelDomain => DomainPart[..];
+        public string LocalPart => _value is not null ? _value[.._value.IndexOf('@')] : "";
+        public string DomainPart => _value is not null ? _value[(_value.IndexOf('@') + 1)..] : "";
+        public string Host => _value is not null ? DomainPart[..DomainPart.IndexOf('.')] : "";
+        public string TopLevelDomain => _value is not null ? DomainPart[..] : "";
+        public string SecondLevelDomain => _value is not null ? DomainPart[..] : "";
         public string DisplayName 
         { 
             get
             {
+                if (_value is null) return "";
                 if (!_value.StartsWith('[')) return "";
                 
                 var pos = _value.IndexOf(']');
@@ -67,11 +66,6 @@ namespace Smart.ValueTypes.Types
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EmailAddress"/> struct.
-        /// </summary>
-        public EmailAddress() => _value = "user@host";
         
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddress"/> struct.
@@ -116,7 +110,7 @@ namespace Smart.ValueTypes.Types
         public static bool operator ==(EmailAddress left, string right) => left.Equals(right);
         public static bool operator !=(EmailAddress left, string right) => !left.Equals(right);
 
-        public static implicit operator string(EmailAddress emailAddress) => emailAddress._value;
+        public static implicit operator string(EmailAddress emailAddress) => emailAddress._value ?? "";
         public static implicit operator EmailAddress(string value) => new(value);
 
         public static explicit operator EmailAddress(MailAddress mail) => new(mail.Address);
@@ -124,9 +118,7 @@ namespace Smart.ValueTypes.Types
         #endregion
 
         #region public methods
-
-        public MailAddress GetMailAddress() => new(_value);
-
+        
         public static EmailAddress From(string value) => new(value);
         
         public static Validation TryFrom(string value, out EmailAddress output)
@@ -140,12 +132,12 @@ namespace Smart.ValueTypes.Types
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

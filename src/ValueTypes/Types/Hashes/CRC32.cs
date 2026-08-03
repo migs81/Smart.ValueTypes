@@ -1,12 +1,12 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Smart.ValueTypes.Interfaces;
 
 namespace Smart.ValueTypes.Types.Hashes
 {
     /// <summary>
     /// Value type for Cyclic Redundancy Check 32 (CRC32).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidCrc32Exception"></exception>
@@ -14,8 +14,7 @@ namespace Smart.ValueTypes.Types.Hashes
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "00000000";
+        private readonly string? _value;
         
         public const int Length = 8;
         
@@ -32,16 +31,11 @@ namespace Smart.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static CRC32 Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CRC32"/> struct.
-        /// </summary>
-        public CRC32() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CRC32"/> struct.
@@ -76,7 +70,7 @@ namespace Smart.ValueTypes.Types.Hashes
         public static bool operator ==(CRC32 left, string right) => left.Equals(right);
         public static bool operator !=(CRC32 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(CRC32 hash) => hash._value;
+        public static implicit operator string(CRC32 hash) => hash._value ?? "";
         public static implicit operator CRC32(string value) => new(value);
 
         #endregion
@@ -96,12 +90,12 @@ namespace Smart.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

@@ -19,11 +19,15 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(Fahrenheit);
+            
             // act
             var result = new Fahrenheit();
             
             // assert
-            Assert.Equal(Fahrenheit.Zero, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

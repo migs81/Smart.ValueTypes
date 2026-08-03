@@ -7,14 +7,13 @@ namespace Smart.ValueTypes.Types.Coordinates
     /// <summary>
     /// Value type for a longitude.
     /// </summary>
-    /// <seealso cref="IValueType&lt;double, Longitude&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidLongitudeException"></exception>
     public readonly record struct Longitude : IValueType<double, Longitude>
     {
         #region fields
 
         private readonly double _value;
-        private const double Default = 0;
 
         public const double MaxValue = 180;
         public const double MinValue = -180;
@@ -31,17 +30,12 @@ namespace Smart.ValueTypes.Types.Coordinates
 
         #region properties
 
-        public static Longitude Empty => new();
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Longitude"/> struct.
-        /// </summary>
-        public Longitude() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="Longitude"/> struct.
         /// </summary>
@@ -93,12 +87,12 @@ namespace Smart.ValueTypes.Types.Coordinates
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

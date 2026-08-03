@@ -21,6 +21,7 @@ namespace Smart.ValueTypes.UnitTests.ColorModels
             Assert.Equal(0f, result.Hue);
             Assert.Equal(0f, result.Saturation);
             Assert.Equal(0f, result.Lightness);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

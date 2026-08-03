@@ -29,8 +29,8 @@ namespace Smart.ValueTypes.Types.Numeric
 
         #region properties
 
-        public static BoundedNumber<T> Empty => new();
-
+        public bool IsDefault => _value == T.Zero && Min == T.Zero && Max == T.Zero;
+        
         public T Min { get; }
         
         public T Max { get; }
@@ -38,16 +38,6 @@ namespace Smart.ValueTypes.Types.Numeric
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedNumber{T}"/> struct.
-        /// </summary>
-        public BoundedNumber()
-        {
-            Min = T.Zero;
-            Max = T.Zero;
-            _value = T.Zero;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedNumber{T}"/> struct.
@@ -109,12 +99,12 @@ namespace Smart.ValueTypes.Types.Numeric
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

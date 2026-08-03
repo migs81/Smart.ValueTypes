@@ -20,11 +20,15 @@ namespace Smart.ValueTypes.UnitTests.Graphics
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(Opacity);
+            
             // act
             var result = new Opacity();
             
             // assert
-            Assert.Equal(Opacity.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

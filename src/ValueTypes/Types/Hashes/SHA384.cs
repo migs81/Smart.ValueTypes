@@ -8,6 +8,7 @@ namespace Smart.ValueTypes.Types.Hashes
     /// <summary>
     /// Value type for Secure Hash Algorithm 384 (SHA384).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidSha384Exception"></exception>
@@ -15,9 +16,7 @@ namespace Smart.ValueTypes.Types.Hashes
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "000000000000000000000000000000000000000000000000" +
-                                       "000000000000000000000000000000000000000000000000";
+        private readonly string? _value;
         
         public const int Length = 96;
 
@@ -34,17 +33,12 @@ namespace Smart.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static SHA384 Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SHA384"/> struct.
-        /// </summary>
-        public SHA384() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="SHA384"/> struct.
         /// </summary>
@@ -78,7 +72,7 @@ namespace Smart.ValueTypes.Types.Hashes
         public static bool operator ==(SHA384 left, string right) => left.Equals(right);
         public static bool operator !=(SHA384 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(SHA384 hash) => hash._value;
+        public static implicit operator string(SHA384 hash) => hash._value ?? "";
         public static implicit operator SHA384(string value) => new(value);
 
         #endregion
@@ -98,12 +92,12 @@ namespace Smart.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

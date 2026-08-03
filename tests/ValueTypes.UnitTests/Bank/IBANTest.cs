@@ -19,6 +19,7 @@ namespace Smart.ValueTypes.UnitTests.Bank
             
             // assert
             Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

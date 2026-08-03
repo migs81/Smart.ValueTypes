@@ -6,7 +6,7 @@ namespace Smart.ValueTypes.Types.Graphics
     /// <summary>
     /// Value type for opacity.
     /// </summary>
-    /// <seealso cref="Smart.ValueTypes.Interfaces.IValueType{,Opacity}" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidOpacityException"></exception>
     public readonly record struct Opacity : IValueType<double, Opacity>
     {
@@ -29,17 +29,12 @@ namespace Smart.ValueTypes.Types.Graphics
 
         #region properties
 
-        public static Opacity Empty => new();
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Opacity"/> struct.
-        /// </summary>
-        public Opacity() => _value = 0;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="Opacity"/> struct.
         /// </summary>
@@ -91,12 +86,12 @@ namespace Smart.ValueTypes.Types.Graphics
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

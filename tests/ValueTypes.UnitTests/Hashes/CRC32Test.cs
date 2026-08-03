@@ -50,11 +50,15 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(CRC32);
+            
             // act
             var result = new CRC32();
             
             // assert
-            Assert.Equal(CRC32.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

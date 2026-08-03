@@ -36,11 +36,15 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(SHA512);
+
             // act
             var result = new SHA512();
             
             // assert
-            Assert.Equal(SHA512.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

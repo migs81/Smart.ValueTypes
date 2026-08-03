@@ -43,10 +43,11 @@ namespace Smart.ValueTypes.UnitTests.Bank
             var expected = default(BIC);
             
             // act
-            var bic = new BIC();
+            var result = new BIC();
             
             // assert
-            Assert.Equal(expected, bic);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

@@ -7,13 +7,13 @@ namespace Smart.ValueTypes.Types.Network
     /// Value type for a port number.
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidPortException"></exception>
     public readonly record struct Port : IValueType<double, Port>
     {
         #region fields
 
         private readonly double _value;
-        private const double Default = 0;
 
         public const double MinValue = 0;
         public const double MaxValue = 65_535;
@@ -30,16 +30,11 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static Port Empty => new();
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Port"/> struct.
-        /// </summary>
-        public Port() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Port"/> struct.
@@ -92,12 +87,12 @@ namespace Smart.ValueTypes.Types.Network
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

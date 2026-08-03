@@ -8,6 +8,7 @@ namespace Smart.ValueTypes.Types.Hashes
     /// <summary>
     /// Value type for Message-Digest Algorithm 5 (MD5).
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidMd5Exception"></exception>
@@ -15,8 +16,7 @@ namespace Smart.ValueTypes.Types.Hashes
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "00000000000000000000000000000000";
+        private readonly string? _value;
 
         public const int Length = 32;
         
@@ -33,17 +33,12 @@ namespace Smart.ValueTypes.Types.Hashes
 
         #region properties
 
-        public static MD5 Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MD5"/> struct.
-        /// </summary>
-        public MD5() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="MD5"/> struct.
         /// </summary>
@@ -77,7 +72,7 @@ namespace Smart.ValueTypes.Types.Hashes
         public static bool operator ==(MD5 left, string right) => left.Equals(right);
         public static bool operator !=(MD5 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(MD5 hash) => hash._value;
+        public static implicit operator string(MD5 hash) => hash._value ?? "";
         public static implicit operator MD5(string value) => new(value);
 
         #endregion
@@ -97,12 +92,12 @@ namespace Smart.ValueTypes.Types.Hashes
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

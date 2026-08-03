@@ -6,6 +6,10 @@ namespace Smart.ValueTypes.Types.Bank
     /// <summary>
     /// Bank Identifier Code (ISO 9362)
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidBicException"></exception>
     public readonly record struct BIC : IValueType<string, BIC>
     {
         #region fields

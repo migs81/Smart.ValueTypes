@@ -19,19 +19,13 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             // arrange
-            const double celsius = 0d;
-            var fahrenheit = Converter.Celsius.ToFahrenheit(celsius);
-            var kelvin = Converter.Celsius.ToKelvin(celsius);
-            var reaumur = Converter.Celsius.ToReaumur(celsius);
+            var expected = default(Temperature);
             
             // act
             var result = new Temperature();
             
             // assert
-            Assert.Equal(celsius, result.Celsius, 0);
-            Assert.Equal(fahrenheit, result.Fahrenheit, 0);
-            Assert.Equal(kelvin, result.Kelvin, 0);
-            Assert.Equal(reaumur, result.Reaumur, 0);
+            Assert.Equal(expected, result);
         }
 
         [Fact]

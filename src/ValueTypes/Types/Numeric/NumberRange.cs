@@ -25,7 +25,7 @@ namespace Smart.ValueTypes.Types.Numeric
 
         #region properties
 
-        public static NumberRange<T> Empty => new();
+        public bool IsDefault => Min == T.Zero && Max == T.Zero;
 
         public T Min { get; }
         
@@ -34,15 +34,6 @@ namespace Smart.ValueTypes.Types.Numeric
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NumberRange{T}"/> struct.
-        /// </summary>
-        public NumberRange()
-        {
-            Min = T.Zero;
-            Max = T.Zero;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NumberRange{T}"/> struct.
@@ -90,12 +81,12 @@ namespace Smart.ValueTypes.Types.Numeric
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

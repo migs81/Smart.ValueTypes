@@ -23,18 +23,6 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Temperature"/> struct.
         /// </summary>
-        public Temperature()
-        {
-            Celsius = new Celsius();
-            
-            Kelvin = Celsius.ToKelvin();
-            Fahrenheit = Celsius.ToFahrenheit();
-            Reaumur = Celsius.ToReaumur();
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Temperature"/> struct.
-        /// </summary>
         /// <param name="celsius"></param>
         public Temperature(Celsius celsius)
         {

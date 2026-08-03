@@ -21,6 +21,8 @@ public class BankAccountTest
         // assert
         Assert.Equal(iban, account.IBAN);
         Assert.Equal(bic, account.BIC);
+        Assert.True(account.IBAN.IsDefault);
+        Assert.True(account.BIC.IsDefault);
     }
 
     [Fact]

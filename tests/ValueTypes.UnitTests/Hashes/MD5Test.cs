@@ -29,11 +29,15 @@ namespace Smart.ValueTypes.UnitTests.Hashes
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(MD5);
+            
             // act
             var result = new MD5();
             
             // assert
-            Assert.Equal(MD5.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Fact]

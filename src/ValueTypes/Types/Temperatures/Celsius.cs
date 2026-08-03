@@ -1,17 +1,19 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Smart.ValueTypes.Interfaces;
 
 namespace Smart.ValueTypes.Types.Temperatures
 {
     /// <summary>
     /// Value type for celsius temperatures.
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidCelsiusException"></exception>
     public readonly record struct Celsius : IValueType<double, Celsius>, ITemperature
     {
         #region fields
 
+        private readonly double _value;
+        
         public const double MinValue = -273.15d;
         public const double MaxValue = double.MaxValue;
         public const double FreezingPoint = 0.0d;
@@ -29,17 +31,11 @@ namespace Smart.ValueTypes.Types.Temperatures
 
         #region properties
 
-        public double Value { get; }
-        public static Celsius Zero => new(0d);
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Celsius"/> struct.
-        /// </summary>
-        public Celsius() => Value = 0d;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Celsius"/> struct.
@@ -58,7 +54,7 @@ namespace Smart.ValueTypes.Types.Temperatures
                 };
             }
             
-            Value = value;
+            _value = value;
         }
         
         /// <summary>
@@ -90,7 +86,7 @@ namespace Smart.ValueTypes.Types.Temperatures
         public Celsius(Reaumur reaumur) : this(FromReaumur(reaumur)) { }
         
         // required for internal initialization
-        private Celsius(ref double value) => Value = value;
+        private Celsius(ref double value) => _value = value;
 
         #endregion
         
@@ -99,7 +95,7 @@ namespace Smart.ValueTypes.Types.Temperatures
         public static bool operator ==(Celsius left, double right) => left.Equals(right);
         public static bool operator !=(Celsius left, double right) => !left.Equals(right);
 
-        public static implicit operator double(Celsius celsius) => celsius.Value;
+        public static implicit operator double(Celsius celsius) => celsius._value;
         public static implicit operator Celsius(double value) => new(value);
         public static implicit operator Kelvin(Celsius celsius) => new(celsius.ToKelvin());
         public static implicit operator Fahrenheit(Celsius celsius) => new(celsius.ToFahrenheit());
@@ -126,12 +122,12 @@ namespace Smart.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Zero;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Zero;
+                output = default;
                 return Validation.UnknownError;
             }
         }
@@ -140,9 +136,9 @@ namespace Smart.ValueTypes.Types.Temperatures
         public static Validation TryFrom(Fahrenheit fahrenheit, out Celsius output) => TryFrom(FromFahrenheit(fahrenheit), out output);
         public static Validation TryFrom(Reaumur reaumur, out Celsius output) => TryFrom(FromReaumur(reaumur), out output);
 
-        public double ToKelvin() => Value + 273.15d;
-        public double ToFahrenheit() => (Value * 9d / 5d) + 32d;
-        public double ToReaumur() => Value * 4 / 5;
+        public double ToKelvin() => _value + 273.15d;
+        public double ToFahrenheit() => (_value * 9d / 5d) + 32d;
+        public double ToReaumur() => _value * 4 / 5;
 
         public static Validation Validate(double value) => ValidateFormat(ref value);
 

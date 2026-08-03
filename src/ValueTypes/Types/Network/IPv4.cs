@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Types.Network
     /// <summary>
     /// Value type for IPv4 addresses.
     /// </summary>
-    /// <seealso cref="IValueType&lt;string, IPv4&gt;" />
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidIPv4Exception"></exception>
@@ -15,8 +15,7 @@ namespace Smart.ValueTypes.Types.Network
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "0.0.0.0";
+        private readonly string? _value;
 
         public enum Validation
         {
@@ -37,17 +36,12 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static IPv4 Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IPv4"/> struct.
-        /// </summary>
-        public IPv4() => _value = Default;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="IPv4"/> struct.
         /// </summary>
@@ -86,15 +80,13 @@ namespace Smart.ValueTypes.Types.Network
         public static bool operator ==(IPv4 left, string right) => left.Equals(right);
         public static bool operator !=(IPv4 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IPv4 ip) => ip._value;
+        public static implicit operator string(IPv4 ip) => ip._value ?? "";
         public static implicit operator IPv4(string value) => new(value);
         public static implicit operator IPv4(IPAddress ipAdress) => new(ipAdress.MapToIPv4().ToString());
 
         #endregion
 
         #region public methods
-
-        public IPAddress GetIpAddress() => IPAddress.Parse(_value);
 
         public static IPv4 From(string value) => new(value);
         
@@ -109,12 +101,12 @@ namespace Smart.ValueTypes.Types.Network
                     return Validation.Ok;
                 }
 
-                output = Empty;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }

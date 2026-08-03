@@ -7,11 +7,14 @@ namespace Smart.ValueTypes.Types.Temperatures
     /// <summary>
     /// Value type for Fahrenheit temperatures.
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="InvalidFahrenheitException"></exception>
     public readonly record struct Fahrenheit : IValueType<double, Fahrenheit>, ITemperature
     {
         #region fields
 
+        private readonly double _value;
+        
         public const double MinValue = -459.67d;
         public const double MaxValue = double.MaxValue;
         public const double FreezingPoint = 32.0d;
@@ -29,17 +32,11 @@ namespace Smart.ValueTypes.Types.Temperatures
 
         #region properties
 
-        public double Value { get; }
-        public static Fahrenheit Zero => new(0d);
+        public bool IsDefault => _value == 0d;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
-        /// </summary>
-        public Fahrenheit() => Value = 0d;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Fahrenheit"/> struct.
@@ -58,7 +55,7 @@ namespace Smart.ValueTypes.Types.Temperatures
                 };
             }
 
-            Value = value;
+            _value = value;
         }
         
         /// <summary>
@@ -90,7 +87,7 @@ namespace Smart.ValueTypes.Types.Temperatures
         public Fahrenheit(Reaumur reaumur) : this(FromReaumur(reaumur)) { }
         
         // required for internal initialization
-        private Fahrenheit(ref double value) => Value = value;
+        private Fahrenheit(ref double value) => _value = value;
 
         #endregion
 
@@ -99,7 +96,7 @@ namespace Smart.ValueTypes.Types.Temperatures
         public static bool operator ==(Fahrenheit left, double right) => left.Equals(right);
         public static bool operator !=(Fahrenheit left, double right) => !left.Equals(right);
 
-        public static implicit operator double(Fahrenheit fahrenheit) => fahrenheit.Value;
+        public static implicit operator double(Fahrenheit fahrenheit) => fahrenheit._value;
         public static implicit operator Fahrenheit(double value) => new(value);
         public static implicit operator Celsius(Fahrenheit fahrenheit) => new(fahrenheit.ToCelsius());
         public static implicit operator Kelvin(Fahrenheit fahrenheit) => new(fahrenheit.ToKelvin());
@@ -126,12 +123,12 @@ namespace Smart.ValueTypes.Types.Temperatures
                     return Validation.Ok;
                 }
 
-                output = Zero;
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = Zero;
+                output = default;
                 return Validation.UnknownError;
             }
         }
@@ -140,9 +137,9 @@ namespace Smart.ValueTypes.Types.Temperatures
         public static Validation TryFrom(Kelvin kelvin, out Fahrenheit output) => TryFrom(FromKelvin(kelvin), out output);
         public static Validation TryFrom(Reaumur reaumur, out Fahrenheit output) => TryFrom(FromReaumur(reaumur), out output);
 
-        public double ToCelsius() => (Value - 32d) * 5d / 9d;
-        public double ToKelvin() => (Value + 459.67d) * 5d / 9d;
-        public double ToReaumur() => (Value - 32) * 4 / 9;
+        public double ToCelsius() => (_value - 32d) * 5d / 9d;
+        public double ToKelvin() => (_value + 459.67d) * 5d / 9d;
+        public double ToReaumur() => (_value - 32) * 4 / 9;
 
         public static Validation Validate(double value) => ValidateFormat(ref value);
 

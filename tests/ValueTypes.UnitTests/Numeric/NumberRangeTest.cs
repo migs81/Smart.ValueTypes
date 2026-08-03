@@ -10,11 +10,15 @@ namespace Smart.ValueTypes.UnitTests.Numeric
         [Fact]
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
+            // arrange
+            var expected = default(NumberRange<int>);
+            
             // act
             var result = new NumberRange<int>();
             
             // assert
-            Assert.Equal(NumberRange<int>.Empty, result);
+            Assert.Equal(expected, result);
+            Assert.True(result.IsDefault);
         }
 
         [Theory]

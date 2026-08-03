@@ -8,6 +8,7 @@ namespace Smart.ValueTypes.Types.Network
     /// <summary>
     /// Represents a URL-friendly string used to identify a resource.
     /// </summary>
+    /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidSlugException"></exception>
@@ -15,8 +16,7 @@ namespace Smart.ValueTypes.Types.Network
     {
         #region fields
 
-        private readonly string _value;
-        private const string Default = "n-a";
+        private readonly string? _value;
         
         public enum Validation
         {
@@ -32,16 +32,11 @@ namespace Smart.ValueTypes.Types.Network
 
         #region properties
 
-        public static Slug Empty => new();
+        public bool IsDefault => _value is null;
 
         #endregion
 
         #region constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Slug"/> struct.
-        /// </summary>
-        public Slug() => _value = Default;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Slug"/> struct.
@@ -78,14 +73,12 @@ namespace Smart.ValueTypes.Types.Network
         public static bool operator ==(Slug left, string right) => left.Equals(right);
         public static bool operator !=(Slug left, string right) => !left.Equals(right);
 
-        public static implicit operator string(Slug oid) => oid._value;
+        public static implicit operator string(Slug slug) => slug._value ?? "";
         public static implicit operator Slug(string value) => new(value);
 
         #endregion
 
         #region public methods
-
-        public static Slug New() => new();
 
         public static Slug From(string value) => new(value);
         
@@ -97,13 +90,13 @@ namespace Smart.ValueTypes.Types.Network
                 if (result == Validation.Ok)
                     output = new Slug(ref value);
                 else
-                    output = Empty;
+                    output = default;
                 
                 return result;
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return Validation.UnknownError;
             }
         }
@@ -161,7 +154,7 @@ namespace Smart.ValueTypes.Types.Network
             }
             catch (Exception)
             {
-                output = Empty;
+                output = default;
                 return false;
             }
         }
