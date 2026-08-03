@@ -1,8 +1,8 @@
-﻿using Smart.ValueTypes.Types;
-using System;
+﻿using System;
+using Smart.ValueTypes.Types.Communication;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests
+namespace Smart.ValueTypes.UnitTests.Communication
 {
     public class EmailAddressTest
     {

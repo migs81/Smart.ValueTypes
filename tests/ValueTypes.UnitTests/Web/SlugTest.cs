@@ -1,8 +1,8 @@
 ﻿using System;
-using Smart.ValueTypes.Types.Network;
+using Smart.ValueTypes.Types.Web;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.Network
+namespace Smart.ValueTypes.UnitTests.Web
 {
     public class SlugTest
     {

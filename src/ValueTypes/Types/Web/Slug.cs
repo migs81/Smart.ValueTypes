@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Network
+namespace Smart.ValueTypes.Types.Web
 {
     /// <summary>
     /// Represents a URL-friendly string used to identify a resource.

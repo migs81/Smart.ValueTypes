@@ -1,9 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Network
+namespace Smart.ValueTypes.Types.Web
 {
     /// <summary>
     /// Value type for International Mobile Equipment Identity (MimeType).

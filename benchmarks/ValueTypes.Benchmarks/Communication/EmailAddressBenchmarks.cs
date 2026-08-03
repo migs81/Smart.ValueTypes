@@ -1,10 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Types;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
+using Smart.ValueTypes.Types.Communication;
 
-namespace Smart.ValueTypes.Benchmarks
+namespace Smart.ValueTypes.Benchmarks.Communication
 {
     [MemoryDiagnoser]
     [RankColumn]

@@ -1,9 +1,8 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net.Mail;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types
+namespace Smart.ValueTypes.Types.Communication
 {
     /// <summary>
     /// Value type for email addresses.
