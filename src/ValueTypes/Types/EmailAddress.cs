@@ -6,9 +6,12 @@ using System.Net.Mail;
 namespace Smart.ValueTypes.Types
 {
     /// <summary>
-    /// Value type for email addresses (RFC 5322/5321)
-    /// Does not support UTF8, Display name
+    /// Value type for email addresses.
     /// </summary>
+    /// <remarks>
+    /// This implementation supports standard ASCII email addresses using the dot-atom format.
+    /// It does not support quoted local parts, comments, or domain literals.
+    /// </remarks>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
@@ -31,6 +34,7 @@ namespace Smart.ValueTypes.Types
             NoAtSign,
             LocalPartTooShort,
             LocalPartTooLong,
+            LocalPartContainsTwoDotsTogether,
             DomainPartTooShort,
             LocalPartContainsIllegalCharacter,
             DomainPartContainsIllegalCharacter,
@@ -87,6 +91,7 @@ namespace Smart.ValueTypes.Types
                     Validation.TooLong => new InvalidEmailAddressException($"The value '{value}' is too long!"),
                     Validation.LocalPartStartsWithDot => new InvalidEmailAddressException($"The value '{value}' starts with a dot!"),
                     Validation.LocalPartEndsWithDot => new InvalidEmailAddressException($"The value '{value}' ends with a dot!"),
+                    Validation.LocalPartContainsTwoDotsTogether => new InvalidEmailAddressException($"The value '{value}' contains two dots together!"),
                     Validation.LocalPartTooShort => new InvalidEmailAddressException($"The local part of the '{value}' is too short!"),
                     Validation.LocalPartTooLong => new InvalidEmailAddressException($"The local part of the '{value}' is too long!"),
                     Validation.LocalPartContainsIllegalCharacter => new InvalidEmailAddressException($"The local part of the '{value}' contains illegal characters!"),
@@ -177,49 +182,44 @@ namespace Smart.ValueTypes.Types
             var atPos = span.IndexOf('@');
             if (atPos == -1)
                 return Validation.NoAtSign;
-
-            // ----------- Display Name -----------
-            //int start = 0;
-            //if (span.StartsWith("["))
-            //{
-            //    start = span.IndexOf("]") + 1;
-            //    if (start > 0)
-            //}
-
+            
             // ------------ Local Part ------------
             // local part min length = 1
-            if (span[..atPos].Length == 0)
+            if (atPos < 1)
                 return Validation.LocalPartTooShort;
 
             // local part max length = 64
-            if (span[..atPos].Length > 64)
+            if (atPos > 64)
                 return Validation.LocalPartTooLong;
 
             // local part can not start with a dot
-            if (span.StartsWith("."))
+            if (span[0] == '.')
                 return Validation.LocalPartStartsWithDot;
-
+    
             // local part can not end with a dot
-            if (span[..atPos].EndsWith("."))
+            if (span[atPos - 1] == '.')
                 return Validation.LocalPartEndsWithDot;
 
+            // local part can not contain two dots together
+            if (span[..atPos].IndexOf("..") != -1)
+                return Validation.LocalPartContainsTwoDotsTogether;
+            
             // check local part characters
-            foreach (var c in span[0..atPos])
+            foreach (var c in span[..atPos])
             {
                 // RFC 5322
-                if (c > 127)
-                    return Validation.LocalPartContainsIllegalCharacter;
+                if (c > 127) return Validation.LocalPartContainsIllegalCharacter;
+                if (c is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or >= '0' and <= '9') continue;
+                if (c is '!' or '#' or '$' or '%' or '&' or '\'' or '*' or '+' or '-' or '/') continue;
+                if (c is '=' or '?' or '^' or '_' or '`' or '{' or '|' or '}' or '~' or '.') continue;
 
-                if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
-                    && c != '.' && c != '_' && c != '-')
-                {
-                    return Validation.LocalPartContainsIllegalCharacter;
-                }
+                return Validation.LocalPartContainsIllegalCharacter;
             }
-
+            
             // ------------ Domain Part ------------
             // domain part min length = 1
-            if (span[(atPos + 1)..].Length == 0)
+            if (span.Length - atPos < 2)
+            // if (span[(atPos + 1)..].Length == 0)
                 return Validation.DomainPartTooShort;
 
             // check domain part characters

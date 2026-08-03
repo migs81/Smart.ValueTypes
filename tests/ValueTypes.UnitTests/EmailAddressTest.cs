@@ -18,34 +18,14 @@ namespace Smart.ValueTypes.UnitTests
         private const string LocalPartStartsWithDot = ".name@domain.com";
         private const string LocalPartEndsWithDot = "name.@domain.com";
         private const string LocalPartTooShort = "@domain.com";
-        private const string LocalPartContainsIllegalCharacter = "firstname~lastname@domain.com";
+        private const string LocalPartContainsTwoDots = "user..name@domain.com";
+        private const string LocalPartContainsIllegalCharacter = "firstname lastname@domain.com";
         private const string LocalPartTooLong = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
                                                 "xxxxxxxxxxxxxxxxxx@.com"; // 65 characters for the name part
 
         private const string DomainPartTooShort = "name@";
         private const string DomainPartContainsIllegalCharacter = "firstname.lastname@domain~xyz.com";
-
-        private static readonly string[] ValidValues =
-        [
-            "name@domain.com",
-            "firstname.lastname@company.gv.com",
-            "firstname.lastname123@company123.to",
-            "firstname_lastname@domainxyz.com",
-            "firstname-lastname@domain-xyz.com",
-            "Firstname.Lastname@DOMAIN.XYZ.COM",
-
-            //"simple@example.com",
-            //"very.common@example.com",
-            //"abc@example.co.uk",
-            //"disposable.style.email.with+symbol@example.com",
-            //"other.email-with-hyphen@example.com",
-            //"fully-qualified-domain@example.com",
-            //"user.name+tag+sorting@example.com",
-            //"example-indeed@strange-example.com",
-            //"example-indeed@strange-example.inininini",
-            //"1234567890123456789012345678901234567890123456789012345678901234+x@example.com",
-        ];
-
+        
         #endregion
 
         #region constructor
@@ -64,17 +44,30 @@ namespace Smart.ValueTypes.UnitTests
             Assert.True(result.IsDefault);
         }
 
-        [Fact]
-        public void Constructor_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("user@example.com")]
+        [InlineData("john.doe@example.com")]
+        [InlineData("john-doe@example.com")]
+        [InlineData("john_doe@example.com")]
+        [InlineData("john+newsletter@example.com")]
+        [InlineData("user123@example.com")]
+        [InlineData("123456@example.com")]
+        [InlineData("a@example.com")]
+        [InlineData("firstname.lastname@sub.example.com")]
+        [InlineData("user@localhost")]
+        [InlineData("user@example.co.uk")]
+        [InlineData("user@example.travel")]
+        [InlineData("user@my-domain.com")]
+        [InlineData("user.name+tag123@sub-domain.example.org")]
+        [InlineData("customer-service@company.com")]
+        [InlineData("x_y-z+123@example.net")]
+        public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var email = new EmailAddress(value);
+            // act
+            var email = new EmailAddress(input);
                 
-                // assert
-                Assert.Equal(value, email);
-            }
+            // assert
+            Assert.Equal(input, email);
         }
 
         [Theory]
@@ -84,6 +77,7 @@ namespace Smart.ValueTypes.UnitTests
         [InlineData(TooLong, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartStartsWithDot, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartEndsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartContainsTwoDots, typeof(InvalidEmailAddressException))]
         [InlineData(NoAtSign, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartTooShort, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartTooLong, typeof(InvalidEmailAddressException))]
@@ -103,17 +97,30 @@ namespace Smart.ValueTypes.UnitTests
         
         #region From
 
-        [Fact]
-        public void From_ValidInput_ShouldReturnObject()
+        [Theory]
+        [InlineData("user@example.com")]
+        [InlineData("john.doe@example.com")]
+        [InlineData("john-doe@example.com")]
+        [InlineData("john_doe@example.com")]
+        [InlineData("john+newsletter@example.com")]
+        [InlineData("user123@example.com")]
+        [InlineData("123456@example.com")]
+        [InlineData("a@example.com")]
+        [InlineData("firstname.lastname@sub.example.com")]
+        [InlineData("user@localhost")]
+        [InlineData("user@example.co.uk")]
+        [InlineData("user@example.travel")]
+        [InlineData("user@my-domain.com")]
+        [InlineData("user.name+tag123@sub-domain.example.org")]
+        [InlineData("customer-service@company.com")]
+        [InlineData("x_y-z+123@example.net")]
+        public void From_ValidInput_ShouldReturnObject(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var email = EmailAddress.From(value);
+            // act
+            var email = EmailAddress.From(input);
                 
-                // assert
-                Assert.Equal(value, email);
-            }
+            // assert
+            Assert.Equal(input, email);
         }
 
         [Theory]
@@ -123,6 +130,7 @@ namespace Smart.ValueTypes.UnitTests
         [InlineData(TooLong, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartStartsWithDot, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartEndsWithDot, typeof(InvalidEmailAddressException))]
+        [InlineData(LocalPartContainsTwoDots, typeof(InvalidEmailAddressException))]
         [InlineData(NoAtSign, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartTooShort, typeof(InvalidEmailAddressException))]
         [InlineData(LocalPartTooLong, typeof(InvalidEmailAddressException))]
@@ -142,17 +150,30 @@ namespace Smart.ValueTypes.UnitTests
         
         #region TryFrom
 
-        [Fact]
-        public void TryFrom_ValidInput_ShouldReturnOK()
+        [Theory]
+        [InlineData("user@example.com")]
+        [InlineData("john.doe@example.com")]
+        [InlineData("john-doe@example.com")]
+        [InlineData("john_doe@example.com")]
+        [InlineData("john+newsletter@example.com")]
+        [InlineData("user123@example.com")]
+        [InlineData("123456@example.com")]
+        [InlineData("a@example.com")]
+        [InlineData("firstname.lastname@sub.example.com")]
+        [InlineData("user@localhost")]
+        [InlineData("user@example.co.uk")]
+        [InlineData("user@example.travel")]
+        [InlineData("user@my-domain.com")]
+        [InlineData("user.name+tag123@sub-domain.example.org")]
+        [InlineData("customer-service@company.com")]
+        [InlineData("x_y-z+123@example.net")]
+        public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
-            foreach (var value in ValidValues)
-            {
-                // act
-                var result = EmailAddress.TryFrom(value, out _);
+            // act
+            var result = EmailAddress.TryFrom(input, out _);
                 
-                // assert
-                Assert.Equal(EmailAddress.Validation.Ok, result);
-            }
+            // assert
+            Assert.Equal(EmailAddress.Validation.Ok, result);
         }
 
         [Theory]
@@ -162,6 +183,7 @@ namespace Smart.ValueTypes.UnitTests
         [InlineData(TooLong, EmailAddress.Validation.TooLong)]
         [InlineData(LocalPartStartsWithDot, EmailAddress.Validation.LocalPartStartsWithDot)]
         [InlineData(LocalPartEndsWithDot, EmailAddress.Validation.LocalPartEndsWithDot)]
+        [InlineData(LocalPartContainsTwoDots, EmailAddress.Validation.LocalPartContainsTwoDotsTogether)]
         [InlineData(NoAtSign, EmailAddress.Validation.NoAtSign)]
         [InlineData(LocalPartTooShort, EmailAddress.Validation.LocalPartTooShort)]
         [InlineData(LocalPartTooLong, EmailAddress.Validation.LocalPartTooLong)]
