@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Unfinished;
+using Smart.ValueTypes.Types.Web;
 
-namespace Smart.ValueTypes.Benchmarks
+namespace Smart.ValueTypes.Benchmarks.Web
 {
     [MemoryDiagnoser]
     [RankColumn]
@@ -12,7 +12,7 @@ namespace Smart.ValueTypes.Benchmarks
         [Benchmark]
         public void Url_Constructor_Benchmark()
         {
-            _ = new Url("amazon.com");
+            _ = new Url("https://example.com:80/path?query=1#fragment");
         }
     }
 }
