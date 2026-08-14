@@ -44,7 +44,7 @@ namespace Smart.ValueTypes.Types.IO
         #region constructor
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="value"/> struct.
+        /// Initializes a new instance of the <see cref="WindowsFilePath"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -112,12 +112,12 @@ namespace Smart.ValueTypes.Types.IO
                     return Validation.Ok;
                 }
 
-                output = new WindowsFilePath();
+                output = default;
                 return result;
             }
             catch (Exception)
             {
-                output = new WindowsFilePath();
+                output = default;
                 return Validation.UnknownError;
             }
         }
@@ -158,11 +158,6 @@ namespace Smart.ValueTypes.Types.IO
 
         #region private methods
 
-        /// <summary>
-        /// Determines whether the specified value is a file path.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         private static Validation ValidateFormat(ref string value)
         {
             // ---------- general -----------
