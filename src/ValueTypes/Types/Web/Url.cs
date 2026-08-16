@@ -29,14 +29,14 @@ namespace Smart.ValueTypes.Types.Web
             LabelTooLong,
             LabelStartsWithHyphen,
             LabelEndsWithHyphen,
-            UnknownError,
             InvalidPort,
-            PathContainsInvalidCharacter,
+            PathContainsIllegalCharacter,
             InvalidPercentEncoding,
             ContainsUnencodedSpace,
             MultipleFragmentIdentifiers,
-            FragmentContainsInvalidCharacter,
-            QueryContainsInvalidCharacter
+            FragmentContainsIllegalCharacter,
+            QueryContainsIllegalCharacter,
+            UnknownError,
         }
         
         #endregion
@@ -53,6 +53,9 @@ namespace Smart.ValueTypes.Types.Web
                     return "";
 
                 var separator = _value.IndexOf("://", StringComparison.InvariantCulture);
+                if (separator == -1)
+                    return "";
+                
                 return _value[..separator];
             }
         }
@@ -75,10 +78,46 @@ namespace Smart.ValueTypes.Types.Web
             get
             {
                 if (_value is null)
-                    return -1;
+                    return 0;
 
                 var span = _value.AsSpan();
                 return GetPort(ref span);
+            }
+        }
+
+        public string Path
+        {
+            get
+            {
+                if (_value is null)
+                    return "";
+
+                var span = _value.AsSpan();
+                return GetPath(ref span);
+            }
+        }
+        
+        public string Query
+        {
+            get
+            {
+                if (_value is null)
+                    return "";
+
+                var span = _value.AsSpan();
+                return GetQuery(ref span);
+            }
+        }
+        
+        public string Fragment
+        {
+            get
+            {
+                if (_value is null)
+                    return "";
+
+                var span = _value.AsSpan();
+                return GetFragment(ref span);
             }
         }
         
@@ -109,6 +148,13 @@ namespace Smart.ValueTypes.Types.Web
                     Validation.LabelTooLong => throw new InvalidUrlException($"The host label of the url {value} exceeds the maximum allowed length of 63 characters."),
                     Validation.LabelStartsWithHyphen => throw new InvalidUrlException($"The host label of the url {value} starts with a hyphen!"),
                     Validation.LabelEndsWithHyphen => throw new InvalidUrlException($"The host label of the url {value} ends with a hyphen!"),
+                    Validation.InvalidPort => throw new InvalidUrlException($"The port specified in the url {value} is not valid!"),
+                    Validation.PathContainsIllegalCharacter => throw new InvalidUrlException($"The path in the url {value} contains a illegal characters!"),
+                    Validation.InvalidPercentEncoding => throw new InvalidUrlException($"The url {value} contains incorrect percent encodings!"),
+                    Validation.ContainsUnencodedSpace => throw new InvalidUrlException($"The url {value} contains incorrectly encoded spaces!"),
+                    Validation.MultipleFragmentIdentifiers => throw new InvalidUrlException($"The url {value} contains multiple fragment identifiers!"),
+                    Validation.QueryContainsIllegalCharacter => throw new InvalidUrlException($"The query in the url {value} contains a illegal characters!"),
+                    Validation.FragmentContainsIllegalCharacter => throw new InvalidUrlException($"The fragment in the url {value} contains a illegal characters!"),
                     _ => new InvalidUrlException()
                 };
             }
@@ -155,9 +201,41 @@ namespace Smart.ValueTypes.Types.Web
                 return Validation.UnknownError;
             }
         }
+        
+        public static Url Parse(string value)
+        {
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
 
+            if (value.Length == 0)
+                throw new ArgumentException("Argument can not be empty!", nameof(value));
+                
+            // replace white spaces (only after the host)
+            value = value.Trim();
+            var span = value.AsSpan();
+            var host = GetHostPosition(ref span);
+            value = value[..host.End] + value[host.End..].Replace(" ", "%20");
+
+            // validate it
+            return new Url(value);
+        }
+
+        public static bool TryParse(string value, out Url output)
+        {
+            try
+            {
+                output = Parse(value);
+                return true;
+            }
+            catch (Exception)
+            {
+                output = default;
+                return false;
+            }
+        }
+        
         public static Validation ValidateFormat(string value) => ValidateFormat(ref value);
-
+        
         #endregion
 
         #region private methods
@@ -182,7 +260,7 @@ namespace Smart.ValueTypes.Types.Web
                 return Validation.UnsupportedScheme;
 
             // ------------ host ------------
-            if (host.End < host.Start)
+            if (host.End <= host.Start)
                 return Validation.MissingHost;
 
             if (host.End - host.Start > 253)
@@ -232,7 +310,7 @@ namespace Smart.ValueTypes.Types.Web
                         break;
 
                     if (char.IsControl(span[i]))
-                        return Validation.PathContainsInvalidCharacter;
+                        return Validation.PathContainsIllegalCharacter;
 
                     if (span[i] is ' ')
                         return Validation.ContainsUnencodedSpace;
@@ -260,7 +338,7 @@ namespace Smart.ValueTypes.Types.Web
                         break;
 
                     if (char.IsControl(span[i]))
-                        return Validation.QueryContainsInvalidCharacter;
+                        return Validation.QueryContainsIllegalCharacter;
 
                     if (span[i] is ' ')
                         return Validation.ContainsUnencodedSpace;
@@ -288,7 +366,7 @@ namespace Smart.ValueTypes.Types.Web
                         return Validation.MultipleFragmentIdentifiers;
 
                     if (char.IsControl(span[i]))
-                        return Validation.FragmentContainsInvalidCharacter;
+                        return Validation.FragmentContainsIllegalCharacter;
 
                     if (span[i] is ' ')
                         return Validation.ContainsUnencodedSpace;
@@ -343,11 +421,11 @@ namespace Smart.ValueTypes.Types.Web
             }
 
             // check last character
-            if (span[end] is '-')
+            if (span[end - 1] is '-')
                 return Validation.LabelEndsWithHyphen;
 
             // if the host contains only one dot, do not allow it to be at the end
-            if (span[end] is '.' && span[start..(end + 1)].Count('.') == 1)
+            if (span[end - 1] is '.' && span[start..end].Count('.') == 1)
                 return Validation.EmptyLabel;
             
             return Validation.Ok;
@@ -366,31 +444,85 @@ namespace Smart.ValueTypes.Types.Web
                     return (start, i);
             }
 
-            return (start, span.Length - 1);
+            return (start, span.Length);
         }
 
         private static int GetPort(ref ReadOnlySpan<char> span)
         {
             var host = GetHostPosition(ref span);
-            if (host.End == span.Length - 1 || host.End + 1 != ':')
-            {
-                if (span.StartsWith("https://")) return 8080;
-                if (span.StartsWith("http://")) return 80;
-                
-                return -1;
-            }
-
-            var portEnd = span.Length;
+            if (host.End == span.Length || span[host.End] != ':')
+                return 0;
+            
+            var stop = span.Length;
             for (var i = host.End + 1; i < span.Length; i++)
             {
                 if (span[i] is >= '0' and <= '9') continue;
 
-                portEnd = i;
+                stop = i;
                 break;
             }
 
-            var port = int.Parse(span[(host.End + 1)..portEnd]);
+            var port = int.Parse(span[(host.End + 1)..stop]);
             return port;
+        }
+        
+        private static string GetPath(ref ReadOnlySpan<char> span)
+        {
+            var host = GetHostPosition(ref span);
+            if (host.End == span.Length)
+                return "";
+
+            // beginning of the path
+            var start = span[host.End..].IndexOf('/');
+            if (start == -1)
+                return "";
+            start = host.End + start + 1;
+            
+            // end of the path
+            var query = span[start..].IndexOf('?');
+            if (query != -1)
+                return span[start..(start + query)].ToString();
+            
+            var fragment = span[start..].IndexOf('#');
+            if (fragment != -1)
+                return span[start..(start + fragment)].ToString();
+            
+            return span[start..].ToString();
+        }
+
+        private static string GetQuery(ref ReadOnlySpan<char> span)
+        {
+            var host = GetHostPosition(ref span);
+            if (host.End == span.Length)
+                return "";
+
+            // beginning of the query
+            var start = span[host.End..].IndexOf('?');
+            if (start == -1)
+                return "";
+            start = host.End + start + 1;
+            
+            // end of the query
+            var stop = span[start..].IndexOf('#');
+            if (stop == -1)
+                return span[start..].ToString();
+            stop = start + stop;
+            
+            return span[start..stop].ToString();
+        }
+
+        private static string GetFragment(ref ReadOnlySpan<char> span)
+        {
+            var host = GetHostPosition(ref span);
+            if (host.End == span.Length)
+                return "";
+
+            // beginning of the fragment
+            var start = span[host.End..].IndexOf('#');
+            if (start == -1)
+                return "";
+            
+            return span[(host.End + start + 1)..].ToString();
         }
         
         #endregion
