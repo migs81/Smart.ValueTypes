@@ -31,6 +31,12 @@ namespace Smart.ValueTypes.Unfinished.Location
         #region properties
 
         public bool IsDefault => _value is null;
+
+        public int StateCode => _value is not null ? int.Parse(_value[0].ToString()) : 0;
+        
+        public int PoliticalDistrictCode => _value is not null ? int.Parse(_value[1..2]) : 0;
+        
+        public int MunicipalityNumber => _value is not null ? int.Parse(_value[3..4]) : 0;
         
         #endregion
         
