@@ -6,7 +6,7 @@ using Smart.ValueTypes.Interfaces;
 namespace Smart.ValueTypes.Types.IO
 {
     /// <summary>
-    /// Value type for file paths.
+    /// Value type for Microsoft Windows file paths.
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
@@ -49,7 +49,7 @@ namespace Smart.ValueTypes.Types.IO
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="WindowsFilePath"></exception>
+        /// <exception cref="InvalidWindowsFilePathException"></exception>
         public WindowsFilePath(string value)
         {
             var result = ValidateFormat(ref value);
