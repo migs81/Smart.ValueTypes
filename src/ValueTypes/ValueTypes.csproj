@@ -6,4 +6,8 @@
 	<LangVersion>default</LangVersion>
 	<TargetFrameworks>net10.0;net8.0</TargetFrameworks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Types\Address\" />
+  </ItemGroup>
 </Project>
