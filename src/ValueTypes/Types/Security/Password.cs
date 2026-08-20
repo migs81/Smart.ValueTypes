@@ -1,8 +1,7 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types
+namespace Smart.ValueTypes.Types.Security
 {
     /// <summary>
     /// Value type for passwords.

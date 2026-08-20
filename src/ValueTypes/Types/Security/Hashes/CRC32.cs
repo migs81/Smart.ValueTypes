@@ -1,7 +1,7 @@
 ﻿using System;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Security.Hashes
 {
     /// <summary>
     /// Value type for Cyclic Redundancy Check 32 (CRC32).

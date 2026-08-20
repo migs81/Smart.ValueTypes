@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Types.Hashes;
+using Smart.ValueTypes.Types.Security.Hashes;
 
-namespace Smart.ValueTypes.Benchmarks.Hashes
+namespace Smart.ValueTypes.Benchmarks.Security.Hashes
 {
     [MemoryDiagnoser]
     [RankColumn]

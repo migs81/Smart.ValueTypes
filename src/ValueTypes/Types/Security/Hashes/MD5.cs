@@ -1,25 +1,24 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Security.Hashes
 {
     /// <summary>
-    /// Value type for Secure Hash Algorithm 256 (SHA256).
+    /// Value type for Message-Digest Algorithm 5 (MD5).
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSha256Exception"></exception>
-    public readonly record struct SHA256 : IValueType<string, SHA256>
+    /// <exception cref="InvalidMd5Exception"></exception>
+    public readonly record struct MD5 : IValueType<string, MD5>
     {
         #region fields
 
         private readonly string? _value;
-        
-        public const int Length = 64;
 
+        public const int Length = 32;
+        
         public enum Validation
         {
             Ok = 0,
@@ -40,12 +39,12 @@ namespace Smart.ValueTypes.Types.Hashes
         #region constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SHA256"/> struct.
+        /// Initializes a new instance of the <see cref="MD5"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidSha256Exception"></exception>
-        public SHA256(string value)
+        /// <exception cref="InvalidMd5Exception"></exception>
+        public MD5(string value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
@@ -53,9 +52,9 @@ namespace Smart.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSha256Exception($"The value '{value}' is not {Length} characters long!"),
-                    Validation.IllegalCharacter => new InvalidSha256Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidSha256Exception(),
+                    Validation.WrongLength => new InvalidMd5Exception($"The value '{value}' is not {Length} characters long!"),
+                    Validation.IllegalCharacter => new InvalidMd5Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidMd5Exception(),
                 };
             }
 
@@ -63,32 +62,32 @@ namespace Smart.ValueTypes.Types.Hashes
         }
         
         // required for internal initialization
-        private SHA256(ref string value) => _value = value;
+        private MD5(ref string value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(SHA256 left, string right) => left.Equals(right);
-        public static bool operator !=(SHA256 left, string right) => !left.Equals(right);
+        public static bool operator ==(MD5 left, string right) => left.Equals(right);
+        public static bool operator !=(MD5 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(SHA256 hash) => hash._value ?? "";
-        public static implicit operator SHA256(string value) => new(value);
+        public static implicit operator string(MD5 hash) => hash._value ?? "";
+        public static implicit operator MD5(string value) => new(value);
 
         #endregion
 
         #region public methods
 
-        public static SHA256 From(string hash) => new(hash);
+        public static MD5 From(string hash) => new(hash);
         
-        public static Validation TryFrom(string hash, out SHA256 output)
+        public static Validation TryFrom(string hash, out MD5 output)
         {
             try
             {
                 var result = ValidateFormat(ref hash);
                 if (result == Validation.Ok)
                 {
-                    output = new SHA256(ref hash);
+                    output = new MD5(ref hash);
                     return Validation.Ok;
                 }
 
@@ -102,9 +101,9 @@ namespace Smart.ValueTypes.Types.Hashes
             }
         }
 
-        public static SHA256 Create(string value) => new(CreateHash(ref value));
+        public static MD5 Create(string value) => new(CreateHash(ref value));
         
-        public static bool TryCreate(string value, out SHA256? output)
+        public static bool TryCreate(string value, out MD5? output)
         {
             try
             {
@@ -113,7 +112,7 @@ namespace Smart.ValueTypes.Types.Hashes
                     var hash = CreateHash(ref value);
                     if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new SHA256(ref hash);
+                        output = new MD5(ref hash);
                         return true;
                     }
                 }
@@ -136,7 +135,7 @@ namespace Smart.ValueTypes.Types.Hashes
 
         private static string CreateHash(ref string input)
         {
-            var bytes = System.Security.Cryptography.SHA256.HashData(Encoding.Default.GetBytes(input));
+            var bytes = System.Security.Cryptography.MD5.HashData(Encoding.Default.GetBytes(input));
             return Convert.ToHexString(bytes);
         }
 
@@ -146,7 +145,7 @@ namespace Smart.ValueTypes.Types.Hashes
             if (value is null)
                 return Validation.Null;
 
-            // must be 64 characters long
+            // must be 32 characters long
             if (value.Length != Length)
                 return Validation.WrongLength;
 
@@ -163,13 +162,13 @@ namespace Smart.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidSha256Exception : Exception
+    public class InvalidMd5Exception : Exception
     {
-        public InvalidSha256Exception()
+        public InvalidMd5Exception()
         {
         }
 
-        public InvalidSha256Exception(string message) : base(message)
+        public InvalidMd5Exception(string message) : base(message)
         {
         }
     }

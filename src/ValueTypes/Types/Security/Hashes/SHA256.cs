@@ -1,25 +1,24 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Security.Hashes
 {
     /// <summary>
-    /// Value type for Secure Hash Algorithm 1 (SHA1).
+    /// Value type for Secure Hash Algorithm 256 (SHA256).
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSha1Exception"></exception>
-    public readonly record struct SHA1 : IValueType<string, SHA1>
+    /// <exception cref="InvalidSha256Exception"></exception>
+    public readonly record struct SHA256 : IValueType<string, SHA256>
     {
         #region fields
 
         private readonly string? _value;
-
-        public const int Length = 40;
         
+        public const int Length = 64;
+
         public enum Validation
         {
             Ok = 0,
@@ -40,12 +39,12 @@ namespace Smart.ValueTypes.Types.Hashes
         #region constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SHA1"/> struct.
+        /// Initializes a new instance of the <see cref="SHA256"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidSha1Exception"></exception>
-        public SHA1(string value)
+        /// <exception cref="InvalidSha256Exception"></exception>
+        public SHA256(string value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
@@ -53,9 +52,9 @@ namespace Smart.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSha1Exception($"The value '{value}' is not {Length} characters long!"),
-                    Validation.IllegalCharacter => new InvalidSha1Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidSha1Exception(),
+                    Validation.WrongLength => new InvalidSha256Exception($"The value '{value}' is not {Length} characters long!"),
+                    Validation.IllegalCharacter => new InvalidSha256Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidSha256Exception(),
                 };
             }
 
@@ -63,32 +62,32 @@ namespace Smart.ValueTypes.Types.Hashes
         }
         
         // required for internal initialization
-        private SHA1(ref string value) => _value = value;
+        private SHA256(ref string value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(SHA1 left, string right) => left.Equals(right);
-        public static bool operator !=(SHA1 left, string right) => !left.Equals(right);
+        public static bool operator ==(SHA256 left, string right) => left.Equals(right);
+        public static bool operator !=(SHA256 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(SHA1 hash) => hash._value ?? "";
-        public static implicit operator SHA1(string value) => new(value);
+        public static implicit operator string(SHA256 hash) => hash._value ?? "";
+        public static implicit operator SHA256(string value) => new(value);
 
         #endregion
 
         #region public methods
 
-        public static SHA1 From(string hash) => new(hash);
-
-        public static Validation TryFrom(string hash, out SHA1 output)
+        public static SHA256 From(string hash) => new(hash);
+        
+        public static Validation TryFrom(string hash, out SHA256 output)
         {
             try
             {
                 var result = ValidateFormat(ref hash);
                 if (result == Validation.Ok)
                 {
-                    output = new SHA1(ref hash);
+                    output = new SHA256(ref hash);
                     return Validation.Ok;
                 }
 
@@ -102,9 +101,9 @@ namespace Smart.ValueTypes.Types.Hashes
             }
         }
 
-        public static SHA1 Create(string value) => new(CreateHash(ref value));
+        public static SHA256 Create(string value) => new(CreateHash(ref value));
         
-        public static bool TryCreate(string value, out SHA1? output)
+        public static bool TryCreate(string value, out SHA256? output)
         {
             try
             {
@@ -113,7 +112,7 @@ namespace Smart.ValueTypes.Types.Hashes
                     var hash = CreateHash(ref value);
                     if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new SHA1(ref hash);
+                        output = new SHA256(ref hash);
                         return true;
                     }
                 }
@@ -136,7 +135,7 @@ namespace Smart.ValueTypes.Types.Hashes
 
         private static string CreateHash(ref string input)
         {
-            var bytes = System.Security.Cryptography.SHA1.HashData(Encoding.Default.GetBytes(input));
+            var bytes = System.Security.Cryptography.SHA256.HashData(Encoding.Default.GetBytes(input));
             return Convert.ToHexString(bytes);
         }
 
@@ -146,7 +145,7 @@ namespace Smart.ValueTypes.Types.Hashes
             if (value is null)
                 return Validation.Null;
 
-            // must be 40 characters long
+            // must be 64 characters long
             if (value.Length != Length)
                 return Validation.WrongLength;
 
@@ -163,13 +162,13 @@ namespace Smart.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidSha1Exception : Exception
+    public class InvalidSha256Exception : Exception
     {
-        public InvalidSha1Exception()
+        public InvalidSha256Exception()
         {
         }
 
-        public InvalidSha1Exception(string message) : base(message)
+        public InvalidSha256Exception(string message) : base(message)
         {
         }
     }

@@ -1,8 +1,8 @@
-﻿using Smart.ValueTypes.Types.Hashes;
-using System;
+﻿using System;
+using Smart.ValueTypes.Types.Security.Hashes;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.Hashes
+namespace Smart.ValueTypes.UnitTests.Security.Hashes
 {
     public class SHA384Test
     {

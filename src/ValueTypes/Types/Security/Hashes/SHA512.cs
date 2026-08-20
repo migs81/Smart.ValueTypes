@@ -1,25 +1,24 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Hashes
+namespace Smart.ValueTypes.Types.Security.Hashes
 {
     /// <summary>
-    /// Value type for Secure Hash Algorithm 384 (SHA384).
+    /// Value type for Secure Hash Algorithm 512 (SHA512).
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidSha384Exception"></exception>
-    public readonly record struct SHA384 : IValueType<string, SHA384>
+    /// <exception cref="InvalidSha512Exception"></exception>
+    public readonly record struct SHA512 : IValueType<string, SHA512>
     {
         #region fields
 
         private readonly string? _value;
         
-        public const int Length = 96;
-
+        public const int Length = 128;
+        
         public enum Validation
         {
             Ok = 0,
@@ -40,12 +39,12 @@ namespace Smart.ValueTypes.Types.Hashes
         #region constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SHA384"/> struct.
+        /// Initializes a new instance of the <see cref="SHA512"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidSha384Exception"></exception>
-        public SHA384(string value)
+        /// <exception cref="InvalidSha512Exception"></exception>
+        public SHA512(string value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
@@ -53,9 +52,9 @@ namespace Smart.ValueTypes.Types.Hashes
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.WrongLength => new InvalidSha384Exception($"The value '{value}' is not {Length} characters long!"),
-                    Validation.IllegalCharacter => new InvalidSha384Exception($"The value '{value}' contains illegal characters!"),
-                    _ => new InvalidSha384Exception(),
+                    Validation.WrongLength => new InvalidSha512Exception($"The value '{value}' is not {Length} characters long!"),
+                    Validation.IllegalCharacter => new InvalidSha512Exception($"The value '{value}' contains illegal characters!"),
+                    _ => new InvalidSha512Exception(),
                 };
             }
 
@@ -63,32 +62,32 @@ namespace Smart.ValueTypes.Types.Hashes
         }
         
         // required for internal initialization
-        private SHA384(ref string value) => _value = value;
+        private SHA512(ref string value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(SHA384 left, string right) => left.Equals(right);
-        public static bool operator !=(SHA384 left, string right) => !left.Equals(right);
+        public static bool operator ==(SHA512 left, string right) => left.Equals(right);
+        public static bool operator !=(SHA512 left, string right) => !left.Equals(right);
 
-        public static implicit operator string(SHA384 hash) => hash._value ?? "";
-        public static implicit operator SHA384(string value) => new(value);
+        public static implicit operator string(SHA512 hash) => hash._value ?? "";
+        public static implicit operator SHA512(string value) => new(value);
 
         #endregion
 
         #region public methods
 
-        public static SHA384 From(string hash) => new(hash);
+        public static SHA512 From(string hash) => new(hash);
         
-        public static Validation TryFrom(string hash, out SHA384 output)
+        public static Validation TryFrom(string value, out SHA512 output)
         {
             try
             {
-                var result = ValidateFormat(ref hash);
+                var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
                 {
-                    output = new SHA384(ref hash);
+                    output = new SHA512(ref value);
                     return Validation.Ok;
                 }
 
@@ -102,9 +101,9 @@ namespace Smart.ValueTypes.Types.Hashes
             }
         }
 
-        public static SHA384 Create(string value) => new(CreateHash(ref value));
+        public static SHA512 Create(string value) => new(CreateHash(ref value));
         
-        public static bool TryCreate(string value, out SHA384? output)
+        public static bool TryCreate(string value, out SHA512? output)
         {
             try
             {
@@ -113,7 +112,7 @@ namespace Smart.ValueTypes.Types.Hashes
                     var hash = CreateHash(ref value);
                     if (ValidateFormat(ref hash) == Validation.Ok)
                     {
-                        output = new SHA384(ref hash);
+                        output = new SHA512(ref hash);
                         return true;
                     }
                 }
@@ -136,7 +135,7 @@ namespace Smart.ValueTypes.Types.Hashes
 
         private static string CreateHash(ref string input)
         {
-            var bytes = System.Security.Cryptography.SHA384.HashData(Encoding.Default.GetBytes(input));
+            var bytes = System.Security.Cryptography.SHA512.HashData(Encoding.Default.GetBytes(input));
             return Convert.ToHexString(bytes);
         }
 
@@ -146,7 +145,7 @@ namespace Smart.ValueTypes.Types.Hashes
             if (value is null)
                 return Validation.Null;
 
-            // must be 96 characters long
+            // must be 128 characters long
             if (value.Length != Length)
                 return Validation.WrongLength;
 
@@ -163,13 +162,13 @@ namespace Smart.ValueTypes.Types.Hashes
         #endregion
     }
 
-    public class InvalidSha384Exception : Exception
+    public class InvalidSha512Exception : Exception
     {
-        public InvalidSha384Exception()
+        public InvalidSha512Exception()
         {
         }
 
-        public InvalidSha384Exception(string message) : base(message)
+        public InvalidSha512Exception(string message) : base(message)
         {
         }
     }

@@ -1,7 +1,7 @@
-﻿using Smart.ValueTypes.Types;
+﻿using Smart.ValueTypes.Types.Security;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests
+namespace Smart.ValueTypes.UnitTests.Security
 {
     public class PasswordTest
     {
