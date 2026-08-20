@@ -33,9 +33,7 @@ namespace Smart.ValueTypes.UnitTests.Address.Austria
         {
             // arrange
             var stateCode = int.Parse(input[0].ToString());
-        
             var politicalDistrictCode = int.Parse(input[1..2]);
-        
             var municipalityNumber = int.Parse(input[3..4]);
             
             // act
