@@ -1,5 +1,5 @@
 ﻿using System;
-using Smart.ValueTypes.Unfinished.Location;
+using Smart.ValueTypes.Types.Address.Austria;
 using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Address.Austria

@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Unfinished.Location;
+using Smart.ValueTypes.Types.Address.Austria;
 
 namespace Smart.ValueTypes.Benchmarks.Address.Austria
 {

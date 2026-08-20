@@ -1,7 +1,7 @@
 ﻿using System;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Unfinished.Location
+namespace Smart.ValueTypes.Types.Address.Austria
 {
     /// <summary>
     /// Value type for the austrian location code (OKZ/Ortschaftskennziffer).
