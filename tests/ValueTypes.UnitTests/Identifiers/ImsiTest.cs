@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Identifiers
 {
-    public class IMSITest
+    public class ImsiTest
     {
         #region constructor
 

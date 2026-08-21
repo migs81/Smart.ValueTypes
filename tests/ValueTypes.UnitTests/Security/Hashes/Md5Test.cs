@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Security.Hashes
 {
-    public class MD5Test
+    public class Md5Test
     {
         #region constructor
 

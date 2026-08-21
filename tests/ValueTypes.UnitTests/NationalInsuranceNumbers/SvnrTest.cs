@@ -5,11 +5,11 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
 {
-    public class SVNRTest
+    public class SvnrTest
     {
         #region test data
 
-        private static readonly string[] ValidValues = SVNRGenerator.GenerateTestSVNRs(1000, int.MinValue, int.MaxValue);
+        private static readonly string[] ValidValues = SvnrGenerator.GenerateTestSVNRs(1000, int.MinValue, int.MaxValue);
 
         private const string WrongValue = "1234010190";
 

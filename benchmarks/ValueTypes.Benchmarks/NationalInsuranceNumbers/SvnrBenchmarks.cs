@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Benchmarks.NationalInsuranceNumbers
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class SVNRBenchmarks
+    public class SvnrBenchmarks
     {
         [Benchmark]
         public void SVNR_Constructor_Benchmark()

@@ -7,18 +7,18 @@ namespace Smart.ValueTypes.Benchmarks.Security.Hashes
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class MD5Benchmarks
+    public class Sha256Benchmarks
     {
         [Benchmark]
-        public void MD5_Constructor_Benchmark()
+        public void SHA256_Constructor_Benchmark()
         {
-            _ = new MD5("d41d8cd98f00b204e9800998ecf8427e");
+            _ = new SHA256("123456");
         }
 
         [Benchmark]
-        public void MD5_Create_Benchmark()
+        public void SHA256_Create_Benchmark()
         {
-            _ = MD5.Create("123456");
+            _ = SHA256.Create("123456");
         }
     }
 }

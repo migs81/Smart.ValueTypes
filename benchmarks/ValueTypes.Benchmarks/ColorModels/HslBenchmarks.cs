@@ -7,24 +7,24 @@ namespace Smart.ValueTypes.Benchmarks.ColorModels
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class HSVBenchmarks
+    public class HslBenchmarks
     {
         [Benchmark]
-        public void HSV_Constructor_Benchmark()
+        public void HSL_Constructor_Benchmark()
         {
-            _ = new HSV(1, 1, 1);
+            _ = new HSL(1, 1, 1);
         }
         
         [Benchmark]
-        public void HSV_From_Benchmark()
+        public void HSL_From_Benchmark()
         {
-            _ = HSV.From(1, 1, 1);
+            _ = HSL.From(1, 1, 1);
         }
 
         [Benchmark]
-        public void HSV_TryFrom_Benchmark()
+        public void HSL_TryFrom_Benchmark()
         {
-            _ = HSV.TryFrom(1, 1, 1, out _);
+            _ = HSL.TryFrom(1, 1, 1, out _);
         }
     }
 }

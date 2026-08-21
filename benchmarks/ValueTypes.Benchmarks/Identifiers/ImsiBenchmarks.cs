@@ -9,24 +9,24 @@ namespace Smart.ValueTypes.Benchmarks.Identifiers
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
     [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
-    public class IMEIBenchmarks
+    public class ImsiBenchmarks
     {
         [Benchmark]
-        public void IMEI_Constructor_Benchmark()
+        public void IMSI_Constructor_Benchmark()
         {
-            _ = new IMEI("352773074248705");
+            _ = new IMSI("123456789012345");
         }
 
         [Benchmark]
-        public void IMEI_From_Benchmark()
+        public void IMSI_From_Benchmark()
         {
-            _ = IMEI.From("352773074248705");
+            _ = IMSI.From("123456789012345");
         }
         
         [Benchmark]
-        public void IMEI_TryFrom_Benchmark()
+        public void IMSI_TryFrom_Benchmark()
         {
-            _ = IMEI.TryFrom("352773074248705", out _);
+            _ = IMSI.TryFrom("123456789012345", out _);
         }
     }
 }

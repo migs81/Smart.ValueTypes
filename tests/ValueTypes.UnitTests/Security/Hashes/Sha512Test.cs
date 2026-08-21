@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Security.Hashes
 {
-    public class SHA512Test
+    public class Sha512Test
     {
         #region test data
 

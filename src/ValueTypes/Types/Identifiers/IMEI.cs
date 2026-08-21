@@ -141,7 +141,7 @@ namespace Smart.ValueTypes.Types.Identifiers
         {
             foreach (var c in value)
             {
-                if (!IsDigit(c))
+                if (c is < '0' or > '9')
                     return false;
             }
 
@@ -168,8 +168,6 @@ namespace Smart.ValueTypes.Types.Identifiers
             sum += value[14] - '0';
             return sum % 10 == 0;
         }
-
-        private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }

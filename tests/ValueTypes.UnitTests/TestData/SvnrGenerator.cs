@@ -2,7 +2,7 @@
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal static class SVNRGenerator
+    internal static class SvnrGenerator
     {
         public static string[] GenerateTestSVNRs(uint amount, int minValue, int maxValue)
         {

@@ -7,18 +7,18 @@ namespace Smart.ValueTypes.Benchmarks.Security.Hashes
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class SHA256Benchmarks
+    public class Sha384Benchmarks
     {
         [Benchmark]
-        public void SHA256_Constructor_Benchmark()
+        public void SHA384_Constructor_Benchmark()
         {
-            _ = new SHA256("123456");
+            _ = new SHA384("123456");
         }
 
         [Benchmark]
-        public void SHA256_Create_Benchmark()
+        public void SHA384_Create_Benchmark()
         {
-            _ = SHA256.Create("123456");
+            _ = SHA384.Create("123456");
         }
     }
 }

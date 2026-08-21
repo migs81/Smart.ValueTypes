@@ -3,7 +3,7 @@ using Smart.ValueTypes.Types.Network;
 
 namespace Smart.ValueTypes.Benchmarks.Network
 {
-    internal class IPBenchmarks
+    internal class IpBenchmarks
     {
         [Benchmark]
         public void IP_v4_Constructor_Benchmark()

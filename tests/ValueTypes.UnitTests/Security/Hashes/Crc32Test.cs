@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Security.Hashes
 {
-    public class CRC32Test
+    public class Crc32Test
     {
         #region test data
 

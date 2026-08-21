@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Bank
 {
-    public class BICTest
+    public class BicTest
     {
         #region test data
 

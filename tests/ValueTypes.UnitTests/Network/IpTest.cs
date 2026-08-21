@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Network
 {
-    public class IPTest
+    public class IpTest
     {
         #region test data
 

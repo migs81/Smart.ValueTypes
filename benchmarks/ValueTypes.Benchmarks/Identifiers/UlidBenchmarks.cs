@@ -9,7 +9,7 @@ namespace Smart.ValueTypes.Benchmarks.Identifiers
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
     [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
-    public class ULIDBenchmarks
+    public class UlidBenchmarks
     {
         [Benchmark]
         public void ULID_Constructor_Benchmark()

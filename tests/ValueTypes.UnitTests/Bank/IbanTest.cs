@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Smart.ValueTypes.UnitTests.Bank
 {
-    public class IBANTest
+    public class IbanTest
     {
         #region constructor
 

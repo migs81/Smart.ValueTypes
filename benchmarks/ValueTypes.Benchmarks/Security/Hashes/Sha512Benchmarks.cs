@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Benchmarks.Security.Hashes
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class SHA512Benchmarks
+    public class Sha512Benchmarks
     {
         [Benchmark]
         public void SHA512_Constructor_Benchmark()

@@ -7,24 +7,24 @@ namespace Smart.ValueTypes.Benchmarks.ColorModels
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class HSLBenchmarks
+    public class CmykBenchmarks
     {
         [Benchmark]
-        public void HSL_Constructor_Benchmark()
+        public void CMYK_Constructor_Benchmark()
         {
-            _ = new HSL(1, 1, 1);
+            _ = new CMYK(1, 1, 1, 1);
         }
         
         [Benchmark]
-        public void HSL_From_Benchmark()
+        public void CMYK_From_Benchmark()
         {
-            _ = HSL.From(1, 1, 1);
+            _ = CMYK.From(1, 1, 1, 1);
         }
 
         [Benchmark]
-        public void HSL_TryFrom_Benchmark()
+        public void CMYK_TryFrom_Benchmark()
         {
-            _ = HSL.TryFrom(1, 1, 1, out _);
+            _ = CMYK.TryFrom(1, 1, 1, 1, out _);
         }
     }
 }
