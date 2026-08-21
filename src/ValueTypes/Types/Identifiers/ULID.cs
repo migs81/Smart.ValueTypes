@@ -1,7 +1,7 @@
 ﻿using System;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.ID
+namespace Smart.ValueTypes.Types.Identifiers
 {
     /// <summary>
     /// Value type for Universally Unique Lexicographically Sortable Identifier (ULID).

@@ -1,89 +1,38 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net.Mail;
 using BenchmarkDotNet.Running;
-using Smart.ValueTypes.Benchmarks.NationalInsuranceNumbers;
+using Smart.ValueTypes.Benchmarks.Address.Austria;
+using Smart.ValueTypes.Types.Address.Austria;
 
 namespace Smart.ValueTypes.Benchmarks
 {
-    internal class Program
+    internal abstract class Program
     {
         private static void Main(string[] args)
         {
-            _ = BenchmarkRunner.Run<SVNRBenchmarks>();
+            // _ = BenchmarkRunner.Run<AustrianAddressCodeBenchmarks>();
+            MeasureExecutionTimeOf(() => new AustrianAddressCode("12345"), 100_000_000);
             
-            // _ = BenchmarkRunner.Run<IMEIBenchmarks>();
-            // _ = BenchmarkRunner.Run<IMSIBenchmarks>();
-            
-            // temperatures
-            // _ = BenchmarkRunner.Run<CelsiusBenchmarks>();
-            //_ = BenchmarkRunner.Run<KelvinBenchmarks>();
-            //_ = BenchmarkRunner.Run<FahrenheitBenchmarks>();
-
-            //_ = BenchmarkRunner.Run<TextBenchmarks>();
-            //_ = BenchmarkRunner.Run<IBANBenchmarks>();
-            //_ = BenchmarkRunner.Run<BICBenchmarks>();
-            //_ = BenchmarkRunner.Run<CurrencyBenchmarks>();
-            //_ = BenchmarkRunner.Run<EmailAddressBenchmarks>();
-            //_ = BenchmarkRunner.Run<FilePathBenchmarks>();
-            //_ = BenchmarkRunner.Run<IPBenchmarks>();
-            //_ = BenchmarkRunner.Run<IPv4Benchmarks>();
-            //_ = BenchmarkRunner.Run<IPv6Benchmarks>();
-            //_ = BenchmarkRunner.Run<MD5Benchmarks>();
-            //_ = BenchmarkRunner.Run<MoneyBenchmarks>();
-            //_ = BenchmarkRunner.Run<PasswordBenchmarks>();
-            //_ = BenchmarkRunner.Run<SHA1Benchmarks>();
-            //_ = BenchmarkRunner.Run<SVNRBenchmarks>();
-            //_ = BenchmarkRunner.Run<UrlBenchmarks>();
-
-            //TryCreateMailAddressFrom("name@domain.com");
-            //TryCreateMailAddressFrom("name@domain");
-            //TryCreateMailAddressFrom("[DisplayName] name@domain");
-
-            //var x = new MailAddress("[DisplayName] name@domain");
-            //var z = new MailAddress(" DisplayName name@domain ");
-
-            //MeasureExecutionTimeOf(() => new EmailAddress("name@domain.com"), 100_000_000);
-
-            // Console.WriteLine();
-            // Console.WriteLine("Press any key...");
-            // Console.ReadKey();
+            Console.WriteLine();
+            Console.WriteLine("Press any key...");
+            Console.ReadKey();
         }
 
         #region tests
 
-        private static void TryCreateMailAddressFrom(string emailAddress)
-        {
-            Console.Write($"Creating '{emailAddress}'...");
-            if (TryExecute(() => _ = new MailAddress(emailAddress)))
-                Console.WriteLine("OK");
-            else
-                Console.WriteLine("ERROR");
-        }
-
-        private static bool TryExecute(Action action)
-        {
-            try
-            {
-                action();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         private static void MeasureExecutionTimeOf<T>(Func<T> func, int times)
         {
-            Console.Write($"Testing '{typeof(T).Name}' {times:N0} times...");
+            Console.WriteLine();
+            Console.WriteLine("---------- Measure execution time of ----------");
+            Console.Write($"Creating '{typeof(T).Name}' {times:N0} times...");
             var stopwatch = Stopwatch.StartNew();
 
-            for (int i = 0; i < times; i++)
+            for (var i = 0; i < times; i++)
                 func.Invoke();
 
             stopwatch.Stop();
             Console.WriteLine($"needed {stopwatch.Elapsed.TotalSeconds} seconds");
+            Console.WriteLine("-------------------- End ----------------------");
         }
 
         #endregion

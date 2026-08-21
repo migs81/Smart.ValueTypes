@@ -1,16 +1,16 @@
 ﻿using System;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.ID
+namespace Smart.ValueTypes.Types.Identifiers
 {
     /// <summary>
-    /// Value type for Universally Unique Lexicographically Sortable Identifier (NanoId).
+    /// Value type for International Mobile Subscriber Identity (IMSI).
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidNanoIdException"></exception>
-    public readonly record struct NanoId : IValueType<string, NanoId>
+    /// <exception cref="InvalidImsiException"></exception>
+    public readonly record struct IMSI : IValueType<string, IMSI>
     {
         #region fields
 
@@ -21,7 +21,8 @@ namespace Smart.ValueTypes.Types.ID
             Ok = 0,
             Null,
             Empty,
-            WrongLength,
+            TooShort,
+            TooLong,
             IllegalCharacter,
             UnknownError
         }
@@ -32,18 +33,20 @@ namespace Smart.ValueTypes.Types.ID
 
         public bool IsDefault => _value is null;
 
+        public string MobileCountryCode => _value is not null ? _value[..3] : "";
+
         #endregion
 
         #region constructor
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="NanoId"/> struct.
+        /// Initializes a new instance of the <see cref="IMSI"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="InvalidNanoIdException"></exception>
-        public NanoId(string value)
+        /// <exception cref="InvalidImsiException"></exception>
+        public IMSI(string value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
@@ -52,9 +55,10 @@ namespace Smart.ValueTypes.Types.ID
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.WrongLength => new InvalidNanoIdException($"The value '{value}' is not 21 characters long!"),
-                    Validation.IllegalCharacter => new InvalidNanoIdException($"The value '{value}' contains an illegal character!"),
-                    _ => new InvalidNanoIdException(),
+                    Validation.TooShort => new InvalidImsiException($"The value '{value}' is too short!"),
+                    Validation.TooLong => new InvalidImsiException($"The value '{value}' is too long!"),
+                    Validation.IllegalCharacter => new InvalidImsiException($"The value '{value}' contains an illegal character!"),
+                    _ => new InvalidImsiException(),
                 };
             }
 
@@ -62,31 +66,33 @@ namespace Smart.ValueTypes.Types.ID
         }
         
         // required for internal initialization
-        private NanoId(ref string value) => _value = value;
+        private IMSI(ref string value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(NanoId left, string right) => left.Equals(right);
-        public static bool operator !=(NanoId left, string right) => !left.Equals(right);
+        public static bool operator ==(IMSI left, string right) => left.Equals(right);
+        public static bool operator !=(IMSI left, string right) => !left.Equals(right);
 
-        public static implicit operator string(NanoId imei) => imei._value ?? "";
-        public static implicit operator NanoId(string value) => new(value);
+        public static implicit operator string(IMSI imsi) => imsi._value ?? "";
+        public static implicit operator IMSI(string value) => new(value);
 
         #endregion
 
         #region public methods
 
-        public static NanoId From(string value) => new(value);
+        public static IMSI New() => new();
+
+        public static IMSI From(string value) => new(value);
         
-        public static Validation TryFrom(string value, out NanoId output)
+        public static Validation TryFrom(string value, out IMSI output)
         {
             try
             {
                 var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
-                    output = new NanoId(ref value);
+                    output = new IMSI(ref value);
                 else
                     output = default;
 
@@ -112,36 +118,42 @@ namespace Smart.ValueTypes.Types.ID
 
             if (value.Length == 0)
                 return Validation.Empty;
-            
-            if (value.Length != 21)
-                return Validation.WrongLength;
-            
-            // -------- characters ---------
-            var span = value.AsSpan();
-            
-            foreach (var c in span)
-            {
-                if (c is >= 'a' and <= 'z') continue;
-                if (c is >= 'A' and <= 'Z') continue;
-                if (c is >= '0' and <= '9') continue;
-                if (c is '-' or '_') continue;
-                
+
+            if (value.Length < 6)
+                return Validation.TooShort;
+
+            if (value.Length > 15)
+                return Validation.TooLong;
+
+            if (!ValidateCharacters(ref value))
                 return Validation.IllegalCharacter;
-            }
-            
+
             return Validation.Ok;
         }
+
+        private static bool ValidateCharacters(ref string value)
+        {
+            foreach (var c in value)
+            {
+                if (!IsDigit(c))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }
 
-    public class InvalidNanoIdException : Exception
+    public class InvalidImsiException : Exception
     {
-        public InvalidNanoIdException()
+        public InvalidImsiException()
         {
         }
 
-        public InvalidNanoIdException(string message) : base(message)
+        public InvalidImsiException(string message) : base(message)
         {
         }
     }

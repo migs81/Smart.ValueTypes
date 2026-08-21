@@ -1,9 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
-using Smart.ValueTypes.Types.ID;
+using Smart.ValueTypes.Types.Identifiers;
 
-namespace Smart.ValueTypes.Benchmarks.IDs
+namespace Smart.ValueTypes.Benchmarks.Identifiers
 {
     [MemoryDiagnoser]
     [RankColumn]

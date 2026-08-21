@@ -1,8 +1,8 @@
-﻿using Smart.ValueTypes.Types.ID;
-using System;
+﻿using System;
+using Smart.ValueTypes.Types.Identifiers;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.ID
+namespace Smart.ValueTypes.UnitTests.Identifiers
 {
     public class IMEITest
     {

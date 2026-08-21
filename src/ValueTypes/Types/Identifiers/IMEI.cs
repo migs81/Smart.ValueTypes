@@ -1,17 +1,16 @@
-﻿using Smart.ValueTypes.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.ID
+namespace Smart.ValueTypes.Types.Identifiers
 {
     /// <summary>
-    /// Value type for International Mobile Subscriber Identity (IMSI).
+    /// Value type for International Mobile Equipment Identity (IMEI).
     /// </summary>
     /// <seealso cref="IValueType{TValue,TThis}" />
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidImsiException"></exception>
-    public readonly record struct IMSI : IValueType<string, IMSI>
+    /// <exception cref="InvalidImeiException"></exception>
+    public readonly record struct IMEI : IValueType<string, IMEI>
     {
         #region fields
 
@@ -25,6 +24,7 @@ namespace Smart.ValueTypes.Types.ID
             TooShort,
             TooLong,
             IllegalCharacter,
+            IncorrectCheckDigit,
             UnknownError
         }
 
@@ -33,21 +33,22 @@ namespace Smart.ValueTypes.Types.ID
         #region properties
 
         public bool IsDefault => _value is null;
-
-        public string MobileCountryCode => _value is not null ? _value[..3] : "";
+        public string TypeAllocationCode => _value is not null ? _value[..8] : "";
+        public string SerialNumber => _value is not null ? _value[9..14] : "";
+        public string CheckDigit => _value is not null ? _value[14..15] : "";
 
         #endregion
 
         #region constructor
-        
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="IMSI"/> struct.
+        /// Initializes a new instance of the <see cref="IMEI"/> struct.
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="InvalidImsiException"></exception>
-        public IMSI(string value)
+        /// <exception cref="InvalidImeiException"></exception>
+        public IMEI(string value)
         {
             var result = ValidateFormat(ref value);
             if (result != Validation.Ok)
@@ -56,10 +57,11 @@ namespace Smart.ValueTypes.Types.ID
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
                     Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
-                    Validation.TooShort => new InvalidImsiException($"The value '{value}' is too short!"),
-                    Validation.TooLong => new InvalidImsiException($"The value '{value}' is too long!"),
-                    Validation.IllegalCharacter => new InvalidImsiException($"The value '{value}' contains an illegal character!"),
-                    _ => new InvalidImsiException(),
+                    Validation.TooShort => new InvalidImeiException($"The value '{value}' is too short!"),
+                    Validation.TooLong => new InvalidImeiException($"The value '{value}' is too long!"),
+                    Validation.IllegalCharacter => new InvalidImeiException($"The value '{value}' contains an illegal character!"),
+                    Validation.IncorrectCheckDigit => new InvalidImeiException($"The checksum of the IMEI '{value}' is incorrect!"),
+                    _ => new InvalidImeiException(),
                 };
             }
 
@@ -67,33 +69,33 @@ namespace Smart.ValueTypes.Types.ID
         }
         
         // required for internal initialization
-        private IMSI(ref string value) => _value = value;
+        private IMEI(ref string value) => _value = value;
 
         #endregion
 
         #region operator
 
-        public static bool operator ==(IMSI left, string right) => left.Equals(right);
-        public static bool operator !=(IMSI left, string right) => !left.Equals(right);
+        public static bool operator ==(IMEI left, string right) => left.Equals(right);
+        public static bool operator !=(IMEI left, string right) => !left.Equals(right);
 
-        public static implicit operator string(IMSI imsi) => imsi._value ?? "";
-        public static implicit operator IMSI(string value) => new(value);
+        public static implicit operator string(IMEI imei) => imei._value ?? "";
+        public static implicit operator IMEI(string value) => new(value);
 
         #endregion
 
         #region public methods
 
-        public static IMSI New() => new();
+        public static IMEI New() => new();
 
-        public static IMSI From(string value) => new(value);
+        public static IMEI From(string value) => new(value);
         
-        public static Validation TryFrom(string value, out IMSI output)
+        public static Validation TryFrom(string value, out IMEI output)
         {
             try
             {
                 var result = ValidateFormat(ref value);
                 if (result == Validation.Ok)
-                    output = new IMSI(ref value);
+                    output = new IMEI(ref value);
                 else
                     output = default;
 
@@ -120,7 +122,7 @@ namespace Smart.ValueTypes.Types.ID
             if (value.Length == 0)
                 return Validation.Empty;
 
-            if (value.Length < 6)
+            if (value.Length < 15)
                 return Validation.TooShort;
 
             if (value.Length > 15)
@@ -128,6 +130,9 @@ namespace Smart.ValueTypes.Types.ID
 
             if (!ValidateCharacters(ref value))
                 return Validation.IllegalCharacter;
+
+            if (!ValidateCheckDigit(ref value))
+                return Validation.IncorrectCheckDigit;
 
             return Validation.Ok;
         }
@@ -143,18 +148,39 @@ namespace Smart.ValueTypes.Types.ID
             return true;
         }
 
+        private static bool ValidateCheckDigit(ref string value)
+        {
+            var sum = 0;
+            for (var i = 0; i <= 13; i += 1)
+            {
+                var digit = value[i] - '0';
+                
+                if ((i & 1) == 1)
+                {
+                    digit *= 2;
+                    if (digit > 9)
+                        digit -= 9;
+                }
+
+                sum += digit;
+            }
+
+            sum += value[14] - '0';
+            return sum % 10 == 0;
+        }
+
         private static bool IsDigit(char c) => c is >= '0' and <= '9';
 
         #endregion
     }
 
-    public class InvalidImsiException : Exception
+    public class InvalidImeiException : Exception
     {
-        public InvalidImsiException()
+        public InvalidImeiException()
         {
         }
 
-        public InvalidImsiException(string message) : base(message)
+        public InvalidImeiException(string message) : base(message)
         {
         }
     }
