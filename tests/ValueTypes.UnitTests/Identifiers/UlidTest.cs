@@ -78,7 +78,7 @@ namespace Smart.ValueTypes.UnitTests.Identifiers
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
 	        // act
-            var result = Record.Exception(() => new ULID(input));
+            var result = Record.Exception(() => ULID.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

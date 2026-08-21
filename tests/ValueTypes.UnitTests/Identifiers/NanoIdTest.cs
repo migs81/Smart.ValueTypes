@@ -76,7 +76,7 @@ namespace Smart.ValueTypes.UnitTests.Identifiers
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
 	        // act
-            var result = Record.Exception(() => new NanoId(input));
+            var result = Record.Exception(() => NanoId.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());
