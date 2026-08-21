@@ -84,7 +84,7 @@ namespace Smart.ValueTypes.UnitTests.Identifiers
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
 	        // act
-            var result = Record.Exception(() => new IMEI(input));
+            var result = Record.Exception(() => IMEI.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());
