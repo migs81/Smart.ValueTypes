@@ -231,7 +231,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new Reaumur(input));
+            var result = Record.Exception(() => Reaumur.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

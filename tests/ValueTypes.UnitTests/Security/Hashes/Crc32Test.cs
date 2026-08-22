@@ -92,7 +92,7 @@ namespace Smart.ValueTypes.UnitTests.Security.Hashes
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new CRC32(input));
+            var result = Record.Exception(() => CRC32.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

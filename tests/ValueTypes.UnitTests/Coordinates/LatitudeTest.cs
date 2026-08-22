@@ -79,7 +79,7 @@ namespace Smart.ValueTypes.UnitTests.Coordinates
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new Latitude(input));
+            var result = Record.Exception(() => Latitude.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

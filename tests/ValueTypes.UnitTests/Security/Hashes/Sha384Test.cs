@@ -96,7 +96,7 @@ namespace Smart.ValueTypes.UnitTests.Security.Hashes
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new SHA384(input));
+            var result = Record.Exception(() => SHA384.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

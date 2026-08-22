@@ -109,7 +109,7 @@ namespace Smart.ValueTypes.UnitTests.Bank
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new IBAN(input));
+            var result = Record.Exception(() => IBAN.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

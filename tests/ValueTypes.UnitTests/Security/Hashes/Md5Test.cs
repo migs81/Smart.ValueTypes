@@ -86,7 +86,7 @@ namespace Smart.ValueTypes.UnitTests.Security.Hashes
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new MD5(input));
+            var result = Record.Exception(() => MD5.From(input));
             
             // act
             Assert.Equal(expectedException, result?.GetType());

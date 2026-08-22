@@ -125,7 +125,7 @@ namespace Smart.ValueTypes.UnitTests.Bank
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new BIC(input));
+            var result = Record.Exception(() => BIC.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

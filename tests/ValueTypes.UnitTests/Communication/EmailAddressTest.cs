@@ -140,7 +140,7 @@ namespace Smart.ValueTypes.UnitTests.Communication
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new EmailAddress(input));
+            var result = Record.Exception(() => EmailAddress.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

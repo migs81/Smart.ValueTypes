@@ -134,7 +134,7 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new Fahrenheit(input));
+            var result = Record.Exception(() => Fahrenheit.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

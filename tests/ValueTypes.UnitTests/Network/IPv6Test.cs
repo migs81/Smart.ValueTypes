@@ -89,7 +89,7 @@ namespace Smart.ValueTypes.UnitTests.Network
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new IPv6(input));
+            var result = Record.Exception(() => IPv6.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

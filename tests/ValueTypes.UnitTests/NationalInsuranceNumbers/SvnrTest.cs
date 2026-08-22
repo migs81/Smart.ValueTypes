@@ -84,7 +84,7 @@ namespace Smart.ValueTypes.UnitTests.NationalInsuranceNumbers
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new SVNR(input));
+            var result = Record.Exception(() => SVNR.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());

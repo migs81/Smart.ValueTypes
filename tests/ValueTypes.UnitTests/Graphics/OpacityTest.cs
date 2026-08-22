@@ -79,7 +79,7 @@ namespace Smart.ValueTypes.UnitTests.Graphics
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new Opacity(input));
+            var result = Record.Exception(() => Opacity.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());
