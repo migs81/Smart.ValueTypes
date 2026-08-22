@@ -31,7 +31,7 @@ namespace Smart.ValueTypes.Types.Security
         [Flags]
         public enum Requirement
         {
-            Nothing = 0,
+            None = 0,
             LowercaseLetters = 1,
             UppercaseLetters = 2,
             Numbers = 4,
@@ -59,7 +59,7 @@ namespace Smart.ValueTypes.Types.Security
         /// <param name="maxLength"></param>
         /// <param name="requirements"></param>
         /// <exception cref="InvalidPasswordException"></exception>
-        public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing)
+        public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.None)
         {
             var result = ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
             if (result != Validation.Ok)
@@ -106,7 +106,7 @@ namespace Smart.ValueTypes.Types.Security
 
         #region public methods
 
-        public static Password From(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.Nothing) 
+        public static Password From(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.None) 
             => new(value, minLength, maxLength, requirements);
 
         public static Validation TryFrom(string value, int minLength, int maxLength, Requirement requirements, out Password password)

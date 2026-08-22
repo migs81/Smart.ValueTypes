@@ -22,7 +22,7 @@ namespace Smart.ValueTypes.UnitTests.Security
         }
 
         [Theory]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.None)]
         [InlineData("abc", 3, 3, Password.Requirement.LowercaseLetters)]
         [InlineData("abc123", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers)]
         [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
@@ -36,9 +36,9 @@ namespace Smart.ValueTypes.UnitTests.Security
         }
 
         [Theory]
-        [InlineData(null, 0, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("", 1, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("a", 0, 0, Password.Requirement.Nothing)]
+        [InlineData(null, 0, int.MaxValue, Password.Requirement.None)]
+        [InlineData("", 1, int.MaxValue, Password.Requirement.None)]
+        [InlineData("a", 0, 0, Password.Requirement.None)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.LowercaseLetters)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.UppercaseLetters)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.Numbers)]
@@ -54,7 +54,7 @@ namespace Smart.ValueTypes.UnitTests.Security
         #region From
 
         [Theory]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.None)]
         [InlineData("abc", 3, 3, Password.Requirement.LowercaseLetters)]
         [InlineData("abc123", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers)]
         [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
@@ -68,9 +68,9 @@ namespace Smart.ValueTypes.UnitTests.Security
         }
 
         [Theory]
-        [InlineData(null, 0, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("", 1, int.MaxValue, Password.Requirement.Nothing)]
-        [InlineData("a", 0, 0, Password.Requirement.Nothing)]
+        [InlineData(null, 0, int.MaxValue, Password.Requirement.None)]
+        [InlineData("", 1, int.MaxValue, Password.Requirement.None)]
+        [InlineData("a", 0, 0, Password.Requirement.None)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.LowercaseLetters)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.UppercaseLetters)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.Numbers)]
@@ -86,7 +86,7 @@ namespace Smart.ValueTypes.UnitTests.Security
         #region TryFrom
 
         [Theory]
-        [InlineData("", 0, int.MaxValue, Password.Requirement.Nothing)]
+        [InlineData("", 0, int.MaxValue, Password.Requirement.None)]
         [InlineData("abc", 3, 3, Password.Requirement.LowercaseLetters)]
         [InlineData("abc123", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers)]
         [InlineData("abcABC123$%&", 6, int.MaxValue, Password.Requirement.LowercaseLetters | Password.Requirement.Numbers | Password.Requirement.UppercaseLetters | Password.Requirement.Symbols)]
@@ -97,9 +97,9 @@ namespace Smart.ValueTypes.UnitTests.Security
         }
 
         [Theory]
-        [InlineData(null, 0, int.MaxValue, Password.Requirement.Nothing, Password.Validation.Null)]
-        [InlineData("", 1, int.MaxValue, Password.Requirement.Nothing, Password.Validation.TooShort)]
-        [InlineData("a", 0, 0, Password.Requirement.Nothing, Password.Validation.TooLong)]
+        [InlineData(null, 0, int.MaxValue, Password.Requirement.None, Password.Validation.Null)]
+        [InlineData("", 1, int.MaxValue, Password.Requirement.None, Password.Validation.TooShort)]
+        [InlineData("a", 0, 0, Password.Requirement.None, Password.Validation.TooLong)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.LowercaseLetters, Password.Validation.LowercaseLettersMissing)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.UppercaseLetters, Password.Validation.UppercaseLettersMissing)]
         [InlineData("", 0, int.MaxValue, Password.Requirement.Numbers, Password.Validation.NumbersMissing)]
