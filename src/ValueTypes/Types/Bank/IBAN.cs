@@ -67,11 +67,11 @@ namespace Smart.ValueTypes.Types.Bank
                 };
             }
 
-            _value = value.ToUpper();
+            _value = value;
         }
         
         // required for internal initialization
-        private IBAN(ref string value) => _value = value.ToUpper();
+        private IBAN(ref string value) => _value = value;
 
         #endregion
 
@@ -118,12 +118,14 @@ namespace Smart.ValueTypes.Types.Bank
 
         private static Validation ValidateFormat(ref string value)
         {
+            // ---------- general ----------
             if (value is null)
                 return Validation.Null;
 
             if (value.Length == 0)
                 return Validation.Empty;
 
+            // ---------- length ----------
             if (value.Length < 5)
                 return Validation.TooShort;
 
@@ -132,99 +134,89 @@ namespace Smart.ValueTypes.Types.Bank
 
             var span = value.AsSpan();
 
-            if (!ContainsValidCountryCode(ref span))
-                return Validation.InvalidCountryCode;
+            // ---------- country ----------
+            for (var i = 0; i < 2; i++)
+            {
+                if (span[i] is (< 'a' or > 'z') and (< 'A' or > 'Z'))
+                    return Validation.InvalidCountryCode;
+            }
 
-            if (!ContainsValidChecksum(ref span))
-                return Validation.InvalidChecksum;
+            // ---------- checksum ----------
+            for (var i = 2; i < 4; i++)
+            {
+                if (span[i] is < '0' or > '9')
+                    return Validation.InvalidChecksum;
+            }
 
-            if (!ContainsValidAccountIdentifier(ref span))
-                return Validation.InvalidAccountIdentifier;
+            // ---------- account ----------
+            for (var i = 4; i < span.Length; i++)
+            {
+                if (span[i] is (< '0' or > '9') and (< 'a' or > 'z') and (< 'A' or > 'Z'))
+                    return Validation.InvalidAccountIdentifier;
+            }
 
+            // ----- validate checksum -----
             if (!ValidateChecksum(ref span))
                 return Validation.InvalidChecksum;
 
             return Validation.Ok;
         }
 
-        private static bool ContainsValidCountryCode(ref ReadOnlySpan<char> span)
-        {
-            for (var i = 0; i < 2; i++)
-            {
-                if (!IsLetter(span[i]))
-                    return false;
-            }
-
-            return true;
-        }
-
-        private static bool ContainsValidChecksum(ref ReadOnlySpan<char> span)
-        {
-            for (var i = 2; i < 4; i++)
-            {
-                if (!IsDigit(span[i]))
-                    return false;
-            }
-
-            return true;
-        }
-
-        private static bool ContainsValidAccountIdentifier(ref ReadOnlySpan<char> span)
-        {
-            for (var i = 4; i < span.Length; i++)
-            {
-                if (!IsLetter(span[i]) && !IsDigit(span[i]))
-                    return false;
-            }
-
-            return true;
-        }
-
         private static bool ValidateChecksum(ref ReadOnlySpan<char> span)
         {
-            // 1. move first 4 characters to the end of the string
-            var iban = (span[4..].ToString() + span[0..4].ToString()).ToUpper();
-
-            // 2. loop through chars and replace letters with alphabet order number + 10
-            var temp = "";
-            var length = 0;
-            for (var i = 0; i < iban.Length; i++)
+            var result = 0;
+            var num = 0;
+            
+            // calculate the remainder of modulo 97
+            // first, the characters starting from the 4th position
+            for (var i = 4; i < span.Length; i++)
             {
-                if (IsUppercaseLetter(iban[i]))
+                // digit?
+                if (span[i] is >= '0' and <= '9')
                 {
-                    temp += iban.Substring(i - length, length);
-                    temp += (iban[i] - 55).ToString();
-                    length = 0;
+                    result = (result * 10 + (span[i] - '0')) % 97;
+                    continue;
                 }
-                else
-                {
-                    length++;
-                }
+                
+                // If letter => get position in the alphabet plus 10
+                if (span[i] is >= 'a' and <= 'z') num = span[i] - 87;
+                else if (span[i] is >= 'A' and <= 'Z') num = span[i] - 55;
+                
+                // need to process both digits
+                var firstDigit = num / 10;
+                var secondDigit = num % 10;
+                result = (result * 10 + firstDigit) % 97;
+                result = (result * 10 + secondDigit) % 97;
             }
-            if (length > 0)
+            
+            // then the first 4 characters
+            for (var i = 0; i < 4; i++)
             {
-                temp += iban.Substring(iban.Length - length, length);
+                // digit?
+                if (span[i] is >= '0' and <= '9')
+                {
+                    result = (result * 10 + (span[i] - '0')) % 97;
+                    continue;
+                }
+                
+                // If letter => get position in the alphabet plus 10
+                if (span[i] is >= 'a' and <= 'z') num = span[i] - 87;
+                else if (span[i] is >= 'A' and <= 'Z') num = span[i] - 55;
+                
+                // need to process both digits
+                var firstDigit = num / 10;
+                var secondDigit = num % 10;
+                result = (result * 10 + firstDigit) % 97;
+                result = (result * 10 + secondDigit) % 97;
             }
 
-            // 3. cast to integer
-            if (!BigInteger.TryParse(temp, out var number))
+            // valid checksum must be 1!
+            if (result != 1)
                 return false;
-
-            // 4. modulo 97 must be 1!
-            if (number % 97 != 1)
-                return false;
-
+            
             return true;
         }
-
-        private static bool IsUppercaseLetter(char c) => c is >= 'A' and <= 'Z';
-
-        private static bool IsLowercaseLetter(char c) => c is >= 'a' and <= 'z';
-
-        private static bool IsLetter(char c) => IsLowercaseLetter(c) || IsUppercaseLetter(c);
-
-        private static bool IsDigit(char c) => c is >= '0' and <= '9';
-
+        
         #endregion
     }
 

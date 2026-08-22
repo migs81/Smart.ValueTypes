@@ -14,13 +14,13 @@ namespace Smart.ValueTypes.Benchmarks.Bank
         {
             _ = new IBAN("AT483200000012345864");
         }
-
+        
         [Benchmark]
         public void IBAN_From_Benchmark()
         {
             _ = IBAN.From("AT483200000012345864");
         }
-
+        
         [Benchmark]
         public void IBAN_TryFrom_Benchmark()
         {

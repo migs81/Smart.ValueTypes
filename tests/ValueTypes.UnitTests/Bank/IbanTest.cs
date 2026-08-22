@@ -41,6 +41,7 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [InlineData("MR1300020001010000123456753")]
         [InlineData("HR1723600001101234565")]
         [InlineData("BR1500000000000010932840814P2")]
+        [InlineData("br1500000000000010932840814p2")]
         public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
             // arrange
@@ -62,6 +63,11 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
+        [InlineData("AL35", typeof(InvalidIbanException))]
+        [InlineData("AL352021110900000000012345678901234", typeof(InvalidIbanException))]
+        [InlineData("0L35202111090000000001234567", typeof(InvalidIbanException))]
+        [InlineData("AL35/02111090000000001234567", typeof(InvalidIbanException))]
+        [InlineData("AL35902111090000000001234567", typeof(InvalidIbanException))]
         public void Constructor_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
@@ -94,18 +100,24 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [InlineData("MR1300020001010000123456753")]
         [InlineData("HR1723600001101234565")]
         [InlineData("BR1500000000000010932840814P2")]
+        [InlineData("br1500000000000010932840814p2")]
         public void From_ValidInput_ShouldReturnObject(string input)
         {
             // act
             var result = IBAN.From(input);
                 
             // assert
-            Assert.Equal(input.ToUpper(), result);
+            Assert.Equal(input, result);
         }
         
         [Theory]
         [InlineData(null, typeof(ArgumentNullException))]
         [InlineData("", typeof(ArgumentException))]
+        [InlineData("AL35", typeof(InvalidIbanException))]
+        [InlineData("AL352021110900000000012345678901234", typeof(InvalidIbanException))]
+        [InlineData("0L35202111090000000001234567", typeof(InvalidIbanException))]
+        [InlineData("AL35/02111090000000001234567", typeof(InvalidIbanException))]
+        [InlineData("AL35902111090000000001234567", typeof(InvalidIbanException))]
         public void From_WrongInput_ShouldThrowException(string input, Type expectedException)
         {
             // act
@@ -138,6 +150,7 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [InlineData("MR1300020001010000123456753")]
         [InlineData("HR1723600001101234565")]
         [InlineData("BR1500000000000010932840814P2")]
+        [InlineData("br1500000000000010932840814p2")]
         public void TryFrom_ValidInput_ShouldReturnOK(string input)
         {
             // act
@@ -150,6 +163,11 @@ namespace Smart.ValueTypes.UnitTests.Bank
         [Theory]
         [InlineData(null, IBAN.Validation.Null)]
         [InlineData("", IBAN.Validation.Empty)]
+        [InlineData("AL35", IBAN.Validation.TooShort)]
+        [InlineData("AL352021110900000000012345678901234", IBAN.Validation.TooLong)]
+        [InlineData("0L35202111090000000001234567", IBAN.Validation.InvalidCountryCode)]
+        [InlineData("AL35/02111090000000001234567", IBAN.Validation.InvalidAccountIdentifier)]
+        [InlineData("AL35902111090000000001234567", IBAN.Validation.InvalidChecksum)]
         public void TryFrom_WrongInput_ShouldReturnError(string input, IBAN.Validation expected)
         {
             // act
