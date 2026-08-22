@@ -141,19 +141,13 @@ namespace Smart.ValueTypes.Types.Bank
                     return Validation.InvalidCountryCode;
             }
 
-            // ---------- checksum ----------
-            for (var i = 2; i < 4; i++)
-            {
-                if (span[i] is < '0' or > '9')
-                    return Validation.InvalidChecksum;
-            }
-
+            // ------ checksum format ------
+            if (!ValidateChecksumFormat(ref span))
+                return Validation.InvalidChecksum;
+            
             // ---------- account ----------
-            for (var i = 4; i < span.Length; i++)
-            {
-                if (span[i] is (< '0' or > '9') and (< 'a' or > 'z') and (< 'A' or > 'Z'))
-                    return Validation.InvalidAccountIdentifier;
-            }
+            if (!ValidateAccount(ref span))
+                return Validation.InvalidAccountIdentifier;
 
             // ----- validate checksum -----
             if (!ValidateChecksum(ref span))
@@ -162,35 +156,48 @@ namespace Smart.ValueTypes.Types.Bank
             return Validation.Ok;
         }
 
-        private static bool ValidateChecksum(ref ReadOnlySpan<char> span)
+        private static bool ValidateChecksumFormat(ref ReadOnlySpan<char> span)
         {
-            var result = 0;
-            var num = 0;
-            
-            // calculate the remainder of modulo 97
-            // first, the characters starting from the 4th position
+            if (span[2] is < '0' or > '9' || span[3] is < '0' or > '9') // must be 2 digits!
+                return false;
+
+            return true;
+        }
+        
+        private static bool ValidateAccount(ref ReadOnlySpan<char> span)
+        {
             for (var i = 4; i < span.Length; i++)
             {
-                // digit?
-                if (span[i] is >= '0' and <= '9')
-                {
-                    result = (result * 10 + (span[i] - '0')) % 97;
-                    continue;
-                }
-                
-                // If letter => get position in the alphabet plus 10
-                if (span[i] is >= 'a' and <= 'z') num = span[i] - 87;
-                else if (span[i] is >= 'A' and <= 'Z') num = span[i] - 55;
-                
-                // need to process both digits
-                var firstDigit = num / 10;
-                var secondDigit = num % 10;
-                result = (result * 10 + firstDigit) % 97;
-                result = (result * 10 + secondDigit) % 97;
+                if (span[i] is (< '0' or > '9') and (< 'a' or > 'z') and (< 'A' or > 'Z'))
+                    return false;
             }
+
+            return true;
+        }
+        
+        private static bool ValidateChecksum(ref ReadOnlySpan<char> span)
+        {
+            // calculate the remainder of modulo 97
+            var moduloResult = 0;
+            
+            // first, the characters starting from the 4th position
+            moduloResult = CalculateModulo(ref span, 4, span.Length, moduloResult);
             
             // then the first 4 characters
-            for (var i = 0; i < 4; i++)
+            moduloResult = CalculateModulo(ref span, 0, 4, moduloResult);
+
+            // a valid checksum must be 1!
+            if (moduloResult != 1)
+                return false;
+            
+            return true;
+        }
+
+        private static int CalculateModulo(ref ReadOnlySpan<char> span, int from, int to, int initialValue)
+        {
+            var num = 0;
+            var result = initialValue;
+            for (var i = from; i < to; i++)
             {
                 // digit?
                 if (span[i] is >= '0' and <= '9')
@@ -210,11 +217,7 @@ namespace Smart.ValueTypes.Types.Bank
                 result = (result * 10 + secondDigit) % 97;
             }
 
-            // valid checksum must be 1!
-            if (result != 1)
-                return false;
-            
-            return true;
+            return result;
         }
         
         #endregion

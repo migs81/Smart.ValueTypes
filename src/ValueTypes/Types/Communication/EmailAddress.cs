@@ -159,15 +159,16 @@ namespace Smart.ValueTypes.Types.Communication
         /// <returns></returns>
         private static Validation ValidateFormat(ref string value)
         {
+            // ------------ general ----------------
             if (value is null)
                 return Validation.Null;
 
-            var span = value.AsSpan();
-
-            // ------------ Length ----------------
-            if (span.Length == 0)
+            if (value.Length == 0)
                 return Validation.Empty;
-
+            
+            var span = value.AsSpan();
+            
+            // ------------ Length ----------------
             // Min length => 3 (a@b)
             if (span.Length < 3)
                 return Validation.TooShort;
@@ -183,6 +184,40 @@ namespace Smart.ValueTypes.Types.Communication
                 return Validation.NoAtSign;
             
             // ------------ Local Part ------------
+            var result = CheckLocalPart(ref span, atPos);
+            if (result != Validation.Ok)
+                return result;
+            
+            // ------------ Domain Part ------------
+            result = CheckDomainPart(ref span, atPos);
+            if (result != Validation.Ok)
+                return result;
+
+            return Validation.Ok;
+        }
+
+        private static Validation CheckDomainPart(ref ReadOnlySpan<char> span, int atPos)
+        {
+            // domain part min length = 1
+            if (span.Length - atPos < 2)
+                return Validation.DomainPartTooShort;
+            
+            // check domain part characters
+            foreach (var c in span[(atPos + 1)..])
+            {
+                if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
+                    && c != '.'
+                    && c != '-')
+                {
+                    return Validation.DomainPartContainsIllegalCharacter;
+                }
+            }
+
+            return Validation.Ok;
+        }
+
+        private static Validation CheckLocalPart(ref ReadOnlySpan<char> span, int atPos)
+        {
             // local part min length = 1
             if (atPos < 1)
                 return Validation.LocalPartTooShort;
@@ -204,6 +239,15 @@ namespace Smart.ValueTypes.Types.Communication
                 return Validation.LocalPartContainsTwoDotsTogether;
             
             // check local part characters
+            var result = CheckLocalPartForIllegalCharacters(ref span, atPos);
+            if (result != Validation.Ok)
+                return result;
+
+            return Validation.Ok;
+        }
+        
+        private static Validation CheckLocalPartForIllegalCharacters(ref ReadOnlySpan<char> span, int atPos)
+        {
             foreach (var c in span[..atPos])
             {
                 // RFC 5322
@@ -215,22 +259,6 @@ namespace Smart.ValueTypes.Types.Communication
                 return Validation.LocalPartContainsIllegalCharacter;
             }
             
-            // ------------ Domain Part ------------
-            // domain part min length = 1
-            if (span.Length - atPos < 2)
-                return Validation.DomainPartTooShort;
-
-            // check domain part characters
-            foreach (var c in span[(atPos + 1)..])
-            {
-                if (c is (< 'a' or > 'z') and (< 'A' or > 'Z') and (< '0' or > '9')
-                    && c != '.'
-                    && c != '-')
-                {
-                    return Validation.DomainPartContainsIllegalCharacter;
-                }
-            }
-
             return Validation.Ok;
         }
         
