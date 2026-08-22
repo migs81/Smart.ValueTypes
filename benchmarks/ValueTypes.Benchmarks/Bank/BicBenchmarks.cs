@@ -7,7 +7,7 @@ namespace Smart.ValueTypes.Benchmarks.Bank
     [MemoryDiagnoser]
     [RankColumn]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical)]
-    public class BICBenchmarks
+    public class BicBenchmarks
     {
         [Benchmark]
         public void BIC_Constructor_Benchmark()
