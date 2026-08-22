@@ -218,7 +218,6 @@ namespace Smart.ValueTypes.Types.Communication
             // ------------ Domain Part ------------
             // domain part min length = 1
             if (span.Length - atPos < 2)
-            // if (span[(atPos + 1)..].Length == 0)
                 return Validation.DomainPartTooShort;
 
             // check domain part characters
