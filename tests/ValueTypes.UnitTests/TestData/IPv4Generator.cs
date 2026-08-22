@@ -1,6 +1,6 @@
 ﻿namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal class IPv4Generator
+    internal static class IPv4Generator
     {
         public static string[] CreateAddresses(uint amount)
         {

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {
-    internal class IPv6Generator
+    internal static class IPv6Generator
     {
         public static string[] CreateAddresses(uint amount)
         {
