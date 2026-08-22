@@ -115,30 +115,32 @@ namespace Smart.ValueTypes.Types.Bank
 
         private static Validation ValidateFormat(ref string value)
         {
+            // ---------- general ----------
             if (value is null)
                 return Validation.Null;
 
             if (value.Length == 0)
                 return Validation.Empty;
 
+            // ---------- length -----------
             if (value.Length != 8 && value.Length != 11)
                 return Validation.WrongLength;
 
             var span = value.AsSpan();
 
-            // bank code
+            // --------- bank code ---------
             if (!ContainsValidBankCode(ref span))
                 return Validation.InvalidBankCode;
 
-            // country code
+            // -------- country code -------
             if (!ContainsValidCountryCode(ref span))
                 return Validation.InvalidCountryCode;
 
-            // city code
+            // --------- city code ---------
             if (!ContainsValidCityCode(ref span))
                 return Validation.InvalidCityCode;
 
-            // optional branch code
+            // ---- optional branch code ---
             if (!ContainsValidBranchCode(ref span))
                 return Validation.InvalidBranchCode;
 
@@ -169,10 +171,10 @@ namespace Smart.ValueTypes.Types.Bank
 
         private static bool ContainsValidCityCode(ref ReadOnlySpan<char> span)
         {
-            if (!IsLetter(span[6]) && (span[6] < '2' || span[6] > '9'))
+            if (!IsLetter(span[6]) && (span[6] is < '2' or > '9'))
                 return false;
 
-            if ((!IsLetter(span[7]) && !IsDigit(span[7])) || span[7] == 'O' || span[7] == 'o')
+            if ((!IsLetter(span[7]) && !IsDigit(span[7])) || span[7] is 'O' or 'o')
                 return false;
 
             return true;
@@ -180,16 +182,16 @@ namespace Smart.ValueTypes.Types.Bank
 
         private static bool ContainsValidBranchCode(ref ReadOnlySpan<char> span)
         {
-            if (span.Length == 11)
-            {
-                if (span[8] == 'X' || span[8] == 'x')
-                {
-                    if ((span[9] != 'X' && span[9] != 'x') || (span[10] != 'X' && span[10] != 'x'))
-                        return false;
-                }
-            }
-
-            return true;
+            // a branch code is only present if there are 11 characters
+            if (span.Length != 11) return true;
+            
+            // a branch code can not start with 'X'
+            if (span[8] is not ('X' or 'x')) return true;
+            
+            // unless it is "XXX"
+            if (span[9] is 'X' or 'x' && span[10] is 'X' or 'x') return true;
+            
+            return false;
         }
 
         private static bool IsLetter(char c) => c is >= 'A' and <= 'Z' or >= 'a' and <= 'z';
