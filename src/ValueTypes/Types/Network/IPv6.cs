@@ -128,12 +128,14 @@ namespace Smart.ValueTypes.Types.Network
 
         private static Validation ValidateFormat(ref string value)
         {
+            // ---------- general ----------
             if (value is null)
                 return Validation.Null;
 
             if (value.Length == 0)
                 return Validation.Empty;
 
+            // ---------- length ----------
             if (value.Length < 2)
                 return Validation.TooShort;
 
@@ -142,18 +144,28 @@ namespace Smart.ValueTypes.Types.Network
 
             var span = value.AsSpan();
 
-            var last = 0;
+            // ---------- segments ----------
+            var result = CheckSegments(ref span);
+            if (result != Validation.Ok)
+                return result;
+
+            return Validation.Ok;
+        }
+
+        private static Validation CheckSegments(ref ReadOnlySpan<char> span)
+        {
+            var lastPos = 0;
             byte colons = 0;
             for (var i = 0; i < span.Length; i++)
             {
                 if (span[i] != ':') continue;
                 
-                // count colons to avoid ":::" => faster then Contains(":::")
+                // count colons to avoid ":::" => faster than Contains(":::")
                 if (colons == 0)
                 {
                     colons++;
                 }
-                else if (last == i)
+                else if (lastPos == i)
                 {
                     if (colons == 2)
                         return Validation.MultipleColons;
@@ -165,34 +177,39 @@ namespace Smart.ValueTypes.Types.Network
                     colons = 0;
                 }
 
-                var segment = span[last..i];
-                if (segment.Length > 4)
-                    return Validation.SegmentTooLong;
+                // validate segment
+                var segment = span[lastPos..i];
+                var result = ValidateSegment(ref segment);
+                if (result != Validation.Ok)
+                    return result;
 
-                if (segment.Length > 0 && !IsHex(ref segment))
-                    return Validation.SegmentNotHex;
-
-                last = i + 1;
+                lastPos = i + 1;
             }
 
-            if (last == span.Length)
-            {
+            if (lastPos == span.Length)
                 return Validation.EndsWithColon;
-            }
 
-            if (last < span.Length)
+            if (lastPos < span.Length)
             {
-                var segment = span[last..];
-                if (segment.Length > 4)
-                    return Validation.SegmentTooLong;
-
-                if (segment.Length > 0 && !IsHex(ref segment))
-                    return Validation.SegmentNotHex;
+                // validate segment
+                var segment = span[lastPos..];
+                return ValidateSegment(ref segment);
             }
 
             return Validation.Ok;
         }
 
+        private static Validation ValidateSegment(ref ReadOnlySpan<char> segment)
+        {
+            if (segment.Length > 4)
+                return Validation.SegmentTooLong;
+
+            if (segment.Length > 0 && !IsHex(ref segment))
+                return Validation.SegmentNotHex;
+
+            return Validation.Ok;
+        }
+        
         #endregion
     }
 

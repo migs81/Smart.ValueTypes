@@ -66,11 +66,11 @@ namespace Smart.ValueTypes.Types.Network
         /// <exception cref="InvalidIPException"></exception>
         public IP(string value, IPType type)
         {
-            if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok
-                || type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
-            {
-                throw new InvalidIPException($"The value '{value}' is not a valid IP address!");
-            }
+            if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok)
+                throw new InvalidIPException($"The value '{value}' is not a valid IPv4 address!");
+            
+            if (type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
+                throw new InvalidIPException($"The value '{value}' is not a valid IPv6 address!");
 
             _value = value;
             Type = type;
@@ -135,18 +135,14 @@ namespace Smart.ValueTypes.Types.Network
         {
             try
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (type == IPType.IPv4 && IPv4.ValidateFormat(value) == IPv4.Validation.Ok
-                        || type == IPType.IPv6 && IPv6.ValidateFormat(value) == IPv6.Validation.Ok)
-                    {
-                        output = new IP(ref value, type);
-                        return true;
-                    }
-                }
-
                 output = default;
-                return false;
+                if (string.IsNullOrEmpty(value)) return false;
+                if (type == IPType.IPv4 && IPv4.ValidateFormat(value) != IPv4.Validation.Ok) return false;
+                if (type == IPType.IPv6 && IPv6.ValidateFormat(value) != IPv6.Validation.Ok) return false;
+
+                output = new IP(ref value, type);
+                return true;
+
             }
             catch (Exception)
             {
