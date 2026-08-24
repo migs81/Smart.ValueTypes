@@ -1,12 +1,38 @@
 # 📚 Smart.ValueTypes
-
+A high-performance .NET library providing strongly typed ValueTypes with built-in format validation.
 
 ## 📝 Description
-
+A .NET library providing high-performance, strongly typed ValueTypes with a focus on balancing performance with clean, readable, and maintainable code. Each ValueType includes built-in format validation with clear and consistent validation feedback through dedicated enum values, while avoiding nullable return values wherever possible. The goal is to provide reliable, expressive types that make invalid values difficult to represent without sacrificing performance or code quality.
 
 ## ✨ Features
+ - High-performance ValueTypes with a focus on efficiency
+ - Built-in format validation for reliable input handling
+ - Clear validation feedback using dedicated enum values
 
+## ✅ Validation
 
+This library validates the format of each value type only.
+
+For example, an `IBAN` is checked for its format and checksum.
+It is **not** checked against a list of country codes, banks, or existing accounts.
+
+In general, a value type only validates what can be determined from its own value.
+Any checks that require external data are outside the scope of this library.
+
+## 🧩 Available ValueTypes
+The library currently provides ValueTypes for:
+
+- **🏠 Address:** Postal and administrative address-related types
+- **🏦 Bank:** Banking and financial identifiers
+- **💬 Communication:** Email addresses and communication-related types
+- **📐 Coordinates:** Geographic coordinates and positions
+- **🆔 Identifiers:** UUIDs, ULIDs, IMEI, IMSI, and other identifiers
+- **💾 IO:** File paths and other input/output-related types
+- **🌡️ Temperatures:** Temperature values and units
+- **🔐 Security:** Passwords, tokens, hashes, and security-related types
+- **🔢 Units & Numbers:** Ranges, percentages, bounded values, and numeric types
+- **🌐 Web:** URLs, domains, and web-related types
+- **📝 Text:** General text-related types such as NonEmptyString
 
 ## 🛠️ Prerequisites
 
@@ -32,16 +58,6 @@
   ```
 
 ## 💻 Usage
-
-## ✅ Validation
-
-This library validates the format of each value type only.
-
-For example, an `Iban` is checked for its format and checksum. 
-It is **not** checked against a list of country codes, banks, or existing accounts.
-
-In general, a value type only validates what can be determined from its own value. 
-Any checks that require external data are outside the scope of this library.
 
 ## 📊 Benchmarks
 
@@ -71,10 +87,6 @@ Smart.ValueTypes/
 │   └── Smart.ValueTypes.UnitTests         # Unit tests
 └── README.md                    # This file
 ```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
 
 ## 📄 License
 
