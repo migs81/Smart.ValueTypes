@@ -59,6 +59,36 @@ The library currently provides ValueTypes for:
 
 ## 💻 Usage
 
+1. Example: Create an EmailAddress directly. Throws an exception if the value is invalid.
+```bash
+var mail = new EmailAddress("user@example.com");
+Console.WriteLine(mail);
+```
+
+2. Example: Create an EmailAddress using a static factory method. Throws an exception if the value is invalid.
+```bash
+var mail2 = EmailAddress.From("user@example.com");
+Console.WriteLine(mail2);
+```
+
+3. Example: Create an EmailAddress without throwing an exception and return the validation result through an enum.
+```bash
+var result = EmailAddress.TryFrom("user@example.com", out var mail3);
+if (result != EmailAddress.Validation.Ok)
+    Console.WriteLine(result);
+
+Console.WriteLine(mail3);
+```
+
+4. Example: Validate the format of an email address before creating an EmailAddress instance.
+```bash
+var text = "user@example.com";
+if (EmailAddress.ValidateFormat(text) == EmailAddress.Validation.Ok)
+{
+    var mail4 = EmailAddress.From(text);
+}
+```
+
 ## 📊 Benchmarks
 
 This project includes a benchmark project to measure the performance of the library.
