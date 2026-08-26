@@ -12,13 +12,13 @@ namespace Smart.ValueTypes.Benchmarks.IO
         [Benchmark]
         public void WindowsFilePath_Constructor_Benchmark()
         {
-            _ = new WindowsFilePath(@"C:\Temp\temp.log");
+            _ = new WindowsFilePath(@"C:\test\temp.log");
         }
         
         [Benchmark]
         public void WindowsFilePath_Parse_Benchmark()
         {
-            _ = WindowsFilePath.Parse(@"C:\\Temp/temp.log");
+            _ = WindowsFilePath.Parse(@"C:\\test/temp.log");
         }
     }
 }
