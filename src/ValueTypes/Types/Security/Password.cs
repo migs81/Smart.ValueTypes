@@ -29,13 +29,13 @@ namespace Smart.ValueTypes.Types.Security
         }
 
         [Flags]
-        public enum Requirement
+        public enum PasswordRequirements
         {
             None = 0,
-            LowercaseLetters = 1,
-            UppercaseLetters = 2,
-            Numbers = 4,
-            Symbols = 8,
+            LowercaseLetter = 1,
+            UppercaseLetter = 2,
+            Number = 4,
+            SpecialCharacter = 8,
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace Smart.ValueTypes.Types.Security
         public bool IsDefault => _value is null;
         public int MinLength { get; }
         public int MaxLength { get; }
-        public Requirement Requirements { get; }
+        public PasswordRequirements Requirements { get; }
         
         #endregion
 
@@ -59,7 +59,7 @@ namespace Smart.ValueTypes.Types.Security
         /// <param name="maxLength"></param>
         /// <param name="requirements"></param>
         /// <exception cref="InvalidPasswordException"></exception>
-        public Password(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.None)
+        public Password(string value, int minLength = 0, int maxLength = int.MaxValue, PasswordRequirements requirements = PasswordRequirements.None)
         {
             var result = ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
             if (result != Validation.Ok)
@@ -69,10 +69,10 @@ namespace Smart.ValueTypes.Types.Security
                     Validation.Null => new InvalidPasswordException($"The given password value was null!"),
                     Validation.TooShort => new InvalidPasswordException($"The given password '{value}' is shorter then the minimum length of {minLength}!"),
                     Validation.TooLong => new InvalidPasswordException($"The given password '{value}' is longer then the max length of {maxLength}!"),
-                    Validation.LowercaseLettersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{Requirement.LowercaseLetters}' requirement!"),
-                    Validation.UppercaseLettersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{Requirement.UppercaseLetters}' requirement!"),
-                    Validation.NumbersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{Requirement.Numbers}' requirement!"),
-                    Validation.SymbolsMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{Requirement.Symbols}' requirement!"),
+                    Validation.LowercaseLettersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{PasswordRequirements.LowercaseLetter}' requirement!"),
+                    Validation.UppercaseLettersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{PasswordRequirements.UppercaseLetter}' requirement!"),
+                    Validation.NumbersMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{PasswordRequirements.Number}' requirement!"),
+                    Validation.SymbolsMissing => new InvalidPasswordException($"The password '{value}' does not meet the '{PasswordRequirements.SpecialCharacter}' requirement!"),
                     _ => new InvalidPasswordException()
                 };
             }
@@ -84,7 +84,7 @@ namespace Smart.ValueTypes.Types.Security
         }
         
         // required for internal initialization
-        private Password(ref string value, int minLength, int maxLength, Requirement requirements)
+        private Password(ref string value, int minLength, int maxLength, PasswordRequirements requirements)
         {
             _value = value;
             MinLength = minLength;
@@ -106,10 +106,10 @@ namespace Smart.ValueTypes.Types.Security
 
         #region public methods
 
-        public static Password From(string value, int minLength = 0, int maxLength = int.MaxValue, Requirement requirements = Requirement.None) 
+        public static Password From(string value, int minLength = 0, int maxLength = int.MaxValue, PasswordRequirements requirements = PasswordRequirements.None) 
             => new(value, minLength, maxLength, requirements);
 
-        public static Validation TryFrom(string value, int minLength, int maxLength, Requirement requirements, out Password password)
+        public static Validation TryFrom(string value, int minLength, int maxLength, PasswordRequirements requirements, out Password password)
         {
             try
             {
@@ -130,14 +130,14 @@ namespace Smart.ValueTypes.Types.Security
             }
         }
 
-        public static Validation Validate(string value, int minLength, int maxLength, Requirement requirements) 
+        public static Validation Validate(string value, int minLength, int maxLength, PasswordRequirements requirements) 
             => ValidateFormat(ref value, ref minLength, ref maxLength, ref requirements);
 
         #endregion
 
         #region private methods
 
-        private static Validation ValidateFormat(ref string value, ref int minLength, ref int maxLength, ref Requirement requirements)
+        private static Validation ValidateFormat(ref string value, ref int minLength, ref int maxLength, ref PasswordRequirements requirements)
         {
             if (value is null)
                 return Validation.Null;
@@ -150,16 +150,16 @@ namespace Smart.ValueTypes.Types.Security
 
             var span = value.AsSpan();
 
-            if (requirements.HasFlag(Requirement.LowercaseLetters) && !ContainsLowercaseLetters(ref span))
+            if (requirements.HasFlag(PasswordRequirements.LowercaseLetter) && !ContainsLowercaseLetters(ref span))
                 return Validation.LowercaseLettersMissing;
 
-            if (requirements.HasFlag(Requirement.UppercaseLetters) && !ContainsUppercaseLetters(ref span))
+            if (requirements.HasFlag(PasswordRequirements.UppercaseLetter) && !ContainsUppercaseLetters(ref span))
                 return Validation.UppercaseLettersMissing;
 
-            if (requirements.HasFlag(Requirement.Numbers) && !ContainsNumbers(ref span))
+            if (requirements.HasFlag(PasswordRequirements.Number) && !ContainsNumbers(ref span))
                 return Validation.NumbersMissing;
 
-            if (requirements.HasFlag(Requirement.Symbols) && !ContainsSymbols(ref span))
+            if (requirements.HasFlag(PasswordRequirements.SpecialCharacter) && !ContainsSymbols(ref span))
                 return Validation.SymbolsMissing;
 
             return Validation.Ok;

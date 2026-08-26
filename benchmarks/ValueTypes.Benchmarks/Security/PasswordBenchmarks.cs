@@ -13,21 +13,21 @@ namespace Smart.ValueTypes.Benchmarks.Security
         public void Password_Constructor_Benchmark()
         {
             _ = new Password("abc123456", 8, 15,
-                Password.Requirement.Numbers | Password.Requirement.LowercaseLetters);
+                Password.PasswordRequirements.Number | Password.PasswordRequirements.LowercaseLetter);
         }
 
         [Benchmark]
         public void Password_TryFrom_Benchmark()
         {
             _ = Password.TryFrom("abc123456", 8, 15,
-                Password.Requirement.Numbers | Password.Requirement.LowercaseLetters, out _);
+                Password.PasswordRequirements.Number | Password.PasswordRequirements.LowercaseLetter, out _);
         }
 
         [Benchmark]
         public void Password_From_Benchmark()
         {
             _ = Password.From("abc123456", 8, 15,
-                Password.Requirement.Numbers | Password.Requirement.LowercaseLetters);
+                Password.PasswordRequirements.Number | Password.PasswordRequirements.LowercaseLetter);
         }
     }
 }
