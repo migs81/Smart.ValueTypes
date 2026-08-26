@@ -260,177 +260,275 @@ namespace Smart.ValueTypes.Types.Web
                 return Validation.UnsupportedScheme;
 
             // ------------ host ------------
-            if (host.End <= host.Start)
-                return Validation.MissingHost;
-
-            if (host.End - host.Start > 253)
-                return Validation.HostTooLong;
-            
-            var result = ValidateHost(ref span, host.Start, host.End);
-            if (result != Validation.Ok)
+            if (!ValidateHost(ref span, host.Start, host.End, out var result))
                 return result;
 
             // stop?
             if (host.End >= span.Length) return Validation.Ok;
             
             // remember last position
-            var pos = host.End;
+            var lastPos = host.End;
             
             // ------------ port ------------
-            if (span[pos] is ':')
-            {
-                if (pos == span.Length - 1)
-                    return Validation.InvalidPort;
-
-                var portEnd = pos + 1;
-                do
-                {
-                    if (span[portEnd] is '/' or '?' or '#')
-                        break;
-
-                    portEnd++;
-                } while (portEnd < span.Length);
-
-                if (!int.TryParse(span[(pos + 1)..portEnd], out var port))
-                    return Validation.InvalidPort;
-
-                if (port == 0)
-                    return Validation.InvalidPort;
-
-                if (port > 65_535)
-                    return Validation.InvalidPort;
-            }
+            if (span[lastPos] is ':' && !ValidatePort(ref span, lastPos, out result))
+                return result;
             
             // ----------- path ------------
-            if (span[pos] is '/')
-            {
-                for (var i = pos + 1; i < span.Length; i++)
-                {
-                    if (span[i] is '?' or '#') // query or fragment
-                        break;
-
-                    if (char.IsControl(span[i]))
-                        return Validation.PathContainsIllegalCharacter;
-
-                    if (span[i] is ' ')
-                        return Validation.ContainsUnencodedSpace;
-                    
-                    if (span[i] is '%')
-                    {
-                        if (i + 2 >= span.Length)
-                            return Validation.InvalidPercentEncoding;
-
-                        if (span[i + 1] is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
-                            return Validation.InvalidPercentEncoding;
-
-                        // step forward
-                        i += 2;
-                    }
-                }
-            }
+            if (span[lastPos] is '/' && !ValidatePath(ref span, lastPos, out result))
+                return result;
 
             // ----------- query ------------
-            if (span[pos] is '?')
-            {
-                for (var i = pos + 1; i < span.Length; i++)
-                {
-                    if (span[i] is '#') // fragment
-                        break;
-
-                    if (char.IsControl(span[i]))
-                        return Validation.QueryContainsIllegalCharacter;
-
-                    if (span[i] is ' ')
-                        return Validation.ContainsUnencodedSpace;
-                    
-                    if (span[i] is '%')
-                    {
-                        if (i + 2 >= span.Length)
-                            return Validation.InvalidPercentEncoding;
-
-                        if (span[i + 1] is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
-                            return Validation.InvalidPercentEncoding;
-
-                        // step forward
-                        i += 2;
-                    }
-                }
-            }
+            if (span[lastPos] is '?' && !ValidateQuery(ref span, lastPos, out result))
+                return result;
             
             // ---------- fragment ----------
-            if (span[pos] is '#')
-            {
-                for (var i = pos + 1; i < span.Length; i++)
-                {
-                    if (span[i] is '#')
-                        return Validation.MultipleFragmentIdentifiers;
-
-                    if (char.IsControl(span[i]))
-                        return Validation.FragmentContainsIllegalCharacter;
-
-                    if (span[i] is ' ')
-                        return Validation.ContainsUnencodedSpace;
-                    
-                    if (span[i] is '%')
-                    {
-                        if (i + 2 >= span.Length)
-                            return Validation.InvalidPercentEncoding;
-
-                        if (span[i + 1] is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
-                            return Validation.InvalidPercentEncoding;
-
-                        // step forward
-                        i += 2;
-                    }
-                }
-            }
+            if (span[lastPos] is '#' && !ValidateFragment(ref span, lastPos, out result))
+                return result;
 
             return Validation.Ok;
         }
-
-        private static Validation ValidateHost(ref ReadOnlySpan<char> span, int start, int end)
+        
+        private static bool ValidateHost(ref ReadOnlySpan<char> span, int hostStart, int hostEnd, out Validation result)
         {
-            var lastLabelPos = start - 1;
-            for (var i = start; i < end; i++)
+            // minimum length
+            if (hostEnd <= hostStart)
+            {
+                result = Validation.MissingHost;
+                return false;
+            }
+
+            // maximum length
+            if (hostEnd - hostStart > 253)
+            {
+                result = Validation.HostTooLong;
+                return false;
+            }
+            
+            var lastLabelPos = hostStart - 1;
+            for (var i = hostStart; i < hostEnd; i++)
             {
                 // the first character of a label can not be a hyphen
                 if (i == lastLabelPos + 1 && span[i] is '-')
-                    return Validation.LabelStartsWithHyphen;
+                {
+                    result = Validation.LabelStartsWithHyphen;
+                    return false;
+                }
                 
                 // allowed characters
-                if (span[i] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or >= '0' and <= '9' or '-') continue;
+                if (IsValidHostCharacter(ref span, i)) continue;
 
                 // label separator?
                 if (span[i] is '.')
                 {
                     if (i == lastLabelPos + 1)
-                        return Validation.EmptyLabel;
+                    {
+                        result = Validation.EmptyLabel;
+                        return false;
+                    }
                     
                     if (i - lastLabelPos - 1 > 63)
-                        return Validation.LabelTooLong;
+                    {
+                        result = Validation.LabelTooLong;
+                        return false;
+                    }
                     
                     if (span[i - 1] is '-')
-                        return Validation.LabelEndsWithHyphen;
+                    {
+                        result = Validation.LabelEndsWithHyphen;
+                        return false;
+                    }
 
                     lastLabelPos = i;
                 }
                 else
                 {
-                    return Validation.HostContainsIllegalCharacter;
+                    result = Validation.HostContainsIllegalCharacter;
+                    return false;
                 }
             }
 
             // check last character
-            if (span[end - 1] is '-')
-                return Validation.LabelEndsWithHyphen;
+            if (span[hostEnd - 1] is '-')
+            {
+                result = Validation.LabelEndsWithHyphen;
+                return false;
+            }
 
             // if the host contains only one dot, do not allow it to be at the end
-            if (span[end - 1] is '.' && span[start..end].Count('.') == 1)
-                return Validation.EmptyLabel;
+            if (span[hostEnd - 1] is '.' && span[hostStart..hostEnd].Count('.') == 1)
+            {
+                result = Validation.EmptyLabel;
+                return false;
+            }
             
-            return Validation.Ok;
+            result = Validation.Ok;
+            return true;
         }
 
+        private static bool ValidatePort(ref ReadOnlySpan<char> span, int startPos, out Validation result)
+        {
+            result = Validation.InvalidPort;
+            
+            // end of span?
+            if (startPos == span.Length - 1)
+                return false;
+            
+            // find end of port
+            var portEnd = startPos + 1;
+            do
+            {
+                if (span[portEnd] is '/' or '?' or '#')
+                    break;
+
+                portEnd++;
+            } while (portEnd < span.Length);
+
+            // parse port number
+            if (!int.TryParse(span[(startPos + 1)..portEnd], out var port))
+                return false;
+
+            // minimum
+            if (port == 0)
+                return false;
+
+            // maximum
+            if (port > 65_535)
+                return false;
+
+            result = Validation.Ok;
+            return true;
+        }
+        
+        private static bool ValidatePath(ref ReadOnlySpan<char> span, int startPos, out Validation result)
+        {
+            for (var i = startPos + 1; i < span.Length; i++)
+            {
+                if (span[i] is '?' or '#') // query or fragment
+                    break;
+
+                if (char.IsControl(span[i]))
+                {
+                    result = Validation.PathContainsIllegalCharacter;
+                    return false;
+                }
+                
+                if (span[i] is ' ')
+                {
+                    result = Validation.ContainsUnencodedSpace;
+                    return false;
+                }                
+                
+                if (span[i] is '%')
+                {
+                    if (!ValidatePercentageEncoding(ref span, i))
+                    {
+                        result = Validation.InvalidPercentEncoding;
+                        return false;
+                    }
+
+                    // step forward
+                    i += 2;
+                }
+            }
+
+            result = Validation.Ok;
+            return true;
+        }
+
+        private static bool ValidateQuery(ref ReadOnlySpan<char> span, int startPos, out Validation result)
+        {
+            for (var i = startPos + 1; i < span.Length; i++)
+            {
+                // the beginning of a fragment?
+                if (span[i] is '#') // fragment
+                    break;
+
+                // control characters are not allowed
+                if (char.IsControl(span[i]))
+                {
+                    result = Validation.QueryContainsIllegalCharacter;
+                    return false;
+                }
+
+                // white spaces are not allowed
+                if (span[i] is ' ')
+                {
+                    result = Validation.ContainsUnencodedSpace;
+                    return false;
+                }
+                
+                // beginning of a percentage encoding?
+                if (span[i] is '%')
+                {
+                    if (!ValidatePercentageEncoding(ref span, i))
+                    {
+                        result = Validation.InvalidPercentEncoding;
+                        return false;
+                    }
+
+                    // step forward
+                    i += 2;
+                }
+            }
+
+            result = Validation.Ok;
+            return true;
+        }
+
+        private static bool ValidateFragment(ref ReadOnlySpan<char> span, int startPos, out Validation result)
+        {
+            for (var i = startPos + 1; i < span.Length; i++)
+            {
+                // multiple fragment identifiers are not allowed
+                if (span[i] is '#')
+                {
+                    result = Validation.MultipleFragmentIdentifiers;
+                    return false;
+                }
+
+                // control characters are not allowed
+                if (char.IsControl(span[i]))
+                {
+                    result = Validation.FragmentContainsIllegalCharacter;
+                    return false;
+                }
+
+                // white spaces are not allowed
+                if (span[i] is ' ')
+                {
+                    result = Validation.ContainsUnencodedSpace;
+                    return false;
+                }
+                    
+                // beginning of a percentage encoding?
+                if (span[i] is '%')
+                {
+                    if (!ValidatePercentageEncoding(ref span, i))
+                    {
+                        result = Validation.InvalidPercentEncoding;
+                        return false;
+                    }
+
+                    // step forward
+                    i += 2;
+                }
+            }
+
+            result = Validation.Ok;
+            return true;
+        }
+
+        private static bool ValidatePercentageEncoding(ref ReadOnlySpan<char> span, int startPos)
+        {
+            if (startPos + 2 >= span.Length)
+                return false;
+
+            if (span[startPos + 1] is (< '0' or > '9') and (< 'a' or > 'f') and (< 'A' or > 'F'))
+                return false;
+
+            return true;
+        }
+        
         private static (int Start, int End) GetHostPosition(ref ReadOnlySpan<char> span)
         {
             var start = span.IndexOf("://", StringComparison.InvariantCulture);
@@ -524,7 +622,10 @@ namespace Smart.ValueTypes.Types.Web
             
             return span[(host.End + start + 1)..].ToString();
         }
-        
+
+        private static bool IsValidHostCharacter(ref ReadOnlySpan<char> span, int pos) =>
+            span[pos] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or >= '0' and <= '9' or '-';
+
         #endregion
     }
     
