@@ -11,11 +11,11 @@ namespace Smart.ValueTypes.Benchmarks.Web
     [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
     public class SlugBenchmarks
     {
-        // [Benchmark]
-        // public void Slug_Constructor_Benchmark()
-        // {
-        //     _ = new Slug("test-slug");
-        // }
+        [Benchmark]
+        public void Slug_Constructor_Benchmark()
+        {
+            _ = new Slug("test-slug");
+        }
         
         [Benchmark]
         public void Slug_Parse_Benchmark()
