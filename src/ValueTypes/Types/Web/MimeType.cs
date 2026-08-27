@@ -156,12 +156,12 @@ namespace Smart.ValueTypes.Types.Web
             if (value.Length == 0)
                 return Validation.Empty;
         
-            if (value.Count('/') != 1)
-                return Validation.IncorrectNumberOfTypeSeparators;
-            
             var span = value.AsSpan();
             
             // ------------- type -----------------
+            if (span.Count('/') != 1)
+                return Validation.IncorrectNumberOfTypeSeparators;
+            
             var slashPos = span.IndexOf('/');
             if (slashPos == 0)
                 return Validation.TypeTooShort;
@@ -170,12 +170,19 @@ namespace Smart.ValueTypes.Types.Web
                 return Validation.TypeContainsIllegalCharacter;
             
             // ------------ subtype ---------------
+            return ValidateSubtype(ref span, slashPos);
+        }
+
+        private static Validation ValidateSubtype(ref ReadOnlySpan<char> span, int slashPos)
+        {
             var semicolonPos = span[slashPos..].IndexOf(';');
             if (semicolonPos == -1)
             {
+                // minimum length
                 if (slashPos == span.Length - 1)
                     return Validation.SubtypeTooShort;
 
+                // characters
                 if (!ValidateCharacters(ref span, slashPos + 1, span.Length - slashPos - 1))
                     return Validation.SubtypeContainsIllegalCharacter;
             }
@@ -183,45 +190,60 @@ namespace Smart.ValueTypes.Types.Web
             {
                 semicolonPos += slashPos;
                 
+                // minimum length
                 if (semicolonPos == slashPos + 1)
                     return Validation.SubtypeTooShort;
 
+                // characters
                 if (!ValidateCharacters(ref span, slashPos + 1, semicolonPos - slashPos - 1))
                     return Validation.SubtypeContainsIllegalCharacter;
                 
                 // ----------- parameter --------------
-                var start = semicolonPos + 1;
-                var length = span[start..].IndexOf(';');
-                while (length != -1) // for multiple parameters
-                {
-                    if (length < 3)
-                        return Validation.ParameterTooShort;
-                
-                    if (span[start..(start + length)].Count('=') != 1)
-                        return Validation.InvalidParameter;
-                
-                    if (span[start] == '=' || span[(start + length)] == '=')
-                        return Validation.InvalidParameter;
-                
-                    start += length + 1;
-                    length = span[start..].IndexOf(';');
-                }
-                
-                // check last parameter
-                length = span.Length - 1 - start;
-                if (length < 3)
-                    return Validation.ParameterTooShort;
-                
-                if (span[start..].Count('=') != 1)
-                    return Validation.InvalidParameter;
-                
-                if (span[start] == '=' || span[(start + length)] == '=')
-                    return Validation.InvalidParameter;
+                var result = ValidateParameter(ref span, semicolonPos);
+                if (result != Validation.Ok) return result;
             }
 
             return Validation.Ok;
         }
 
+        private static Validation ValidateParameter(ref ReadOnlySpan<char> span, int semicolonPos)
+        {
+            var start = semicolonPos + 1;
+            var length = span[start..].IndexOf(';');
+            while (length != -1) // for multiple parameters
+            {
+                // minimum length
+                if (length < 3)
+                    return Validation.ParameterTooShort;
+                
+                // must contain exactly one =
+                if (span[start..(start + length)].Count('=') != 1)
+                    return Validation.InvalidParameter;
+                
+                // parameter can not start or end with a =
+                if (span[start] == '=' || span[(start + length)] == '=')
+                    return Validation.InvalidParameter;
+                
+                start += length + 1;
+                length = span[start..].IndexOf(';');
+            }
+                
+            // check last parameter
+            length = span.Length - 1 - start;
+            if (length < 3)
+                return Validation.ParameterTooShort;
+                
+            // must contain exactly one =
+            if (span[start..].Count('=') != 1)
+                return Validation.InvalidParameter;
+                
+            // parameter can not start or end with a =
+            if (span[start] == '=' || span[(start + length)] == '=')
+                return Validation.InvalidParameter;
+
+            return Validation.Ok;
+        }
+        
         private static bool ValidateCharacters(ref ReadOnlySpan<char> value, int startIndex, int length)
         {
             for (var index = startIndex; index < startIndex + length; index++)
