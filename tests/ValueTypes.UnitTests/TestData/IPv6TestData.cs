@@ -1,6 +1,6 @@
 namespace Smart.ValueTypes.UnitTests.TestData;
 
-public class IPv6TestData
+public static class IPv6TestData
 {
     public const string TooShortValue = "0";
     public const string TooLongValue = "0000:0000:0000:0000:0000:0000:0000:0000:0000";
