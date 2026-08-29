@@ -1,9 +1,9 @@
-﻿using Smart.ValueTypes.Types.Temperatures;
+﻿using System;
+using Smart.ValueTypes.Types.Units.Temperatures;
 using Smart.ValueTypes.UnitTests.TestData;
-using System;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.Temperatures
+namespace Smart.ValueTypes.UnitTests.Units.Temperatures
 {
     public class ReaumurTest
     {

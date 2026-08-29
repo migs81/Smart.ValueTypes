@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\src\ValueTypes\ValueTypes.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Units\" />
+  </ItemGroup>
+
 </Project>

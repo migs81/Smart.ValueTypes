@@ -1,9 +1,8 @@
-﻿using System;
-using Smart.ValueTypes.Types.Temperatures;
+﻿using Smart.ValueTypes.Types.Units.Temperatures;
 using Smart.ValueTypes.UnitTests.TestData;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.Temperatures
+namespace Smart.ValueTypes.UnitTests.Units.Temperatures
 {
     public class TemperatureTest
     {

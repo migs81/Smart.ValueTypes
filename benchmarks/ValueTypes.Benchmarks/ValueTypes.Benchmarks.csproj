@@ -27,4 +27,8 @@
     <None Remove="BenchmarkDotNet.Artifacts\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Units\" />
+  </ItemGroup>
+
 </Project>

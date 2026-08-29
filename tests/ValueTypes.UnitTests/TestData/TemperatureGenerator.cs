@@ -1,4 +1,4 @@
-﻿using Smart.ValueTypes.Types.Temperatures;
+﻿using Smart.ValueTypes.Types.Units.Temperatures;
 
 namespace Smart.ValueTypes.UnitTests.TestData
 {

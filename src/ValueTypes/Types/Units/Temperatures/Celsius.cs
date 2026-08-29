@@ -1,7 +1,7 @@
 ﻿using System;
 using Smart.ValueTypes.Interfaces;
 
-namespace Smart.ValueTypes.Types.Temperatures
+namespace Smart.ValueTypes.Types.Units.Temperatures
 {
     /// <summary>
     /// Value type for celsius temperatures.

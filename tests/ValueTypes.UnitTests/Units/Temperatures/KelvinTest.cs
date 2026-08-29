@@ -1,16 +1,16 @@
-﻿using Smart.ValueTypes.Types.Temperatures;
+﻿using System;
+using Smart.ValueTypes.Types.Units.Temperatures;
 using Smart.ValueTypes.UnitTests.TestData;
-using System;
 using Xunit;
 
-namespace Smart.ValueTypes.UnitTests.Temperatures
+namespace Smart.ValueTypes.UnitTests.Units.Temperatures
 {
-    public class FahrenheitTest
+    public class KelvinTest
     {
         #region test data
 
         private static readonly Temp[] ValidTemperatures = TemperatureGenerator.CreateTemperatures(1000);
-        private const double TooLowValue = Fahrenheit.MinValue - 1;
+        private const double TooLowValue = Kelvin.MinValue - 1;
 
         #endregion
 
@@ -20,10 +20,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         public void Constructor_NoInput_ShouldReturnDefaultObject()
         {
             // arrange
-            var expected = default(Fahrenheit);
+            var expected = default(Kelvin);
             
             // act
-            var result = new Fahrenheit();
+            var result = new Kelvin();
             
             // assert
             Assert.Equal(expected, result);
@@ -31,13 +31,13 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         }
 
         [Theory]
-        [InlineData(-10)]
+        [InlineData(0)]
         [InlineData(7)]
         [InlineData(99)]
         public void Constructor_InputInteger_ShouldReturnObject(int value)
         {
             // act
-            var result = new Fahrenheit(value);
+            var result = new Kelvin(value);
             
             // assert
             Assert.Equal(value, result, 0);
@@ -49,10 +49,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // act
-                var result = new Fahrenheit(temp.Fahrenheit);
+                var result = new Kelvin(temp.Kelvin);
                 
                 // assert
-                Assert.Equal(temp.Fahrenheit, result, 0);
+                Assert.Equal(temp.Kelvin, result, 0);
             }
         }
 
@@ -62,18 +62,18 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Fahrenheit fahrenheit = new(temp.Fahrenheit);
+                Celsius celsius = new(temp.Celsius);
 
                 // act
-                Celsius celsius = new(fahrenheit);
+                Kelvin kelvin = new(celsius);
 
                 // assert
-                Assert.Equal(temp.Celsius, celsius, 0);
+                Assert.Equal(temp.Kelvin, kelvin, 0);
             }
         }
 
         [Fact]
-        public void Constructor_InputKelvin_ShouldReturnConvertedObject()
+        public void Constructor_InputFahrenheitValues_ShouldReturnConvertedObject()
         {
             foreach (var temp in ValidTemperatures)
             {
@@ -89,11 +89,11 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         }
 
         [Theory]
-        [InlineData(TooLowValue, typeof(InvalidFahrenheitException))]
+        [InlineData(TooLowValue, typeof(InvalidKelvinException))]
         public void Constructor_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => new Fahrenheit(input));
+            var result = Record.Exception(() => new Kelvin(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());
@@ -104,13 +104,13 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         #region From
 
         [Theory]
-        [InlineData(-10)]
+        [InlineData(0)]
         [InlineData(7)]
         [InlineData(99)]
         public void From_ValidInteger_ShouldReturnObject(int value)
         {
             // act
-            var result = Fahrenheit.From(value);
+            var result = Kelvin.From(value);
             
             // assert
             Assert.Equal(value, result, 0);
@@ -122,24 +122,23 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // act
-                var result = Fahrenheit.From(temp.Fahrenheit);
+                var result = Kelvin.From(temp.Kelvin);
                 
                 // assert
-                Assert.Equal(temp.Fahrenheit, result, 0);
+                Assert.Equal(temp.Kelvin, result, 0);
             }
         }
 
         [Theory]
-        [InlineData(TooLowValue, typeof(InvalidFahrenheitException))]
+        [InlineData(TooLowValue, typeof(InvalidKelvinException))]
         public void From_WrongInput_ShouldThrowException(double input, Type expectedException)
         {
             // act
-            var result = Record.Exception(() => Fahrenheit.From(input));
+            var result = Record.Exception(() => Kelvin.From(input));
             
             // assert
             Assert.Equal(expectedException, result?.GetType());
         }
-        
         
         [Fact]
         public void From_Celsius_ShouldReturnConvertedObject()
@@ -147,29 +146,29 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                var celsius = new Celsius(temp.Celsius);
+                Celsius celsius = new(temp.Celsius);
 
                 // act
-                var fahrenheit = Fahrenheit.From(celsius);
+                var kelvin = Kelvin.From(celsius);
 
                 // assert
-                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
+                Assert.Equal(temp.Kelvin, kelvin, 0);
             }
         }
 
         [Fact]
-        public void From_Kelvin_ShouldReturnConvertedObject()
+        public void From_Fahrenheit_ShouldReturnConvertedObject()
         {
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Kelvin kelvin = new(temp.Kelvin);
+                Fahrenheit fahrenheit = new(temp.Fahrenheit);
 
                 // act
-                var fahrenheit = Fahrenheit.From(kelvin);
+                var kelvin = Kelvin.From(fahrenheit);
 
                 // assert
-                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
+                Assert.Equal(temp.Kelvin, kelvin, 0);
             }
         }
         
@@ -183,10 +182,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // act
-                var result = Fahrenheit.TryFrom(temp.Fahrenheit, out _);
+                var result = Kelvin.TryFrom(temp.Kelvin, out _);
                 
                 // assert
-                Assert.Equal(Fahrenheit.Validation.Ok, result);
+                Assert.Equal(Kelvin.Validation.Ok, result);
             }
         }
 
@@ -199,26 +198,26 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 var celsius = new Celsius(temp.Celsius);
                 
                 // act
-                var result = Fahrenheit.TryFrom(celsius, out _);
+                var result = Kelvin.TryFrom(celsius, out _);
                 
                 // assert
-                Assert.Equal(Fahrenheit.Validation.Ok, result);
+                Assert.Equal(Kelvin.Validation.Ok, result);
             }
         }
 
         [Fact]
-        public void TryFrom_ValidKelvin_ShouldReturnOK()
+        public void TryFrom_ValidFahrenheit_ShouldReturnOK()
         {
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                var kelvin = new Kelvin(temp.Kelvin);
+                var fahrenheit = new Fahrenheit(temp.Fahrenheit);
                 
                 // act
-                var result = Fahrenheit.TryFrom(kelvin, out _);
+                var result = Kelvin.TryFrom(fahrenheit, out _);
                 
                 // assert
-                Assert.Equal(Fahrenheit.Validation.Ok, result);
+                Assert.Equal(Kelvin.Validation.Ok, result);
             }
         }
 
@@ -231,20 +230,19 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
                 var reaumur = new Reaumur(temp.Reaumur);
                 
                 // act
-                var result = Fahrenheit.TryFrom(reaumur, out _);
+                var result = Kelvin.TryFrom(reaumur, out _);
                 
                 // assert
-                Assert.Equal(Fahrenheit.Validation.Ok, result);
+                Assert.Equal(Kelvin.Validation.Ok, result);
             }
         }
 
-
         [Theory]
-        [InlineData(TooLowValue, Fahrenheit.Validation.TooLow)]
-        public void TryFrom_WrongInput_ShouldReturnError(double input, Fahrenheit.Validation expected)
+        [InlineData(TooLowValue, Kelvin.Validation.TooLow)]
+        public void TryFrom_WrongInput_ShouldReturnError(double input, Kelvin.Validation expected)
         {
             // act
-            var result = Fahrenheit.TryFrom(input, out _);
+            var result = Kelvin.TryFrom(input, out _);
             
             // assert
             Assert.Equal(expected, result);
@@ -260,10 +258,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Fahrenheit fahrenheit = new(temp.Fahrenheit);
+                Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                Celsius celsius = fahrenheit;
+                Celsius celsius = kelvin;
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -271,18 +269,18 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         }
 
         [Fact]
-        public void ImplicitOperator_ToKelvin_ShouldReturnConvertedObject()
+        public void ImplicitOperator_ToFahrenheit_ShouldReturnConvertedObject()
         {
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Fahrenheit fahrenheit = new(temp.Fahrenheit);
+                Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                Kelvin kelvin = fahrenheit;
+                Fahrenheit fahrenheit = kelvin;
 
                 // assert
-                Assert.Equal(temp.Kelvin, kelvin, 0);
+                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
             }
         }
 
@@ -296,10 +294,10 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Fahrenheit fahrenheit = new(temp.Fahrenheit);
+                Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                var celsius = fahrenheit.ToCelsius();
+                var celsius = kelvin.ToCelsius();
 
                 // assert
                 Assert.Equal(temp.Celsius, celsius, 0);
@@ -307,18 +305,18 @@ namespace Smart.ValueTypes.UnitTests.Temperatures
         }
 
         [Fact]
-        public void ToKelvin_ValidInput_ShouldReturnConvertedObject()
+        public void ToFahrenheit_ValidInput_ShouldReturnConvertedObject()
         {
             foreach (var temp in ValidTemperatures)
             {
                 // arrange
-                Fahrenheit fahrenheit = new(temp.Fahrenheit);
+                Kelvin kelvin = new(temp.Kelvin);
 
                 // act
-                var kelvin = fahrenheit.ToKelvin();
+                var fahrenheit = kelvin.ToFahrenheit();
 
                 // assert
-                Assert.Equal(temp.Kelvin, kelvin, 0);
+                Assert.Equal(temp.Fahrenheit, fahrenheit, 0);
             }
         }
 

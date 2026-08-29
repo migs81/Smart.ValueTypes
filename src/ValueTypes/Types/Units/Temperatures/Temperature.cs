@@ -1,4 +1,4 @@
-﻿namespace Smart.ValueTypes.Types.Temperatures
+﻿namespace Smart.ValueTypes.Types.Units.Temperatures
 {
     /// <summary>
     /// Represents a temperature value with support for multiple units (Celsius, Fahrenheit, Kelvin)
