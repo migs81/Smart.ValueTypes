@@ -9,6 +9,5 @@
 
   <ItemGroup>
     <Folder Include="Types\Address\" />
-    <Folder Include="Types\Units\" />
   </ItemGroup>
 </Project>
