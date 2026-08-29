@@ -116,22 +116,29 @@ namespace Smart.ValueTypes.Types.Identifiers
             if (value.Length != 21)
                 return Validation.WrongLength;
             
-            // -------- characters ---------
             var span = value.AsSpan();
+            // -------- characters ---------
+            if (!ValidateCharacters(ref span))
+                return Validation.IllegalCharacter;
             
+            return Validation.Ok;
+        }
+
+        private static bool ValidateCharacters(ref ReadOnlySpan<char> span)
+        {
             foreach (var c in span)
             {
                 if (c is >= 'a' and <= 'z') continue;
                 if (c is >= 'A' and <= 'Z') continue;
                 if (c is >= '0' and <= '9') continue;
                 if (c is '-' or '_') continue;
-                
-                return Validation.IllegalCharacter;
-            }
-            
-            return Validation.Ok;
-        }
 
+                return false;
+            }
+
+            return true;
+        }
+        
         #endregion
     }
 
