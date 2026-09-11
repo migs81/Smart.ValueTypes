@@ -88,7 +88,7 @@ namespace Smart.ValueTypes.Types.Web
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.IncorrectNumberOfTypeSeparators => new InvalidMimeTypeException($"The value '{value}' has no valid type part!"),
                     Validation.TypeTooShort => new InvalidMimeTypeException($"The value '{value}' is too short for the type part!"),
                     Validation.TypeContainsIllegalCharacter => new InvalidMimeTypeException($"The type part '{value}' contains an illegal character!"),

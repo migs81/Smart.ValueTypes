@@ -56,7 +56,7 @@ namespace Smart.ValueTypes.Types.Network
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.TooShort => new InvalidIPv6Exception($"The value '{value}' is too short!"),
                     Validation.TooLong => new InvalidIPv6Exception($"The value '{value}' is too long!"),
                     Validation.MultipleColons => new InvalidIPv6Exception($"The value '{value}' contains a sequence of multiple colons!"),

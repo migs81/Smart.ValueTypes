@@ -58,7 +58,7 @@ namespace Smart.ValueTypes.Types.NationalInsuranceNumbers
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.WrongLength => new InvalidSvnrException($"The value '{value}' must be {Length} characters long!"),
                     Validation.ContainsIllegalCharacter => new InvalidSvnrException($"The value '{value}' contains illegal characters!"),
                     Validation.StartsWithZero => new InvalidSvnrException($"The first digit can not be zero!"),

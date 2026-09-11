@@ -51,7 +51,7 @@ namespace Smart.ValueTypes.Types.Identifiers
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.WrongLength => new InvalidNanoIdException($"The value '{value}' is not 21 characters long!"),
                     Validation.IllegalCharacter => new InvalidNanoIdException($"The value '{value}' contains an illegal character!"),
                     _ => new InvalidNanoIdException(),

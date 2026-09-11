@@ -85,7 +85,7 @@ namespace Smart.ValueTypes.Types.Communication
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.TooShort => new InvalidEmailAddressException($"The value '{value}' is too short!"),
                     Validation.TooLong => new InvalidEmailAddressException($"The value '{value}' is too long!"),
                     Validation.LocalPartStartsWithDot => new InvalidEmailAddressException($"The value '{value}' starts with a dot!"),

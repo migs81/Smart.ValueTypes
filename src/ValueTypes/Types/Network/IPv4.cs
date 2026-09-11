@@ -57,7 +57,7 @@ namespace Smart.ValueTypes.Types.Network
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.TooShort => new InvalidIPv4Exception($"The value '{value}' is too short!"),
                     Validation.TooLong => new InvalidIPv4Exception($"The value '{value}' is too long!"),
                     Validation.EndsWithDot => new InvalidIPv4Exception($"The value '{value}' ends with a dot!"),

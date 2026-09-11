@@ -84,7 +84,7 @@ namespace Smart.ValueTypes.UnitTests.Identifiers
 
         #endregion
         
-        #region From
+        #region TryFrom
 
         [Theory]
         [InlineData("V1StGXR8_Z5jdHi6B-myT")]

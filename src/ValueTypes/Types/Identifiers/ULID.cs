@@ -68,7 +68,7 @@ namespace Smart.ValueTypes.Types.Identifiers
                 throw result switch
                 {
                     Validation.Null => new ArgumentNullException(nameof(value)),
-                    Validation.Empty => new ArgumentException($"Argument can not be null or empty!", nameof(value)),
+                    Validation.Empty => new ArgumentException($"Argument can not be empty!", nameof(value)),
                     Validation.WrongLength => new InvalidUlidException($"The value '{value}' is not 26 characters long!"),
                     Validation.InvalidFirstCharacter => new InvalidUlidException($"The first character of the value '{value}' is not in the range '0' to '7'"),
                     Validation.IllegalCharacter => new InvalidUlidException($"The value '{value}' contains an illegal character!"),
