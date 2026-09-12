@@ -35,9 +35,9 @@ namespace Smart.ValueTypes.Types.Identifiers
 
         public bool IsDefault => _value is null;
 
-        public string CountryCode => _value is not null ? _value[..1] : "";
+        public string CountryCode => _value is not null ? _value[..2] : "";
         
-        public string BasicNumber => _value is not null ? _value[2..10] : "";
+        public string BasicNumber => _value is not null ? _value[2..11] : "";
 
         public int CheckDigit => _value is not null ? int.Parse(_value[^1].ToString()) : -1;
 

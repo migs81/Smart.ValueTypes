@@ -33,13 +33,17 @@ namespace Smart.ValueTypes.UnitTests.Identifiers
         public void Constructor_ValidInput_ShouldReturnObject(string input)
         {
             // arrange
-            var checkDigit = (input[^1] is 'x' or 'X') ? 10 : int.Parse(input[^1].ToString());
+            var checkDigit = int.Parse(input[^1].ToString());
+            var countryCode = input[..2];
+            var basicNumber = input[2..11];
             
             // act
             var result = new ISIN(input);
             
             // assert
             Assert.Equal(input, result);
+            Assert.Equal(countryCode, result.CountryCode);
+            Assert.Equal(basicNumber, result.BasicNumber);
             Assert.Equal(checkDigit, result.CheckDigit);
         }
 
