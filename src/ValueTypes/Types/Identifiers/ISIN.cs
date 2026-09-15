@@ -128,7 +128,6 @@ namespace Smart.ValueTypes.Types.Identifiers
             
             var span = value.AsSpan();
             
-            // DE0007130800
             // ----------- length -----------
             if (span.Length != 12)
                 return Validation.WrongLength;
